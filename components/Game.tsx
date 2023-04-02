@@ -1,10 +1,12 @@
 'use client'
 
 import { useAuth } from '@clerk/nextjs'
+import React from 'react'
 
 import { SplashScreen } from '~/components/Splash'
+import { api } from '~/utils/api'
 
-export function Game() {
+const GameComponent: React.FC = () => {
   const { isLoaded, isSignedIn } = useAuth()
 
   if (!isLoaded || !isSignedIn) {
@@ -20,3 +22,5 @@ export function Game() {
     </main>
   )
 }
+
+export const Game = api.withTRPC(GameComponent)

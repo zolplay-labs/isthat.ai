@@ -1,7 +1,7 @@
 import '~/app/globals.css'
 
 import { ClerkProvider } from '@clerk/nextjs/app-beta'
-import { Inter } from 'next/font/google'
+import { Cabin } from 'next/font/google'
 import { notFound } from 'next/navigation'
 
 import { IntlProvider } from '~/app/IntlProvider'
@@ -17,7 +17,7 @@ export function generateMetadata({ params }: { params: RootParams }) {
   return appMetadata[params.locale]
 }
 
-const fontSans = Inter({ subsets: ['latin'], variable: '--font-sans' })
+const fontSans = Cabin({ subsets: ['latin'], variable: '--font-sans' })
 
 export default async function RootLayout({
   children,

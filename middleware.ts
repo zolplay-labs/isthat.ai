@@ -1,6 +1,5 @@
 import { withClerkMiddleware } from '@clerk/nextjs/server'
 import type { NextRequest } from 'next/server'
-import { NextResponse } from 'next/server'
 import { createIntlMiddleware } from 'next-intl/server'
 
 import { i18n } from '~/i18n'
@@ -11,7 +10,7 @@ const intlMiddleware = createIntlMiddleware({
 })
 
 export default withClerkMiddleware((req: NextRequest) => {
-  return NextResponse.next(intlMiddleware(req))
+  return intlMiddleware(req)
 })
 
 // Stop Middleware running on static files and public folder
@@ -26,5 +25,6 @@ export const config = {
      * - public folder
      */
     '/((?!_next/static|_next/image|favicon.ico|assets).*)',
+    '/',
   ],
 }

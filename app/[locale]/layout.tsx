@@ -1,7 +1,7 @@
 import '~/app/globals.css'
 
 import { ClerkProvider } from '@clerk/nextjs/app-beta'
-import { Cabin } from 'next/font/google'
+import { Manrope } from 'next/font/google'
 import { notFound } from 'next/navigation'
 
 import { IntlProvider } from '~/app/IntlProvider'
@@ -17,7 +17,7 @@ export function generateMetadata({ params }: { params: RootParams }) {
   return appMetadata[params.locale]
 }
 
-const fontSans = Cabin({ subsets: ['latin'], variable: '--font-sans' })
+const fontSans = Manrope({ subsets: ['latin'], variable: '--font-sans' })
 
 export default async function RootLayout({
   children,
@@ -39,7 +39,7 @@ export default async function RootLayout({
       className={`${fontSans.variable} font-sans antialiased`}
       suppressHydrationWarning
     >
-      <body className="bg-neutral-50 text-neutral-800 dark:bg-neutral-900 dark:text-neutral-300">
+      <body className="bg-neutral-50 tracking-tight text-neutral-800 dark:bg-neutral-900 dark:text-neutral-300">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

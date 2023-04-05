@@ -1,12 +1,10 @@
 'use client'
 
-import { useAuth } from '@clerk/nextjs'
 import { AnimatePresence, motion } from 'framer-motion'
 import React from 'react'
 
 import { MenuScene } from '~/components/scenes/Menu.scene'
 import { TrueOrFalseChallengeScene } from '~/components/scenes/TureOrFalseChallenge.scene'
-import { SplashScreen } from '~/components/Splash'
 import { type Scene, useGameManager } from '~/stores/GameManager.store'
 import { api } from '~/utils/api'
 
@@ -17,9 +15,7 @@ const Scenes: Partial<Record<Scene, React.ReactNode>> = {
 } as const
 
 const GameComponent: React.FC = () => {
-  const { isLoaded, isSignedIn } = useAuth()
   const {
-    isReady,
     scene,
     actions: { initialize },
   } = useGameManager()
@@ -45,10 +41,6 @@ const GameComponent: React.FC = () => {
       </motion.main>
     )
   }, [scene])
-
-  if (!isLoaded || !isSignedIn || !isReady) {
-    return <SplashScreen />
-  }
 
   return (
     <div className="container relative mx-auto flex h-screen max-w-3xl flex-col">

@@ -23,7 +23,7 @@ export type TinderCardProps = {
 
 const card = cva(
   [
-    'absolute h-[500px] w-[600px] bg-white will-change-transform flex rounded-2xl flex-col justify-center items-center cursor-grab',
+    'absolute h-[500px] w-[600px] will-change-transform flex rounded-2xl flex-col justify-center items-center cursor-grab',
   ],
   {
     variants: {

@@ -23,6 +23,7 @@ export function SplashScreen({ progress }: { progress?: number }) {
               repeatType: 'reverse',
             },
           }}
+          className="font-sans"
         >
           is that
         </motion.span>
@@ -38,6 +39,7 @@ export function SplashScreen({ progress }: { progress?: number }) {
               repeatType: 'reverse',
             },
           }}
+          className="font-sans"
         >
           ai
         </motion.span>

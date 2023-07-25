@@ -4,15 +4,11 @@ import { z } from 'zod'
  * Specify server-side environment variables schema here.
  */
 const server = z.object({
-  DATABASE_URL: z.string().url(),
-  NODE_ENV: z.enum(['development', 'test', 'production']),
+  DATABASE_HOST: z.string().min(1),
+  DATABASE_USERNAME: z.string().min(1),
+  DATABASE_PASSWORD: z.string().min(1),
   CLERK_SECRET_KEY: z.string().min(1),
-  // DISCORD_CLIENT_ID: z.string().min(1),
-  // DISCORD_CLIENT_SECRET: z.string().min(1),
-  // GITHUB_ID: z.string().min(1),
-  // GITHUB_SECRET: z.string().min(1),
-  // GOOGLE_CLIENT_ID: z.string().min(1),
-  // GOOGLE_CLIENT_SECRET: z.string().min(1),
+  NODE_ENV: z.enum(['development', 'test', 'production']),
 })
 
 /**
@@ -30,7 +26,9 @@ const client = z.object({
  * @type {Record<keyof z.infer<typeof server> | keyof z.infer<typeof client>, string | undefined>}
  */
 const processEnv = {
-  DATABASE_URL: process.env.DATABASE_URL,
+  DATABASE_HOST: process.env.DATABASE_HOST,
+  DATABASE_USERNAME: process.env.DATABASE_USERNAME,
+  DATABASE_PASSWORD: process.env.DATABASE_PASSWORD,
   NODE_ENV: process.env.NODE_ENV,
   CLERK_SECRET_KEY: process.env.CLERK_SECRET_KEY,
   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY:

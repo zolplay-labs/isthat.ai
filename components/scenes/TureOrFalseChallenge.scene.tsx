@@ -1,85 +1,89 @@
 'use client'
 
+import { createInsertSchema } from 'drizzle-zod'
 import { AnimatePresence, motion } from 'framer-motion'
 import React from 'react'
+import { type z } from 'zod'
 
 import { type SwipeType, TinderCard } from '~/components/cards/TinderCard'
+import { trueOrFalseQuestions } from '~/db/schema'
 
-import { type TrueOrFalseQuestion } from '.prisma/client'
+const insertQuestionSchema = createInsertSchema(trueOrFalseQuestions)
+type TrueOrFalseQuestion = z.infer<typeof insertQuestionSchema>
 
-const fakeQuestions: TrueOrFalseQuestion[] = [
+const fakeQuestions: Required<TrueOrFalseQuestion>[] = [
   {
-    id: 'ckqj2q0x0000k0a6x9x2q7q0a',
+    id: 0,
     imageUrl: 'v1680589315/isthatai/twitter_Frunud3XsAAYLzN_tncsag.jpg',
-    isAiGenerated: true,
-    trueOrFalseChallengeId: 'ckqj2q0x0000k0a6x9x2q7q0a',
+    isAIGenerated: true,
+    trueOrFalseChallengeId: 0,
   },
   {
-    id: 'ckqj2q0x0000k0a6x9x2q7q0b',
+    id: 1,
     imageUrl: 'v1680591237/isthatai/twitter_FrupVjpXwAMqnLf_qrvxlh.jpg',
-    isAiGenerated: true,
-    trueOrFalseChallengeId: 'ckqj2q0x0000k0a6x9x2q7q0a',
+    isAIGenerated: true,
+    trueOrFalseChallengeId: 0,
   },
   {
-    id: 'ckqj2q0x0000k0a6x9x2q7q0c',
+    id: 2,
     imageUrl: 'v1680592659/isthatai/aslff_ik2BN5dI6tE_ngizwq.jpg',
-    isAiGenerated: false,
-    trueOrFalseChallengeId: 'ckqj2q0x0000k0a6x9x2q7q0a',
+    isAIGenerated: true,
+    trueOrFalseChallengeId: 0,
   },
   {
-    id: 'ckqj2q0x0000k0a6x9x2q7q0d',
+    id: 3,
     imageUrl: 'v1680591243/isthatai/twitter_Frupv0zWYAMr6vH_nzvupz.jpg',
-    isAiGenerated: true,
-    trueOrFalseChallengeId: 'ckqj2q0x0000k0a6x9x2q7q0a',
+    isAIGenerated: true,
+    trueOrFalseChallengeId: 0,
   },
   {
-    id: 'ckqj2q0x0000k0a6x9x2q7q0e',
+    id: 4,
     imageUrl:
       'v1680591296/isthatai/Preview_2023-04-04_at_13.23.27_2x_thh70j.png',
-    isAiGenerated: true,
-    trueOrFalseChallengeId: 'ckqj2q0x0000k0a6x9x2q7q0a',
+    isAIGenerated: true,
+    trueOrFalseChallengeId: 0,
   },
   {
-    id: 'ckqj2q0x0000k0a6x9x2q7q0f',
+    id: 5,
     imageUrl: 'v1680592659/isthatai/ho7e8JYEo3w_c_a_tmjfz8.jpg',
-    isAiGenerated: false,
-    trueOrFalseChallengeId: 'ckqj2q0x0000k0a6x9x2q7q0a',
+    isAIGenerated: true,
+    trueOrFalseChallengeId: 0,
   },
   {
-    id: 'ckqj2q0x0000k0a6x9x2q7q0g',
+    id: 6,
     imageUrl: 'v1680592888/isthatai/az01fffaszx-00355-3543856038_mx5ytx.png',
-    isAiGenerated: true,
-    trueOrFalseChallengeId: 'ckqj2q0x0000k0a6x9x2q7q0a',
+    isAIGenerated: true,
+    trueOrFalseChallengeId: 0,
   },
   {
-    id: 'ckqj2q0x0000k0a6x9x2q7q0h',
+    id: 7,
     imageUrl: 'v1680592933/isthatai/fooizxffa-saf00046-1647037626_uwjsxb.png',
-    isAiGenerated: true,
-    trueOrFalseChallengeId: 'ckqj2q0x0000k0a6x9x2q7q0a',
+    isAIGenerated: true,
+    trueOrFalseChallengeId: 0,
   },
   {
-    id: 'ckqj2q0x0000k0a6x9x2q7q0i',
+    id: 8,
     imageUrl: 'v1680592963/isthatai/lxzasf-FsJXJ1gWYAELOSF_f9sibh.jpg',
-    isAiGenerated: true,
-    trueOrFalseChallengeId: 'ckqj2q0x0000k0a6x9x2q7q0a',
+    isAIGenerated: true,
+    trueOrFalseChallengeId: 0,
   },
   {
-    id: 'ckqj2q0x0000k0a6x9x2q7q0j',
+    id: 9,
     imageUrl: 'v1680593331/isthatai/sllzxf-oZruO3BLdgY_yphgnr.jpg',
-    isAiGenerated: false,
-    trueOrFalseChallengeId: 'ckqj2q0x0000k0a6x9x2q7q0a',
+    isAIGenerated: true,
+    trueOrFalseChallengeId: 0,
   },
   {
-    id: 'ckqj2q0x0000k0a6x9x2q7q0k',
+    id: 10,
     imageUrl: 'v1680593331/isthatai/xasfokssaflkj-SKGZlBmRtYY_k9iwyt.jpg',
-    isAiGenerated: false,
-    trueOrFalseChallengeId: 'ckqj2q0x0000k0a6x9x2q7q0a',
+    isAIGenerated: true,
+    trueOrFalseChallengeId: 0,
   },
   {
-    id: 'ckqj2q0x0000k0a6x9x2q7q0l',
+    id: 11,
     imageUrl: 'v1680593331/isthatai/safjlzx-asfaslfkk2uatp_87tQ_kmkxqe.jpg',
-    isAiGenerated: false,
-    trueOrFalseChallengeId: 'ckqj2q0x0000k0a6x9x2q7q0a',
+    isAIGenerated: true,
+    trueOrFalseChallengeId: 0,
   },
 ]
 
@@ -90,8 +94,8 @@ export function TrueOrFalseChallengeScene() {
   const onSwiped = React.useCallback(
     (index: number, swipe: SwipeType) => {
       if (
-        (swipe === 'yes' && questions[index]?.isAiGenerated) ||
-        (swipe === 'no' && !questions[index]?.isAiGenerated)
+        (swipe === 'yes' && questions[index]?.isAIGenerated) ||
+        (swipe === 'no' && !questions[index]?.isAIGenerated)
       ) {
         setScore((score) => score + 1)
       }
@@ -115,7 +119,7 @@ export function TrueOrFalseChallengeScene() {
               <TinderCard
                 key={question.id}
                 idx={i}
-                image={question.imageUrl}
+                image={question.imageUrl!}
                 active={index === i}
                 onSwiped={onSwiped}
               />

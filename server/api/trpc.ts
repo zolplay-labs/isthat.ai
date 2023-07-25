@@ -17,7 +17,7 @@
 import { getAuth } from '@clerk/nextjs/server'
 import { type CreateNextContextOptions } from '@trpc/server/adapters/next'
 
-import { prisma } from '~/server/db'
+import { db } from '~/server/db'
 
 type CreateContextOptions = {
   auth: ReturnType<typeof getAuth> | undefined
@@ -34,10 +34,7 @@ type CreateContextOptions = {
  * @see https://create.t3.gg/en/usage/trpc#-servertrpccontextts
  */
 const createInnerTRPCContext = (opts: CreateContextOptions) => {
-  return {
-    auth: opts.auth,
-    prisma,
-  }
+  return { auth: opts.auth, db }
 }
 
 /**

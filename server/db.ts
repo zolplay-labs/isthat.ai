@@ -1,14 +1,12 @@
-import { PrismaClient } from '@prisma/client'
+import { connect } from '@planetscale/database'
+import { drizzle } from 'drizzle-orm/planetscale-serverless'
 
 import { env } from '~/env.mjs'
 
-const globalForPrisma = globalThis as unknown as { prisma: PrismaClient }
+const connection = connect({
+  host: env.DATABASE_HOST,
+  username: env.DATABASE_USERNAME,
+  password: env.DATABASE_PASSWORD,
+})
 
-export const prisma =
-  globalForPrisma.prisma ||
-  new PrismaClient({
-    log:
-      env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
-  })
-
-if (env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma
+export const db = drizzle(connection)

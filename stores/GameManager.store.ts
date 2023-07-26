@@ -1,12 +1,7 @@
 import { z } from 'zod'
 import { create } from 'zustand'
 
-export const Scene = z.enum([
-  'LOADING',
-  'MENU',
-  'TRUE_OR_FALSE_CHALLENGE',
-  'SPOT_ONE_CHALLENGE',
-])
+export const Scene = z.enum(['LOADING', 'MENU', 'CHALLENGE'])
 export type Scene = z.infer<typeof Scene>
 
 type GameManagerStore = {

@@ -17,7 +17,7 @@ export function MenuScene() {
       <main className="flex flex-col items-center space-y-3">
         <TappableText
           className="text-lg font-bold text-green-500"
-          onClick={() => switchScene('TRUE_OR_FALSE_CHALLENGE')}
+          onClick={() => switchScene('CHALLENGE')}
         >
           Start Challenge
         </TappableText>

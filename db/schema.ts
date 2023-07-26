@@ -9,32 +9,28 @@ import {
   varchar,
 } from 'drizzle-orm/mysql-core'
 
-export const trueOrFalseChallenges = mysqlTable('trueOrFalseChallenges', {
+export const challenges = mysqlTable('challenges', {
   id: serial('id').primaryKey(),
   date: datetime('date').unique(),
 })
 
-export const trueOrFalseChallengesRelations = relations(
-  trueOrFalseChallenges,
-  ({ many }) => ({ questions: many(trueOrFalseQuestions) })
-)
+export const challengesRelations = relations(challenges, ({ many }) => ({
+  questions: many(questions),
+}))
 
-export const trueOrFalseQuestions = mysqlTable('trueOrFalseQuestions', {
+export const questions = mysqlTable('questions', {
   id: serial('id').primaryKey(),
   imageUrl: varchar('image_url', { length: 191 }),
   isAIGenerated: boolean('is_ai_generated'),
-  trueOrFalseChallengeId: int('true_or_false_challenge_id'),
+  challengeId: int('challenge_id'),
 })
 
-export const trueOrFalseQuestionsRelations = relations(
-  trueOrFalseQuestions,
-  ({ one }) => ({
-    challenge: one(trueOrFalseChallenges, {
-      fields: [trueOrFalseQuestions.trueOrFalseChallengeId],
-      references: [trueOrFalseChallenges.id],
-    }),
-  })
-)
+export const questionsRelations = relations(questions, ({ one }) => ({
+  challenge: one(challenges, {
+    fields: [questions.challengeId],
+    references: [challenges.id],
+  }),
+}))
 
 export const userScores = mysqlTable('userScores', {
   id: serial('id').primaryKey(),

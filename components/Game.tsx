@@ -3,15 +3,15 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import React from 'react'
 
+import { ChallengeScene } from '~/components/scenes/Challenge.scene'
 import { MenuScene } from '~/components/scenes/Menu.scene'
-import { TrueOrFalseChallengeScene } from '~/components/scenes/TureOrFalseChallenge.scene'
 import { type Scene, useGameManager } from '~/stores/GameManager.store'
 import { api } from '~/utils/api'
 
 const Scenes: Partial<Record<Scene, React.ReactNode>> = {
   LOADING: null,
   MENU: <MenuScene />,
-  TRUE_OR_FALSE_CHALLENGE: <TrueOrFalseChallengeScene />,
+  CHALLENGE: <ChallengeScene />,
 } as const
 
 const GameComponent: React.FC = () => {

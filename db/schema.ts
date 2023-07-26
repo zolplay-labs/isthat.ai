@@ -20,7 +20,7 @@ export const challengesRelations = relations(challenges, ({ many }) => ({
 
 export const questions = mysqlTable('questions', {
   id: serial('id').primaryKey(),
-  imageUrl: varchar('image_url', { length: 191 }),
+  image: varchar('image', { length: 191 }),
   isAIGenerated: boolean('is_ai_generated'),
   challengeId: int('challenge_id'),
 })

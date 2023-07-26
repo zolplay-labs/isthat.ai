@@ -14,74 +14,73 @@ type Question = z.infer<typeof insertQuestionSchema>
 const fakeQuestions: Required<Question>[] = [
   {
     id: 0,
-    imageUrl: 'v1680589315/isthatai/twitter_Frunud3XsAAYLzN_tncsag.jpg',
+    image: 'v1680589315/isthatai/twitter_Frunud3XsAAYLzN_tncsag.jpg',
     isAIGenerated: true,
     challengeId: 0,
   },
   {
     id: 1,
-    imageUrl: 'v1680591237/isthatai/twitter_FrupVjpXwAMqnLf_qrvxlh.jpg',
+    image: 'v1680591237/isthatai/twitter_FrupVjpXwAMqnLf_qrvxlh.jpg',
     isAIGenerated: true,
     challengeId: 0,
   },
   {
     id: 2,
-    imageUrl: 'v1680592659/isthatai/aslff_ik2BN5dI6tE_ngizwq.jpg',
+    image: 'v1680592659/isthatai/aslff_ik2BN5dI6tE_ngizwq.jpg',
     isAIGenerated: true,
     challengeId: 0,
   },
   {
     id: 3,
-    imageUrl: 'v1680591243/isthatai/twitter_Frupv0zWYAMr6vH_nzvupz.jpg',
+    image: 'v1680591243/isthatai/twitter_Frupv0zWYAMr6vH_nzvupz.jpg',
     isAIGenerated: true,
     challengeId: 0,
   },
   {
     id: 4,
-    imageUrl:
-      'v1680591296/isthatai/Preview_2023-04-04_at_13.23.27_2x_thh70j.png',
+    image: 'v1680591296/isthatai/Preview_2023-04-04_at_13.23.27_2x_thh70j.png',
     isAIGenerated: true,
     challengeId: 0,
   },
   {
     id: 5,
-    imageUrl: 'v1680592659/isthatai/ho7e8JYEo3w_c_a_tmjfz8.jpg',
+    image: 'v1680592659/isthatai/ho7e8JYEo3w_c_a_tmjfz8.jpg',
     isAIGenerated: true,
     challengeId: 0,
   },
   {
     id: 6,
-    imageUrl: 'v1680592888/isthatai/az01fffaszx-00355-3543856038_mx5ytx.png',
+    image: 'v1680592888/isthatai/az01fffaszx-00355-3543856038_mx5ytx.png',
     isAIGenerated: true,
     challengeId: 0,
   },
   {
     id: 7,
-    imageUrl: 'v1680592933/isthatai/fooizxffa-saf00046-1647037626_uwjsxb.png',
+    image: 'v1680592933/isthatai/fooizxffa-saf00046-1647037626_uwjsxb.png',
     isAIGenerated: true,
     challengeId: 0,
   },
   {
     id: 8,
-    imageUrl: 'v1680592963/isthatai/lxzasf-FsJXJ1gWYAELOSF_f9sibh.jpg',
+    image: 'v1680592963/isthatai/lxzasf-FsJXJ1gWYAELOSF_f9sibh.jpg',
     isAIGenerated: true,
     challengeId: 0,
   },
   {
     id: 9,
-    imageUrl: 'v1680593331/isthatai/sllzxf-oZruO3BLdgY_yphgnr.jpg',
+    image: 'v1680593331/isthatai/sllzxf-oZruO3BLdgY_yphgnr.jpg',
     isAIGenerated: true,
     challengeId: 0,
   },
   {
     id: 10,
-    imageUrl: 'v1680593331/isthatai/xasfokssaflkj-SKGZlBmRtYY_k9iwyt.jpg',
+    image: 'v1680593331/isthatai/xasfokssaflkj-SKGZlBmRtYY_k9iwyt.jpg',
     isAIGenerated: true,
     challengeId: 0,
   },
   {
     id: 11,
-    imageUrl: 'v1680593331/isthatai/safjlzx-asfaslfkk2uatp_87tQ_kmkxqe.jpg',
+    image: 'v1680593331/isthatai/safjlzx-asfaslfkk2uatp_87tQ_kmkxqe.jpg',
     isAIGenerated: true,
     challengeId: 0,
   },
@@ -119,7 +118,7 @@ export function ChallengeScene() {
               <TinderCard
                 key={question.id}
                 idx={i}
-                image={question.imageUrl!}
+                image={question.image!}
                 active={index === i}
                 onSwiped={onSwiped}
               />

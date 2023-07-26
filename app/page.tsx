@@ -1,9 +1,9 @@
 'use client'
 
 import { useAuth } from '@clerk/nextjs'
+import Link from 'next/link'
 
 import { Game } from '~/components/Game'
-import Link from '~/components/Link'
 import { SplashScreen } from '~/components/Splash'
 
 export default function Home() {

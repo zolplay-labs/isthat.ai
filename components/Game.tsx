@@ -5,11 +5,14 @@ import React from 'react'
 
 import { ChallengeScene } from '~/components/scenes/Challenge.scene'
 import { MenuScene } from '~/components/scenes/Menu.scene'
+import { useMount } from '~/hooks/useMount'
 import { type Scene, useGameManager } from '~/stores/GameManager.store'
 import { api } from '~/utils/api'
 
+import { SplashScreen } from './Splash'
+
 const Scenes: Partial<Record<Scene, React.ReactNode>> = {
-  LOADING: null,
+  LOADING: <SplashScreen />,
   MENU: <MenuScene />,
   CHALLENGE: <ChallengeScene />,
 } as const
@@ -19,14 +22,10 @@ const GameComponent: React.FC = () => {
     scene,
     actions: { initialize },
   } = useGameManager()
-  const [isMounted, setIsMounted] = React.useState(false)
 
-  React.useEffect(() => {
-    if (!isMounted) {
-      setIsMounted(true)
-      void initialize()
-    }
-  }, [initialize, isMounted])
+  useMount(() => {
+    void initialize()
+  })
 
   const sceneElement = React.useMemo(() => {
     return (

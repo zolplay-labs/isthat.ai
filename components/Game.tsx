@@ -7,7 +7,6 @@ import { ChallengeScene } from '~/components/scenes/Challenge.scene'
 import { MenuScene } from '~/components/scenes/Menu.scene'
 import { useMount } from '~/hooks/useMount'
 import { type Scene, useGameManager } from '~/stores/GameManager.store'
-import { api } from '~/utils/api'
 
 import { SplashScreen } from './Splash'
 
@@ -17,7 +16,7 @@ const Scenes: Partial<Record<Scene, React.ReactNode>> = {
   CHALLENGE: <ChallengeScene />,
 } as const
 
-const GameComponent: React.FC = () => {
+export const Game: React.FC = () => {
   const {
     scene,
     actions: { initialize },
@@ -51,5 +50,3 @@ const GameComponent: React.FC = () => {
     </div>
   )
 }
-
-export const Game = api.withTRPC(GameComponent)

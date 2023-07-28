@@ -20,7 +20,6 @@
     "class-variance-authority": "^0.5.1",
     "dayjs": "^1.11.7",
     "drizzle-orm": "^0.27.2",
-    "drizzle-zod": "^0.4.4",
     "eslint-config-next": "13.2.4",
     "framer-motion": "^10.10.0",
     "next": "13.4.12",

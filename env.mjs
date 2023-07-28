@@ -1,14 +1,20 @@
+import * as dotenv from 'dotenv'
 import { z } from 'zod'
+
+dotenv.config()
 
 /**
  * Specify server-side environment variables schema here.
  */
 const server = z.object({
+  DATABASE_NAME: z.string().min(1),
   DATABASE_HOST: z.string().min(1),
   DATABASE_USERNAME: z.string().min(1),
   DATABASE_PASSWORD: z.string().min(1),
   CLERK_SECRET_KEY: z.string().min(1),
-  NODE_ENV: z.enum(['development', 'test', 'production']),
+  NODE_ENV: z
+    .enum(['development', 'test', 'production'])
+    .default('development'),
 })
 
 /**
@@ -16,6 +22,10 @@ const server = z.object({
  */
 const client = z.object({
   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: z.string().min(1),
+  NEXT_PUBLIC_CLERK_SIGN_IN_URL: z.string().min(1),
+  NEXT_PUBLIC_CLERK_SIGN_UP_URL: z.string().min(1),
+  NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL: z.string().min(1),
+  NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL: z.string().min(1),
   NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: z.string().min(1),
 })
 
@@ -26,15 +36,22 @@ const client = z.object({
  * @type {Record<keyof z.infer<typeof server> | keyof z.infer<typeof client>, string | undefined>}
  */
 const processEnv = {
+  DATABASE_NAME: process.env.DATABASE_NAME,
   DATABASE_HOST: process.env.DATABASE_HOST,
   DATABASE_USERNAME: process.env.DATABASE_USERNAME,
   DATABASE_PASSWORD: process.env.DATABASE_PASSWORD,
-  NODE_ENV: process.env.NODE_ENV,
   CLERK_SECRET_KEY: process.env.CLERK_SECRET_KEY,
   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY:
     process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
+  NEXT_PUBLIC_CLERK_SIGN_IN_URL: process.env.NEXT_PUBLIC_CLERK_SIGN_IN_URL,
+  NEXT_PUBLIC_CLERK_SIGN_UP_URL: process.env.NEXT_PUBLIC_CLERK_SIGN_UP_URL,
+  NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL:
+    process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL,
+  NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL:
+    process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL,
   NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME:
     process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
+  NODE_ENV: process.env.NODE_ENV,
 }
 
 // Don't touch the part below

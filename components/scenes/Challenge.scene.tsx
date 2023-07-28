@@ -1,17 +1,11 @@
 'use client'
 
-import { createInsertSchema } from 'drizzle-zod'
 import { AnimatePresence, motion } from 'framer-motion'
 import React from 'react'
-import { type z } from 'zod'
 
 import { type SwipeType, TinderCard } from '~/components/cards/TinderCard'
-import { questions } from '~/db/schema'
 
-const insertQuestionSchema = createInsertSchema(questions)
-type Question = z.infer<typeof insertQuestionSchema>
-
-const fakeQuestions: Required<Question>[] = [
+const fakeQuestions = [
   {
     id: 0,
     image: 'v1680589315/isthatai/twitter_Frunud3XsAAYLzN_tncsag.jpg',
@@ -118,7 +112,7 @@ export function ChallengeScene() {
               <TinderCard
                 key={question.id}
                 idx={i}
-                image={question.image!}
+                image={question.image}
                 active={index === i}
                 onSwiped={onSwiped}
               />

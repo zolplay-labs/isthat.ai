@@ -1,4 +1,4 @@
-import type { ClerkProviderProps } from '@clerk/nextjs'
+import type { ClerkProvider } from '@clerk/nextjs'
 
 export const authTheme = {
   elements: {
@@ -31,4 +31,4 @@ export const authTheme = {
     identityPreviewText: 'dark:text-neutral-300',
     identityPreviewEditButton: 'dark:text-emerald-500',
   },
-} satisfies Partial<ClerkProviderProps['appearance']>
+} satisfies Partial<React.ComponentProps<typeof ClerkProvider>['appearance']>

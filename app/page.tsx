@@ -1,19 +1,12 @@
-'use client'
-
-import { useAuth } from '@clerk/nextjs'
+import { auth } from '@clerk/nextjs'
 import Link from 'next/link'
 
 import { Game } from '~/components/Game'
-import { SplashScreen } from '~/components/Splash'
 
 export default function Home() {
-  const { isLoaded, isSignedIn } = useAuth()
+  const { userId } = auth()
 
-  if (!isLoaded) {
-    return <SplashScreen />
-  }
-
-  if (!isSignedIn) {
+  if (!userId) {
     return (
       <div className="container relative mx-auto flex h-screen max-w-3xl flex-col">
         <header className="my-6 w-full text-center text-2xl">
@@ -26,9 +19,5 @@ export default function Home() {
     )
   }
 
-  return (
-    <>
-      <Game />
-    </>
-  )
+  return <Game />
 }

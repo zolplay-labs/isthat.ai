@@ -18,21 +18,23 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html
-      lang="en"
-      className={`${fontSans.variable} font-sans antialiased`}
-      suppressHydrationWarning
-    >
-      <body className="bg-neutral-50 tracking-tight text-neutral-800 dark:bg-neutral-900 dark:text-neutral-300">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <ClerkProvider>{children}</ClerkProvider>
-        </ThemeProvider>
-      </body>
-    </html>
+    <ClerkProvider>
+      <html
+        lang="en"
+        className={`${fontSans.variable} font-sans antialiased`}
+        suppressHydrationWarning
+      >
+        <body className="bg-neutral-50 tracking-tight text-neutral-800 dark:bg-neutral-900 dark:text-neutral-300">
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+          </ThemeProvider>
+        </body>
+      </html>
+    </ClerkProvider>
   )
 }

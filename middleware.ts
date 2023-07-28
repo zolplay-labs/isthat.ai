@@ -1,6 +1,16 @@
-import { authMiddleware } from '@clerk/nextjs'
+import { authMiddleware, clerkClient, redirectToSignIn } from '@clerk/nextjs'
 
-export default authMiddleware()
+export default authMiddleware({
+  async afterAuth(auth, req) {
+    if (req.nextUrl.pathname === '/admin') {
+      const user = await clerkClient.users.getUser(auth.userId!)
+      if (!user.publicMetadata?.isAdmin) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+        return redirectToSignIn({ returnBackUrl: req.url })
+      }
+    }
+  },
+})
 
 export const config = {
   matcher: ['/((?!.*\\..*|_next).*)', '/', '/(api|trpc)(.*)'],

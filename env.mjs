@@ -12,6 +12,7 @@ const server = z.object({
   DATABASE_USERNAME: z.string().min(1),
   DATABASE_PASSWORD: z.string().min(1),
   CLERK_SECRET_KEY: z.string().min(1),
+  CLOUDFLARE_API_TOKEN: z.string().min(1),
   NODE_ENV: z
     .enum(['development', 'test', 'production'])
     .default('development'),
@@ -26,6 +27,8 @@ const client = z.object({
   NEXT_PUBLIC_CLERK_SIGN_UP_URL: z.string().min(1),
   NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL: z.string().min(1),
   NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL: z.string().min(1),
+  NEXT_PUBLIC_CLOUDFLARE_ACCOUNT_ID: z.string().min(1),
+  NEXT_PUBLIC_CLOUDFLARE_ACCOUNT_HASH: z.string().min(1),
   NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: z.string().min(1),
 })
 
@@ -51,6 +54,11 @@ const processEnv = {
     process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL,
   NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME:
     process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
+  NEXT_PUBLIC_CLOUDFLARE_ACCOUNT_ID:
+    process.env.NEXT_PUBLIC_CLOUDFLARE_ACCOUNT_ID,
+  NEXT_PUBLIC_CLOUDFLARE_ACCOUNT_HASH:
+    process.env.NEXT_PUBLIC_CLOUDFLARE_ACCOUNT_HASH,
+  CLOUDFLARE_API_TOKEN: process.env.CLOUDFLARE_API_TOKEN,
   NODE_ENV: process.env.NODE_ENV,
 }
 

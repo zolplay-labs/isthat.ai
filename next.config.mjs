@@ -9,11 +9,12 @@ const nextConfig = {
   reactStrictMode: true,
 
   images: {
-    domains: ['res.cloudinary.com'],
+    domains: ['imagedelivery.net'],
   },
 
   experimental: {
     appDir: true,
+    serverActions: true,
   },
 }
 

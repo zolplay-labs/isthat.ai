@@ -1,41 +1,35 @@
-import { relations } from 'drizzle-orm'
 import {
   boolean,
-  datetime,
+  date,
   int,
+  mysqlEnum,
   mysqlTable,
   serial,
   timestamp,
   varchar,
 } from 'drizzle-orm/mysql-core'
 
-export const challenges = mysqlTable('challenges', {
-  id: serial('id').primaryKey(),
-  date: datetime('date').unique(),
-})
-
-export const challengesRelations = relations(challenges, ({ many }) => ({
-  questions: many(questions),
-}))
-
 export const questions = mysqlTable('questions', {
   id: serial('id').primaryKey(),
-  image: varchar('image', { length: 191 }),
-  isAIGenerated: boolean('is_ai_generated'),
-  challengeId: int('challenge_id'),
+  image: varchar('image', { length: 191 }).notNull(),
+  isAIGenerated: boolean('is_ai_generated').notNull(),
+  isActive: boolean('is_active').default(true),
+  createdAt: timestamp('created_at').defaultNow(),
 })
-
-export const questionsRelations = relations(questions, ({ one }) => ({
-  challenge: one(challenges, {
-    fields: [questions.challengeId],
-    references: [challenges.id],
-  }),
-}))
 
 export const userScores = mysqlTable('userScores', {
   id: serial('id').primaryKey(),
-  userId: varchar('user_id', { length: 191 }),
-  score: int('score'),
+  userId: varchar('user_id', { length: 191 }).notNull(),
+  score: int('score').notNull(),
+  challengeDays: int('challenge_days').default(0),
   createdAt: timestamp('created_at').defaultNow(),
   updatedAt: timestamp('updated_at').defaultNow().onUpdateNow(),
+})
+
+// TODO: Auto create default config
+export const config = mysqlTable('config', {
+  id: mysqlEnum('id', ['single']).default('single').primaryKey(),
+  releaseDate: date('release_date').default(new Date('2023-7-25')),
+  activeQuestionsLimit: int('active_questions_limit').default(100),
+  questionsPerChallenge: int('questions_per_challenge').default(12),
 })

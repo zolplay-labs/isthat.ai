@@ -1,6 +1,7 @@
 'use client'
 
 import { Switch as HLSwitch } from '@headlessui/react'
+import { clsxm } from '@zolplay/utils'
 
 interface SwitchProps {
   checked: boolean
@@ -15,14 +16,16 @@ export function Switch({ checked, onChange, disabled }: SwitchProps) {
       checked={checked}
       onChange={onChange}
       disabled={disabled}
-      className={`${
-        checked ? 'bg-tremor-brand' : 'bg-gray-200'
-      } relative inline-flex h-6 w-11 items-center rounded-full disabled:cursor-not-allowed disabled:brightness-75`}
+      className={clsxm(
+        checked ? 'bg-tremor-brand' : 'bg-gray-200',
+        'relative inline-flex h-6 w-11 items-center rounded-full disabled:cursor-not-allowed disabled:brightness-75'
+      )}
     >
       <span
-        className={`${
-          checked ? 'translate-x-6' : 'translate-x-1'
-        } inline-block h-4 w-4 transform rounded-full bg-white transition`}
+        className={clsxm(
+          checked ? 'translate-x-6' : 'translate-x-1',
+          'inline-block h-4 w-4 transform rounded-full bg-white transition'
+        )}
       />
     </HLSwitch>
   )

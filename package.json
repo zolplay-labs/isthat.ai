@@ -31,6 +31,8 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "superjson": "^1.13.1",
+    "sweetalert2": "^11.7.20",
+    "sweetalert2-react-content": "^5.0.7",
     "zod": "^3.21.4",
     "zustand": "^4.3.9"
   },

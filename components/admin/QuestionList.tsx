@@ -1,3 +1,5 @@
+'use client'
+
 import {
   Badge,
   Button,
@@ -8,19 +10,95 @@ import {
   TableHeaderCell,
   TableRow,
 } from '@tremor/react'
+import { type InferModel } from 'drizzle-orm'
 import Image from 'next/image'
+import { useTransition } from 'react'
 
-import { db } from '~/db'
-import { questions } from '~/db/schema'
+import { deleteQuestion, updateQuestionAI } from '~/app/admin/action'
+import { type questions } from '~/db/schema'
 import { env } from '~/env.mjs'
+import { dialog } from '~/lib/dialog'
 
-import { AISwitch } from './AISwitch'
+import { Switch } from '../ui/Switch'
+
+type Question = InferModel<typeof questions, 'select'>
+
+function AISwitch({ question }: { question: Question }) {
+  const [isPending, startTransition] = useTransition()
+
+  return (
+    <Switch
+      checked={question.isAIGenerated}
+      onChange={(checked) => {
+        startTransition(
+          () =>
+            void updateQuestionAI({
+              id: question.id,
+              isAIGenerated: checked,
+            })
+        )
+      }}
+      disabled={isPending}
+    />
+  )
+}
+
+// TODO: Reactivate action
+function Actions({ question }: { question: Question }) {
+  const [isPending, startTransition] = useTransition()
+
+  return (
+    <>
+      {!question.isActive && (
+        <Button
+          size="xs"
+          variant="secondary"
+          color="orange"
+          disabled={isPending}
+          onClick={() => {
+            void dialog.fire({
+              icon: 'info',
+              title: 'Are you sure?',
+              text: 'Reactivation will refresh the creation date and expire the last active question',
+              confirmButtonText: 'Yes, reactivate it!',
+              showCancelButton: true,
+              confirmButtonColor: '#f97316',
+              focusCancel: true,
+            })
+          }}
+        >
+          Reactivate
+        </Button>
+      )}
+      <Button
+        size="xs"
+        variant="secondary"
+        color="red"
+        disabled={isPending}
+        onClick={() => {
+          void (async () => {
+            const { isConfirmed } = await dialog.fire({
+              icon: 'warning',
+              title: 'Are you sure to delete this question?',
+              confirmButtonText: 'Yes, delete it!',
+              showCancelButton: true,
+              confirmButtonColor: '#ef4444',
+              focusCancel: true,
+            })
+            if (isConfirmed) {
+              startTransition(() => void deleteQuestion({ id: question.id }))
+            }
+          })()
+        }}
+      >
+        Delete
+      </Button>
+    </>
+  )
+}
 
 // TODO: Add virtual list or pagination
-// TODO: Add 'Reactive' and 'Delete' actions
-export async function QuestionList() {
-  const data = await db.select().from(questions)
-
+export function QuestionList({ questions }: { questions: Question[] }) {
   return (
     <Table>
       <TableHead>
@@ -32,7 +110,7 @@ export async function QuestionList() {
         </TableRow>
       </TableHead>
       <TableBody>
-        {data.map((question) => (
+        {questions.map((question) => (
           <TableRow key={question.id}>
             <TableCell width="400px">
               {/* FIXME: Image with src "<url>" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio. */}
@@ -59,14 +137,7 @@ export async function QuestionList() {
               )}
             </TableCell>
             <TableCell className="space-x-2">
-              {!question.isActive && (
-                <Button size="xs" variant="secondary" color="orange">
-                  Reactivate
-                </Button>
-              )}
-              <Button size="xs" variant="secondary" color="red">
-                Delete
-              </Button>
+              <Actions question={question} />
             </TableCell>
           </TableRow>
         ))}

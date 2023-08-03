@@ -14,5 +14,10 @@ export async function updateQuestionAI({
   isAIGenerated: boolean
 }) {
   await db.update(questions).set({ isAIGenerated }).where(eq(questions.id, id))
-  revalidatePath('/admin/question-list')
+  revalidatePath('/admin')
+}
+
+export async function deleteQuestion({ id }: { id: number }) {
+  await db.delete(questions).where(eq(questions.id, id))
+  revalidatePath('/admin')
 }

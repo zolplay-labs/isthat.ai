@@ -6,13 +6,17 @@ import { ConfigDialog } from '~/components/admin/ConfigDialog'
 import { ConfigDisplay } from '~/components/admin/ConfigDisplay'
 import { QuestionList } from '~/components/admin/QuestionList'
 import { UploadQuestionsDialog } from '~/components/admin/UploadQuestionsDialog'
+import { db } from '~/db'
+import { questions } from '~/db/schema'
 
 export const metadata: Metadata = {
   title: 'Admin Panel - Is That AI',
   robots: 'noindex',
 }
 
-export default function Admin() {
+export default async function Admin() {
+  const questionsData = await db.select().from(questions)
+
   return (
     <main className="container px-8 pt-4">
       <div className="flex">
@@ -24,13 +28,13 @@ export default function Admin() {
           <UserButton />
         </div>
       </div>
-      <div className="my-4 flex items-center justify-between">
+      <div className="my-4 flex flex-col items-center gap-2 sm:flex-row sm:justify-between ">
         <UploadQuestionsDialog />
         <ConfigDisplay />
         <ConfigDialog />
       </div>
       <Card>
-        <QuestionList />
+        <QuestionList questions={questionsData} />
       </Card>
     </main>
   )

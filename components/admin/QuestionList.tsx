@@ -30,12 +30,11 @@ function AISwitch({ question }: { question: Question }) {
     <Switch
       checked={question.isAIGenerated}
       onChange={(checked) => {
-        startTransition(
-          () =>
-            void updateQuestionAI({
-              id: question.id,
-              isAIGenerated: checked,
-            })
+        startTransition(() =>
+          updateQuestionAI({
+            id: question.id,
+            isAIGenerated: checked,
+          })
         )
       }}
       disabled={isPending}
@@ -55,8 +54,8 @@ function Actions({ question }: { question: Question }) {
           variant="secondary"
           color="orange"
           disabled={isPending}
-          onClick={() => {
-            void dialog.fire({
+          onClick={async () => {
+            await dialog.fire({
               icon: 'info',
               title: 'Are you sure?',
               text: 'Reactivation will refresh the creation date and expire the last active question',
@@ -86,7 +85,7 @@ function Actions({ question }: { question: Question }) {
               focusCancel: true,
             })
             if (isConfirmed) {
-              startTransition(() => void deleteQuestion({ id: question.id }))
+              startTransition(() => deleteQuestion({ id: question.id }))
             }
           })()
         }}

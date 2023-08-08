@@ -1,15 +1,15 @@
-import { sql } from 'drizzle-orm'
+import { type InferModel } from 'drizzle-orm'
 import React from 'react'
 
-import { db } from '~/db'
-import { config, questions } from '~/db/schema'
+import { type config } from '~/db/schema'
 
-export async function ConfigDisplay() {
-  const [configData] = await db.select().from(config)
-  const questionCount =
-    (await db.select({ count: sql<number>`count(*)` }).from(questions))[0]
-      ?.count || 0
-
+export function ConfigDisplay({
+  configData,
+  questionCount,
+}: {
+  configData: InferModel<typeof config, 'select'> | undefined
+  questionCount: number
+}) {
   return (
     <div className="space-x-2 text-center text-sm sm:flex">
       <div>

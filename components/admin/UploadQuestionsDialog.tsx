@@ -1,3 +1,5 @@
+'use client'
+
 import { Button } from '@tremor/react'
 
 export function UploadQuestionsDialog() {

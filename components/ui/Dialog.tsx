@@ -2,6 +2,7 @@
 
 import { Dialog as HLDialog, Transition } from '@headlessui/react'
 import { Card, Title } from '@tremor/react'
+import { clsxm } from '@zolplay/utils'
 import { Fragment } from 'react'
 
 interface DialogProps {
@@ -9,9 +10,16 @@ interface DialogProps {
   onClose: () => void
   title: string
   children?: React.ReactNode
+  className?: string
 }
 
-export function Dialog({ isOpen, onClose, title, children }: DialogProps) {
+export function Dialog({
+  isOpen,
+  onClose,
+  title,
+  children,
+  className,
+}: DialogProps) {
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <HLDialog as="div" className="relative" onClose={onClose}>
@@ -43,7 +51,7 @@ export function Dialog({ isOpen, onClose, title, children }: DialogProps) {
                 className="w-full max-w-md transform overflow-visible p-6 transition-all"
               >
                 <HLDialog.Title as={Title}>{title}</HLDialog.Title>
-                <div className="mt-4">{children}</div>
+                <div className={clsxm('mt-4', className)}>{children}</div>
               </HLDialog.Panel>
             </Transition.Child>
           </div>

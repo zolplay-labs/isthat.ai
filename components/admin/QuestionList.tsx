@@ -96,7 +96,9 @@ function Actions({
             focusCancel: true,
           })
           if (isConfirmed) {
-            startTransition(() => deleteQuestion({ id: question.id }))
+            startTransition(() =>
+              deleteQuestion({ id: question.id, image: question.image })
+            )
           }
         }}
       >

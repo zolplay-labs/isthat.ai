@@ -18,7 +18,24 @@ export async function updateQuestionAI({
   revalidatePath('/admin')
 }
 
-export async function deleteQuestion({ id }: { id: number }) {
+export async function deleteQuestion({
+  id,
+  image,
+}: {
+  id: number
+  image: string
+}) {
+  const url = `https://api.cloudflare.com/client/v4/accounts/${env.NEXT_PUBLIC_CLOUDFLARE_ACCOUNT_ID}/images/v1/${image}`
+  const fetchRes = await fetch(url, {
+    method: 'DELETE',
+    headers: {
+      Authorization: 'Bearer ' + env.CLOUDFLARE_API_TOKEN,
+    },
+  })
+  const res: { success: boolean } = await fetchRes.json()
+  if (!res.success) {
+    throw new Error('Cloudflare Error')
+  }
   await db.delete(questions).where(eq(questions.id, id))
   revalidatePath('/admin')
 }
@@ -43,7 +60,7 @@ export async function changeConfig({
   revalidatePath('/admin')
 }
 
-type CloudflareResponse = {
+type CloudflareUploadResponse = {
   success: boolean
   result: {
     filename: string
@@ -59,12 +76,12 @@ export async function uploadQuestion(data: FormData) {
   const url = `https://api.cloudflare.com/client/v4/accounts/${env.NEXT_PUBLIC_CLOUDFLARE_ACCOUNT_ID}/images/v1`
   const fetchRes = await fetch(url, {
     body: data,
-    method: 'post',
+    method: 'POST',
     headers: {
       Authorization: 'Bearer ' + env.CLOUDFLARE_API_TOKEN,
     },
   })
-  const res: CloudflareResponse = await fetchRes.json()
+  const res: CloudflareUploadResponse = await fetchRes.json()
   if (!res.success) {
     throw new Error('Cloudflare Error')
   }

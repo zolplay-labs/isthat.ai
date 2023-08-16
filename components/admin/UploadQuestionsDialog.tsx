@@ -3,20 +3,60 @@
 import { Button, List, ListItem, Text } from '@tremor/react'
 import { useRef, useState } from 'react'
 
-import { addQuestions } from '~/app/admin/action'
+import { uploadQuestion } from '~/app/admin/action'
+import { dialog } from '~/lib/dialog'
 
 import { Dialog } from '../ui/Dialog'
 
 export function UploadQuestionsDialog() {
   const [isOpen, setIsOpen] = useState(false)
-  const [questions, setQuestions] = useState<
-    {
-      file: File
-      isAIGenerated: boolean
-    }[]
-  >([])
+  const [files, setFiles] = useState<File[]>([])
 
   const fileInputRef = useRef<HTMLInputElement>(null)
+
+  const [isLoading, setIsLoading] = useState(false)
+  const handleSubmit = async () => {
+    setIsLoading(true)
+    const results = await Promise.allSettled(
+      files.map(async (file) => {
+        const data = new FormData()
+        data.append('file', file)
+        const res = await uploadQuestion(data)
+        console.log(file.name, res)
+      })
+    )
+
+    setIsOpen(false)
+    setFiles([])
+    setIsLoading(false)
+
+    const total = results.length
+    const successLength = results.filter(
+      (res) => res.status === 'fulfilled'
+    ).length
+    const errorLength = results.filter(
+      (res) => res.status === 'rejected'
+    ).length
+    if (total === successLength) {
+      await dialog.fire({
+        title: `${total} files uploaded successfully!`,
+        icon: 'success',
+        confirmButtonColor: '#3b82f6',
+      })
+    } else if (total > successLength) {
+      await dialog.fire({
+        title: `${errorLength} out of ${total} files failed to upload successfully`,
+        icon: 'warning',
+        confirmButtonColor: '#3b82f6',
+      })
+    } else {
+      await dialog.fire({
+        title: `${total} files failed to upload successfully`,
+        icon: 'error',
+        confirmButtonColor: '#3b82f6',
+      })
+    }
+  }
 
   return (
     <>
@@ -34,12 +74,7 @@ export function UploadQuestionsDialog() {
           multiple
           hidden
           onChange={(e) => {
-            setQuestions(
-              Array.from(e.target.files || [], (file) => ({
-                file,
-                isAIGenerated: false,
-              }))
-            )
+            setFiles(Array.from(e.target.files || [], (file) => file))
           }}
         />
         <Text>
@@ -52,31 +87,10 @@ export function UploadQuestionsDialog() {
           </a>
         </Text>
         <List>
-          {questions.map((image, index) => (
-            <ListItem key={index}>
-              <span>{image.file.name}</span>
-              <span>
-                <span className="mr-4">
-                  {(image.file.size / 1024 / 1024).toFixed(2)} MB
-                </span>
-                <span className="mr-1">AI</span>
-                <input
-                  type="checkbox"
-                  checked={image.isAIGenerated}
-                  onChange={(e) => {
-                    setQuestions(
-                      questions.map((image, stateIndex) =>
-                        index === stateIndex
-                          ? {
-                              file: image.file,
-                              isAIGenerated: e.target.checked,
-                            }
-                          : image
-                      )
-                    )
-                  }}
-                />
-              </span>
+          {files.map((file, i) => (
+            <ListItem key={i}>
+              <span>{file.name}</span>
+              <span>{(file.size / 1024 / 1024).toFixed(2)} MB</span>
             </ListItem>
           ))}
         </List>
@@ -88,10 +102,9 @@ export function UploadQuestionsDialog() {
             Select Images
           </Button>
           <Button
-            disabled={questions.length === 0}
-            onClick={async () => {
-              await addQuestions(questions)
-            }}
+            disabled={files?.length === 0}
+            onClick={handleSubmit}
+            loading={isLoading}
           >
             Upload
           </Button>

@@ -1,6 +1,6 @@
 import { UserButton } from '@clerk/nextjs'
 import { Card, Text, Title } from '@tremor/react'
-import { sql } from 'drizzle-orm'
+import { desc, sql } from 'drizzle-orm'
 import { type Metadata } from 'next'
 
 import { ConfigDialog } from '~/components/admin/ConfigDialog'
@@ -16,7 +16,10 @@ export const metadata: Metadata = {
 }
 
 export default async function Admin() {
-  const questionsData = await db.select().from(questions)
+  const questionsData = await db
+    .select()
+    .from(questions)
+    .orderBy(desc(questions.createdAt))
   const [configData] = await db.select().from(config)
   const questionCount =
     (await db.select({ count: sql<number>`count(*)` }).from(questions))[0]

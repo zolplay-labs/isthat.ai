@@ -42,30 +42,36 @@ export async function reactivateQuestion({ id }: { id: number }) {
     .update(questions)
     .set({ createdAt: new Date() })
     .where(eq(questions.id, id))
-  // Expire the last active question
+  // TODO: Expire the last active question
   revalidatePath('/admin')
 }
 
-export async function addQuestions(
-  questions: {
-    file: File
-    isAIGenerated: boolean
-  }[]
-) {
-  // Upload files to cloudflare
-  await Promise.all(
-    questions.map(async (question) => {
-      const formData = new FormData()
-      formData.append('file', question.file)
-      const url = `https://api.cloudflare.com/client/v4/accounts/${env.NEXT_PUBLIC_CLOUDFLARE_ACCOUNT_ID}/images/v1`
-      const res = await fetch(url, {
-        body: formData,
-        method: 'post',
-        headers: {
-          Authorization: 'Bearer ' + env.CLOUDFLARE_API_TOKEN,
-        },
-      })
-      console.log(await res.json())
-    })
-  )
+type CloudflareResponse = {
+  success: boolean
+  result: {
+    filename: string
+    id: string
+    requireSignedURLs: boolean
+    uploaded: string
+    variants: string[]
+  }
+}
+
+export async function uploadQuestion(data: FormData) {
+  // Upload image to cloudflare
+  const url = `https://api.cloudflare.com/client/v4/accounts/${env.NEXT_PUBLIC_CLOUDFLARE_ACCOUNT_ID}/images/v1`
+  const fetchRes = await fetch(url, {
+    body: data,
+    method: 'post',
+    headers: {
+      Authorization: 'Bearer ' + env.CLOUDFLARE_API_TOKEN,
+    },
+  })
+  const res: CloudflareResponse = await fetchRes.json()
+  if (!res.success) {
+    throw new Error('Cloudflare Error')
+  }
+  // Add image to database
+  await db.insert(questions).values({ image: res.result.id })
+  revalidatePath('/admin')
 }

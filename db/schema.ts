@@ -12,8 +12,7 @@ import {
 export const questions = mysqlTable('questions', {
   id: serial('id').primaryKey(),
   image: varchar('image', { length: 191 }).notNull(),
-  isAIGenerated: boolean('is_ai_generated').notNull(),
-  isActive: boolean('is_active').default(true),
+  isAIGenerated: boolean('is_ai_generated').default(false),
   createdAt: timestamp('created_at').defaultNow(),
 })
 

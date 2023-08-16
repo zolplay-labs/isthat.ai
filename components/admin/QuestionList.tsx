@@ -14,7 +14,11 @@ import { type InferModel } from 'drizzle-orm'
 import Image from 'next/image'
 import { useTransition } from 'react'
 
-import { deleteQuestion, updateQuestionAI } from '~/app/admin/action'
+import {
+  deleteQuestion,
+  reactivateQuestion,
+  updateQuestionAI,
+} from '~/app/admin/action'
 import { type questions } from '~/db/schema'
 import { env } from '~/env.mjs'
 import { dialog } from '~/lib/dialog'
@@ -42,20 +46,25 @@ function AISwitch({ question }: { question: Question }) {
   )
 }
 
-// TODO: Reactivate action
-function Actions({ question }: { question: Question }) {
+function Actions({
+  question,
+  isActive,
+}: {
+  question: Question
+  isActive: boolean
+}) {
   const [isPending, startTransition] = useTransition()
 
   return (
     <>
-      {!question.isActive && (
+      {!isActive && (
         <Button
           size="xs"
           variant="secondary"
           color="orange"
           disabled={isPending}
           onClick={async () => {
-            await dialog.fire({
+            const { isConfirmed } = await dialog.fire({
               icon: 'info',
               title: 'Are you sure?',
               text: 'Reactivation will refresh the creation date and expire the last active question',
@@ -64,6 +73,9 @@ function Actions({ question }: { question: Question }) {
               confirmButtonColor: '#f97316',
               focusCancel: true,
             })
+            if (isConfirmed) {
+              startTransition(() => reactivateQuestion({ id: question.id }))
+            }
           }}
         >
           Reactivate
@@ -74,20 +86,18 @@ function Actions({ question }: { question: Question }) {
         variant="secondary"
         color="red"
         disabled={isPending}
-        onClick={() => {
-          void (async () => {
-            const { isConfirmed } = await dialog.fire({
-              icon: 'warning',
-              title: 'Are you sure to delete this question?',
-              confirmButtonText: 'Yes, delete it!',
-              showCancelButton: true,
-              confirmButtonColor: '#ef4444',
-              focusCancel: true,
-            })
-            if (isConfirmed) {
-              startTransition(() => deleteQuestion({ id: question.id }))
-            }
-          })()
+        onClick={async () => {
+          const { isConfirmed } = await dialog.fire({
+            icon: 'warning',
+            title: 'Are you sure to delete this question?',
+            confirmButtonText: 'Yes, delete it!',
+            showCancelButton: true,
+            confirmButtonColor: '#ef4444',
+            focusCancel: true,
+          })
+          if (isConfirmed) {
+            startTransition(() => deleteQuestion({ id: question.id }))
+          }
         }}
       >
         Delete
@@ -97,7 +107,13 @@ function Actions({ question }: { question: Question }) {
 }
 
 // TODO: Add virtual list or pagination
-export function QuestionList({ questions }: { questions: Question[] }) {
+export function QuestionList({
+  questions,
+  activeQuestionsLimit,
+}: {
+  questions: Question[]
+  activeQuestionsLimit: number
+}) {
   return (
     <Table>
       <TableHead>
@@ -109,7 +125,7 @@ export function QuestionList({ questions }: { questions: Question[] }) {
         </TableRow>
       </TableHead>
       <TableBody>
-        {questions.map((question) => (
+        {questions.map((question, index) => (
           <TableRow key={question.id}>
             <TableCell width="400px">
               {/* FIXME: Image with src "<url>" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio. */}
@@ -125,7 +141,7 @@ export function QuestionList({ questions }: { questions: Question[] }) {
               <AISwitch question={question} />
             </TableCell>
             <TableCell>
-              {question.isActive ? (
+              {index < activeQuestionsLimit ? (
                 <Badge size="xs" color="green">
                   Active
                 </Badge>
@@ -136,7 +152,10 @@ export function QuestionList({ questions }: { questions: Question[] }) {
               )}
             </TableCell>
             <TableCell className="space-x-2">
-              <Actions question={question} />
+              <Actions
+                question={question}
+                isActive={index < activeQuestionsLimit}
+              />
             </TableCell>
           </TableRow>
         ))}

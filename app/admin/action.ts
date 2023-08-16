@@ -23,6 +23,14 @@ export async function deleteQuestion({ id }: { id: number }) {
   revalidatePath('/admin')
 }
 
+export async function reactivateQuestion({ id }: { id: number }) {
+  await db
+    .update(questions)
+    .set({ createdAt: new Date() })
+    .where(eq(questions.id, id))
+  revalidatePath('/admin')
+}
+
 export async function changeConfig({
   releaseDate,
   activeQuestionsLimit,
@@ -32,17 +40,6 @@ export async function changeConfig({
     .update(config)
     .set({ releaseDate, activeQuestionsLimit, questionsPerChallenge })
     .where(eq(config.id, 'single'))
-  // TODO: Use new limit to expire questions
-  revalidatePath('/admin')
-}
-
-export async function reactivateQuestion({ id }: { id: number }) {
-  // Refresh creation date
-  await db
-    .update(questions)
-    .set({ createdAt: new Date() })
-    .where(eq(questions.id, id))
-  // TODO: Expire the last active question
   revalidatePath('/admin')
 }
 

@@ -42,7 +42,10 @@ export default async function Admin() {
         <ConfigDialog configData={configData} />
       </div>
       <Card>
-        <QuestionList questions={questionsData} />
+        <QuestionList
+          questions={questionsData}
+          activeQuestionsLimit={configData?.activeQuestionsLimit || 100}
+        />
       </Card>
     </main>
   )

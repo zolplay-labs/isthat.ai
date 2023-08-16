@@ -39,18 +39,26 @@ export function ConfigDialog({
   const [isLoading, setIsLoading] = useState(false)
   const handleSubmit = async () => {
     setIsLoading(true)
-    await changeConfig({
-      releaseDate,
-      activeQuestionsLimit,
-      questionsPerChallenge,
-    })
+    try {
+      await changeConfig({
+        releaseDate,
+        activeQuestionsLimit,
+        questionsPerChallenge,
+      })
+      await dialog.fire({
+        title: 'Config is changed successfully!',
+        icon: 'success',
+        confirmButtonColor: '#3b82f6',
+      })
+    } catch (error) {
+      await dialog.fire({
+        title: 'Config failed to be changed!',
+        icon: 'error',
+        confirmButtonColor: '#3b82f6',
+      })
+    }
     setIsLoading(false)
     setIsOpen(false)
-    await dialog.fire({
-      title: 'Config is changed successfully!',
-      icon: 'success',
-      confirmButtonColor: '#3b82f6',
-    })
   }
 
   return (

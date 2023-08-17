@@ -1,6 +1,6 @@
 'use server'
 
-import { eq, type InferModel } from 'drizzle-orm'
+import { desc, eq, type InferModel } from 'drizzle-orm'
 import { revalidatePath } from 'next/cache'
 
 import { db } from '~/db'
@@ -41,9 +41,14 @@ export async function deleteQuestion({
 }
 
 export async function reactivateQuestion({ id }: { id: number }) {
+  const maxIdRow = await db
+    .select({ id: questions.id })
+    .from(questions)
+    .orderBy(desc(questions.id))
+    .limit(1)
   await db
     .update(questions)
-    .set({ createdAt: new Date() })
+    .set({ id: (maxIdRow[0]?.id || 0) + 1 })
     .where(eq(questions.id, id))
   revalidatePath('/admin')
 }

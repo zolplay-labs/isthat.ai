@@ -19,11 +19,19 @@ export default async function Admin() {
   const questionsData = await db
     .select()
     .from(questions)
-    .orderBy(desc(questions.createdAt))
+    .orderBy(desc(questions.id))
   const [configData] = await db.select().from(config)
   const questionCount =
     (await db.select({ count: sql<number>`count(*)` }).from(questions))[0]
       ?.count || 0
+
+  const activeQuestionLimitIdRow = await db
+    .select({ id: questions.id })
+    .from(questions)
+    .orderBy(desc(questions.id))
+    .offset((configData?.activeQuestionsLimit || 1) - 1)
+    .limit(1)
+  const activeQuestionsLimitId = activeQuestionLimitIdRow[0]?.id || 0
 
   return (
     <main className="container px-8 pt-4">
@@ -44,7 +52,7 @@ export default async function Admin() {
       <Card>
         <QuestionList
           questions={questionsData}
-          activeQuestionsLimit={configData?.activeQuestionsLimit || 100}
+          activeQuestionsLimitId={activeQuestionsLimitId}
         />
       </Card>
     </main>

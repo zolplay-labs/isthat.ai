@@ -67,7 +67,7 @@ function Actions({
             const { isConfirmed } = await dialog.fire({
               icon: 'info',
               title: 'Are you sure?',
-              text: 'Reactivation will refresh the creation date and expire the last active question',
+              text: 'Reactivation will refresh the question id and expire the last active question',
               confirmButtonText: 'Yes, reactivate it!',
               showCancelButton: true,
               confirmButtonColor: '#f97316',
@@ -111,10 +111,10 @@ function Actions({
 // TODO: Add virtual list or pagination
 export function QuestionList({
   questions,
-  activeQuestionsLimit,
+  activeQuestionsLimitId,
 }: {
   questions: Question[]
-  activeQuestionsLimit: number
+  activeQuestionsLimitId: number
 }) {
   return (
     <Table>
@@ -127,7 +127,7 @@ export function QuestionList({
         </TableRow>
       </TableHead>
       <TableBody>
-        {questions.map((question, index) => (
+        {questions.map((question) => (
           <TableRow key={question.id}>
             <TableCell width="400px">
               {/* FIXME: Image with src "<url>" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio. */}
@@ -143,7 +143,7 @@ export function QuestionList({
               <AISwitch question={question} />
             </TableCell>
             <TableCell>
-              {index < activeQuestionsLimit ? (
+              {question.id >= activeQuestionsLimitId ? (
                 <Badge size="xs" color="green">
                   Active
                 </Badge>
@@ -156,7 +156,7 @@ export function QuestionList({
             <TableCell className="space-x-2">
               <Actions
                 question={question}
-                isActive={index < activeQuestionsLimit}
+                isActive={question.id >= activeQuestionsLimitId}
               />
             </TableCell>
           </TableRow>

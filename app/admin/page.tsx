@@ -6,20 +6,31 @@ import { type Metadata } from 'next'
 import { ConfigDialog } from '~/components/admin/ConfigDialog'
 import { ConfigDisplay } from '~/components/admin/ConfigDisplay'
 import { QuestionList } from '~/components/admin/QuestionList'
+import { QuestionPagination } from '~/components/admin/QuestionPagination'
 import { UploadQuestionsDialog } from '~/components/admin/UploadQuestionsDialog'
 import { db } from '~/db'
 import { config, questions } from '~/db/schema'
+
+import { PAGE_SIZE } from './constants'
 
 export const metadata: Metadata = {
   title: 'Admin Panel - Is That AI',
   robots: 'noindex',
 }
 
-export default async function Admin() {
+export default async function Admin({
+  searchParams,
+}: {
+  searchParams: { page: string }
+}) {
+  const currentPage = Number(searchParams?.page) || 1
+
   const questionsData = await db
     .select()
     .from(questions)
     .orderBy(desc(questions.id))
+    .limit(PAGE_SIZE)
+    .offset((currentPage - 1) * PAGE_SIZE)
   const [configData] = await db.select().from(config)
   const questionCount =
     (await db.select({ count: sql<number>`count(*)` }).from(questions))[0]
@@ -34,7 +45,7 @@ export default async function Admin() {
   const activeQuestionsLimitId = activeQuestionLimitIdRow[0]?.id || 0
 
   return (
-    <main className="container px-8 pt-4">
+    <main className="container space-y-4 px-8 py-4">
       <div className="flex">
         <div className="flex-1">
           <Title>Admin Panel</Title>
@@ -44,7 +55,7 @@ export default async function Admin() {
           <UserButton />
         </div>
       </div>
-      <div className="my-4 flex flex-col items-center gap-2 sm:flex-row sm:justify-between ">
+      <div className="flex flex-col items-center gap-2 sm:flex-row sm:justify-between ">
         <UploadQuestionsDialog />
         <ConfigDisplay configData={configData} questionCount={questionCount} />
         <ConfigDialog configData={configData} />
@@ -55,6 +66,10 @@ export default async function Admin() {
           activeQuestionsLimitId={activeQuestionsLimitId}
         />
       </Card>
+      <QuestionPagination
+        currentPage={currentPage}
+        questionCount={questionCount}
+      />
     </main>
   )
 }

@@ -108,7 +108,6 @@ function Actions({
   )
 }
 
-// TODO: Add virtual list or pagination
 export function QuestionList({
   questions,
   activeQuestionsLimitId,

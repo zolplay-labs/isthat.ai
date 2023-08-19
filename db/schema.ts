@@ -25,7 +25,6 @@ export const userScores = mysqlTable('userScores', {
   updatedAt: timestamp('updated_at').defaultNow().onUpdateNow().notNull(),
 })
 
-// TODO: Auto create default config
 export const config = mysqlTable('config', {
   id: mysqlEnum('id', ['single']).default('single').primaryKey(),
   releaseDate: date('release_date').default(new Date('2023-7-25')).notNull(),

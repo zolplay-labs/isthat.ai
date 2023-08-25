@@ -23,7 +23,7 @@ export const Game: React.FC = () => {
   } = useGameManager()
 
   useMount(() => {
-    void initialize()
+    initialize()
   })
 
   const sceneElement = React.useMemo(() => {

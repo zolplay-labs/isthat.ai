@@ -21,7 +21,6 @@ export const env = createEnv({
     NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL: z.string().min(1),
     NEXT_PUBLIC_CLOUDFLARE_ACCOUNT_ID: z.string().min(1),
     NEXT_PUBLIC_CLOUDFLARE_ACCOUNT_HASH: z.string().min(1),
-    NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: z.string().min(1),
   },
   experimental__runtimeEnv: {
     NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY:
@@ -36,7 +35,5 @@ export const env = createEnv({
       process.env.NEXT_PUBLIC_CLOUDFLARE_ACCOUNT_ID,
     NEXT_PUBLIC_CLOUDFLARE_ACCOUNT_HASH:
       process.env.NEXT_PUBLIC_CLOUDFLARE_ACCOUNT_HASH,
-    NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME:
-      process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
   },
 })

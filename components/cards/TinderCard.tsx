@@ -1,16 +1,10 @@
 'use client'
 
-import { CloudinaryImage } from '@cloudinary/url-gen'
-import { fill } from '@cloudinary/url-gen/actions/resize'
-import { faces } from '@cloudinary/url-gen/qualifiers/focusOn'
-import { focusOn } from '@cloudinary/url-gen/qualifiers/gravity'
 import { clsxm } from '@zolplay/utils'
 import { cva } from 'class-variance-authority'
 import { motion, type PanInfo } from 'framer-motion'
 import Image from 'next/image'
 import React from 'react'
-
-import { env } from '~/env.mjs'
 
 export type SwipeType = 'yes' | 'no'
 export type TinderCardProps = {
@@ -65,13 +59,7 @@ export function TinderCard({
     },
     [idx, onSwiped]
   )
-  const imageUrl = React.useMemo(() => {
-    return new CloudinaryImage(image, {
-      cloudName: env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
-    })
-      .resize(fill().width(600).height(500).gravity(focusOn(faces())))
-      .toURL()
-  }, [image])
+  const imageUrl = ''
 
   return (
     <>

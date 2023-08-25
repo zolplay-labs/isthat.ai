@@ -8,7 +8,7 @@ import { changeConfig } from '~/app/admin/action'
 import { type config } from '~/db/schema'
 import { dialog } from '~/lib/dialog'
 
-import { Dialog } from '../ui/Dialog'
+import { Dialog } from './ui/Dialog'
 
 export function ConfigDialog({
   configData,

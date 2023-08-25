@@ -6,7 +6,7 @@ import { useRef, useState } from 'react'
 import { uploadQuestion } from '~/app/admin/action'
 import { dialog } from '~/lib/dialog'
 
-import { Dialog } from '../ui/Dialog'
+import { Dialog } from './ui/Dialog'
 
 export function UploadQuestionsDialog() {
   const [isOpen, setIsOpen] = useState(false)

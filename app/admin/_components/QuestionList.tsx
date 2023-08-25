@@ -23,7 +23,7 @@ import { type questions } from '~/db/schema'
 import { env } from '~/env.mjs'
 import { dialog } from '~/lib/dialog'
 
-import { Switch } from '../ui/Switch'
+import { Switch } from './ui/Switch'
 
 type Question = InferModel<typeof questions, 'select'>
 

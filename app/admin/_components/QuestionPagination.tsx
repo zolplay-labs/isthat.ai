@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation'
 
 import { PAGE_SIZE } from '~/app/admin/constants'
 
-import { Pagination } from '../ui/Pagination'
+import { Pagination } from './ui/Pagination'
 
 export function QuestionPagination({
   currentPage,

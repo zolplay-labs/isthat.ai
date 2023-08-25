@@ -3,14 +3,14 @@ import { Card, Text, Title } from '@tremor/react'
 import { desc, sql } from 'drizzle-orm'
 import { type Metadata } from 'next'
 
-import { ConfigDialog } from '~/components/admin/ConfigDialog'
-import { ConfigDisplay } from '~/components/admin/ConfigDisplay'
-import { QuestionList } from '~/components/admin/QuestionList'
-import { QuestionPagination } from '~/components/admin/QuestionPagination'
-import { UploadQuestionsDialog } from '~/components/admin/UploadQuestionsDialog'
+import { ConfigDialog } from '~/app/admin/_components/ConfigDialog'
 import { db } from '~/db'
 import { config, questions } from '~/db/schema'
 
+import { ConfigDisplay } from './_components/ConfigDisplay'
+import { QuestionList } from './_components/QuestionList'
+import { QuestionPagination } from './_components/QuestionPagination'
+import { UploadQuestionsDialog } from './_components/UploadQuestionsDialog'
 import { PAGE_SIZE } from './constants'
 
 export const metadata: Metadata = {

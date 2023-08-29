@@ -26,6 +26,7 @@
     "drizzle-orm": "^0.27.2",
     "eslint-config-next": "13.2.4",
     "framer-motion": "^10.15.0",
+    "immer": "^10.0.2",
     "next": "13.4.12",
     "react": "18.2.0",
     "react-dom": "18.2.0",

@@ -5,12 +5,16 @@ import { create } from 'zustand'
 type UserStore = {
   readonly user: User | null
   readonly isSignedIn: boolean
+  setUser(user: User | null): void
   logout(): void
 }
 
 const useUserStore = create<UserStore>((set) => ({
   user: null,
   isSignedIn: false,
+  setUser(user) {
+    set({ user, isSignedIn: !!user })
+  },
   logout() {
     set({ user: null, isSignedIn: false })
   },
@@ -18,12 +22,12 @@ const useUserStore = create<UserStore>((set) => ({
 
 export const useUser = () => {
   const { signOut } = useAuth()
-  const { logout: userStoreLogout, ...userData } = useUserStore()
+  const { logout: userStoreLogout, ...userStore } = useUserStore()
 
   const logout = async () => {
     await signOut()
     userStoreLogout()
   }
 
-  return { userData, logout }
+  return { ...userStore, logout }
 }

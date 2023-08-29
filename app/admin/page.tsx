@@ -45,31 +45,36 @@ export default async function Admin({
   const activeQuestionsLimitId = activeQuestionLimitIdRow[0]?.id || 0
 
   return (
-    <main className="container space-y-4 px-8 py-4">
-      <div className="flex">
-        <div className="flex-1">
-          <Title>Admin Panel</Title>
-          <Text>Is That AI</Text>
+    <div className="bg-neutral-50">
+      <main className="container space-y-4 px-8 py-4">
+        <div className="flex">
+          <div className="flex-1">
+            <Title>Admin Panel</Title>
+            <Text>Is That AI</Text>
+          </div>
+          <div className="mt-1">
+            <UserButton />
+          </div>
         </div>
-        <div className="mt-1">
-          <UserButton />
+        <div className="flex flex-col items-center gap-2 sm:flex-row sm:justify-between ">
+          <UploadQuestionsDialog />
+          <ConfigDisplay
+            configData={configData}
+            questionCount={questionCount}
+          />
+          <ConfigDialog configData={configData} />
         </div>
-      </div>
-      <div className="flex flex-col items-center gap-2 sm:flex-row sm:justify-between ">
-        <UploadQuestionsDialog />
-        <ConfigDisplay configData={configData} questionCount={questionCount} />
-        <ConfigDialog configData={configData} />
-      </div>
-      <Card>
-        <QuestionList
-          questions={questionsData}
-          activeQuestionsLimitId={activeQuestionsLimitId}
+        <Card>
+          <QuestionList
+            questions={questionsData}
+            activeQuestionsLimitId={activeQuestionsLimitId}
+          />
+        </Card>
+        <QuestionPagination
+          currentPage={currentPage}
+          questionCount={questionCount}
         />
-      </Card>
-      <QuestionPagination
-        currentPage={currentPage}
-        questionCount={questionCount}
-      />
-    </main>
+      </main>
+    </div>
   )
 }

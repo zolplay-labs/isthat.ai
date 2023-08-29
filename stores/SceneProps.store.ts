@@ -40,11 +40,10 @@ const useScenePropsInner = create(
   }))
 )
 
-export const useSceneProps = <TScene extends SceneHasProps>(scene: TScene) => {
+export const useSceneProps = (scene: SceneHasProps) => {
   const { sceneProps, setSceneProps } = useScenePropsInner()
   return {
     props: sceneProps[scene],
-    setProps: (props: Partial<SceneProps[TScene]>) =>
-      setSceneProps(scene, props),
+    setSceneProps,
   }
 }

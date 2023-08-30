@@ -29,7 +29,7 @@ type ScenePropsStore = {
   ): void
 }
 
-const useScenePropsInner = create(
+export const useSceneProps = create(
   immer<ScenePropsStore>((set) => ({
     sceneProps: DEFAULT_SCENE_PROPS,
     setSceneProps(scene, props) {
@@ -39,11 +39,3 @@ const useScenePropsInner = create(
     },
   }))
 )
-
-export const useSceneProps = (scene: SceneHasProps) => {
-  const { sceneProps, setSceneProps } = useScenePropsInner()
-  return {
-    props: sceneProps[scene],
-    setSceneProps,
-  }
-}

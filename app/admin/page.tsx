@@ -5,7 +5,8 @@ import { type Metadata } from 'next'
 
 import { ConfigDialog } from '~/app/admin/_components/ConfigDialog'
 import { db } from '~/db'
-import { config, questions } from '~/db/schema'
+import { fetchConfig } from '~/db/queries'
+import { questions } from '~/db/schema'
 
 import { ConfigDisplay } from './_components/ConfigDisplay'
 import { QuestionList } from './_components/QuestionList'
@@ -31,7 +32,7 @@ export default async function Admin({
     .orderBy(desc(questions.id))
     .limit(PAGE_SIZE)
     .offset((currentPage - 1) * PAGE_SIZE)
-  const [configData] = await db.select().from(config)
+  const configData = await fetchConfig()
   const questionCount =
     (await db.select({ count: sql<number>`count(*)` }).from(questions))[0]
       ?.count || 0
@@ -40,7 +41,7 @@ export default async function Admin({
     .select({ id: questions.id })
     .from(questions)
     .orderBy(desc(questions.id))
-    .offset((configData?.activeQuestionsLimit || 1) - 1)
+    .offset((configData.activeQuestionsLimit || 1) - 1)
     .limit(1)
   const activeQuestionsLimitId = activeQuestionLimitIdRow[0]?.id || 0
 

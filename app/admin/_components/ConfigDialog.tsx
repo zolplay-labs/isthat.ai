@@ -1,38 +1,31 @@
 'use client'
 
 import { Button, DatePicker, NumberInput, Text } from '@tremor/react'
-import { type InferModel } from 'drizzle-orm'
 import { useEffect, useState } from 'react'
 
 import { changeConfig } from '~/app/admin/action'
-import { type config } from '~/db/schema'
+import { type Config } from '~/db/queries'
 import { dialog } from '~/lib/dialog'
 
 import { Dialog } from './ui/Dialog'
 
-export function ConfigDialog({
-  configData,
-}: {
-  configData: InferModel<typeof config, 'select'> | undefined
-}) {
+export function ConfigDialog({ configData }: { configData: Config }) {
   const [isOpen, setIsOpen] = useState(false)
 
-  const [releaseDate, setReleaseDate] = useState(
-    configData?.releaseDate || new Date('2023-7-25')
-  )
+  const [releaseDate, setReleaseDate] = useState(configData.releaseDate)
   const [activeQuestionsLimit, setActiveQuestionsLimit] = useState(
-    configData?.activeQuestionsLimit || 0
+    configData.activeQuestionsLimit
   )
   const [questionsPerChallenge, setQuestionsPerChallenge] = useState(
-    configData?.questionsPerChallenge || 0
+    configData.questionsPerChallenge
   )
 
   const [isChanged, setIsChanged] = useState(false)
   useEffect(() => {
     setIsChanged(
-      releaseDate.getDate() !== configData?.releaseDate?.getDate() ||
-        activeQuestionsLimit !== configData?.activeQuestionsLimit ||
-        questionsPerChallenge !== configData?.questionsPerChallenge
+      releaseDate.getDate() !== configData.releaseDate?.getDate() ||
+        activeQuestionsLimit !== configData.activeQuestionsLimit ||
+        questionsPerChallenge !== configData.questionsPerChallenge
     )
   }, [releaseDate, activeQuestionsLimit, questionsPerChallenge, configData])
 

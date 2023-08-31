@@ -1,11 +1,11 @@
 import { UserButton } from '@clerk/nextjs'
 import { Card, Text, Title } from '@tremor/react'
-import { desc, sql } from 'drizzle-orm'
+import { desc } from 'drizzle-orm'
 import { type Metadata } from 'next'
 
 import { ConfigDialog } from '~/app/admin/_components/ConfigDialog'
 import { db } from '~/db'
-import { fetchConfig } from '~/db/queries'
+import { fetchConfig, fetchQuestionCount } from '~/db/queries'
 import { questions } from '~/db/schema'
 
 import { ConfigDisplay } from './_components/ConfigDisplay'
@@ -33,9 +33,7 @@ export default async function Admin({
     .limit(PAGE_SIZE)
     .offset((currentPage - 1) * PAGE_SIZE)
   const configData = await fetchConfig()
-  const questionCount =
-    (await db.select({ count: sql<number>`count(*)` }).from(questions))[0]
-      ?.count || 0
+  const questionCount = await fetchQuestionCount()
 
   const activeQuestionLimitIdRow = await db
     .select({ id: questions.id })

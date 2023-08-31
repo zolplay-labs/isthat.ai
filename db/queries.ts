@@ -1,7 +1,7 @@
-import { type InferModel } from 'drizzle-orm'
+import { type InferModel, sql } from 'drizzle-orm'
 
 import { db } from '.'
-import { config } from './schema'
+import { config, questions } from './schema'
 
 export type Config = Omit<InferModel<typeof config, 'select'>, 'id'>
 export const fetchConfig = async (): Promise<Config> => {
@@ -11,4 +11,11 @@ export const fetchConfig = async (): Promise<Config> => {
     activeQuestionsLimit: configData?.activeQuestionsLimit || 0,
     questionsPerChallenge: configData?.questionsPerChallenge || 0,
   }
+}
+
+export const fetchQuestionCount = async () => {
+  return (
+    (await db.select({ count: sql<number>`count(*)` }).from(questions))[0]
+      ?.count || 0
+  )
 }

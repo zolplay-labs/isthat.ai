@@ -39,7 +39,7 @@ export default async function Admin({
     .select({ id: questions.id })
     .from(questions)
     .orderBy(desc(questions.id))
-    .offset((configData.activeQuestionsLimit || 1) - 1)
+    .offset(configData.activeQuestionsLimit - 1)
     .limit(1)
   const activeQuestionsLimitId = activeQuestionLimitIdRow[0]?.id || 0
 

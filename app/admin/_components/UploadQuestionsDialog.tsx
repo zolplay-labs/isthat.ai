@@ -21,8 +21,7 @@ export function UploadQuestionsDialog() {
       files.map(async (file) => {
         const data = new FormData()
         data.append('file', file)
-        const res = await uploadQuestion(data)
-        console.log(file.name, res)
+        await uploadQuestion(data)
       })
     )
 

@@ -8,6 +8,9 @@ const DEFAULT_SCENE_PROPS = {
     images: [''],
     questionsPerChallenge: 8,
   },
+  TRIAL_PLAY: {
+    image: '',
+  },
   RESULT: {
     day: 0,
     time: 0,

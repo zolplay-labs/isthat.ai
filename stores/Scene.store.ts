@@ -19,6 +19,11 @@ type SceneStore = {
 export const useScene = create<SceneStore>((set) => ({
   scene: 'LOADING',
   switchScene(scene) {
+    if (scene === 'WARM_UP' && localStorage.getItem('hasWarmedUp')) {
+      // Skip warm up
+      set({ scene: 'READY' })
+      return
+    }
     set({ scene })
   },
 }))

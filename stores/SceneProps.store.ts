@@ -37,7 +37,7 @@ export const useSceneProps = create(
     sceneProps: DEFAULT_SCENE_PROPS,
     setSceneProps(scene, props) {
       set((state) => {
-        state.sceneProps[scene] = { ...state.sceneProps[scene], props }
+        state.sceneProps[scene] = { ...state.sceneProps[scene], ...props }
       })
     },
   }))

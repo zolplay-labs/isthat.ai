@@ -38,20 +38,22 @@ export function ConfigDialog({ configData }: { configData: Config }) {
         activeQuestionsLimit,
         questionsPerChallenge,
       })
+      setIsLoading(false)
+      setIsOpen(false)
       await dialog.fire({
         title: 'Config is changed successfully!',
         icon: 'success',
         confirmButtonColor: '#3b82f6',
       })
     } catch (error) {
+      setIsLoading(false)
+      setIsOpen(false)
       await dialog.fire({
         title: 'Config failed to be changed!',
         icon: 'error',
         confirmButtonColor: '#3b82f6',
       })
     }
-    setIsLoading(false)
-    setIsOpen(false)
   }
 
   return (

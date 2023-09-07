@@ -1,6 +1,7 @@
 'use client'
 
 import { Button, List, ListItem, Text } from '@tremor/react'
+import { clsxm } from '@zolplay/utils'
 import { useRef, useState } from 'react'
 
 import { uploadQuestion } from '~/app/admin/action'
@@ -87,7 +88,12 @@ export function UploadQuestionsDialog() {
         </Text>
         <List>
           {files.map((file, i) => (
-            <ListItem key={i}>
+            <ListItem
+              key={i}
+              className={clsxm(
+                file.size / 1024 / 1024 > 10 && 'text-[#ef4444]'
+              )}
+            >
               <span>{file.name}</span>
               <span>{(file.size / 1024 / 1024).toFixed(2)} MB</span>
             </ListItem>

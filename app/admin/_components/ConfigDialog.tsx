@@ -9,25 +9,25 @@ import { dialog } from '~/lib/dialog'
 
 import { Dialog } from './ui/Dialog'
 
-export function ConfigDialog({ configData }: { configData: Config }) {
+export function ConfigDialog({ config }: { config: Config }) {
   const [isOpen, setIsOpen] = useState(false)
 
-  const [releaseDate, setReleaseDate] = useState(configData.releaseDate)
+  const [releaseDate, setReleaseDate] = useState(config.releaseDate)
   const [activeQuestionsLimit, setActiveQuestionsLimit] = useState(
-    configData.activeQuestionsLimit
+    config.activeQuestionsLimit
   )
   const [questionsPerChallenge, setQuestionsPerChallenge] = useState(
-    configData.questionsPerChallenge
+    config.questionsPerChallenge
   )
 
   const [isChanged, setIsChanged] = useState(false)
   useEffect(() => {
     setIsChanged(
-      releaseDate.getDate() !== configData.releaseDate?.getDate() ||
-        activeQuestionsLimit !== configData.activeQuestionsLimit ||
-        questionsPerChallenge !== configData.questionsPerChallenge
+      releaseDate.getDate() !== config.releaseDate?.getDate() ||
+        activeQuestionsLimit !== config.activeQuestionsLimit ||
+        questionsPerChallenge !== config.questionsPerChallenge
     )
-  }, [releaseDate, activeQuestionsLimit, questionsPerChallenge, configData])
+  }, [releaseDate, activeQuestionsLimit, questionsPerChallenge, config])
 
   const [isLoading, setIsLoading] = useState(false)
   const handleSubmit = async () => {

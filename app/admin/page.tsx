@@ -32,14 +32,14 @@ export default async function Admin({
     .orderBy(desc(questions.id))
     .limit(PAGE_SIZE)
     .offset((currentPage - 1) * PAGE_SIZE)
-  const configData = await fetchConfig()
+  const config = await fetchConfig()
   const questionCount = await fetchQuestionCount()
 
   const activeQuestionLimitIdRow = await db
     .select({ id: questions.id })
     .from(questions)
     .orderBy(desc(questions.id))
-    .offset(configData.activeQuestionsLimit - 1)
+    .offset(config.activeQuestionsLimit - 1)
     .limit(1)
   const activeQuestionsLimitId = activeQuestionLimitIdRow[0]?.id || 0
 
@@ -56,8 +56,8 @@ export default async function Admin({
       </div>
       <div className="flex flex-col items-center gap-2 sm:flex-row sm:justify-between ">
         <UploadQuestionsDialog />
-        <ConfigDisplay configData={configData} questionCount={questionCount} />
-        <ConfigDialog configData={configData} />
+        <ConfigDisplay config={config} questionCount={questionCount} />
+        <ConfigDialog config={config} />
       </div>
       <Card>
         <QuestionList

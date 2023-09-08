@@ -1,8 +1,12 @@
 'use client'
 
 import React from 'react'
+import { useMount } from 'react-use'
 
+import { type Config } from '~/db/queries'
 import { type Scene, useScene } from '~/stores/Scene.store'
+import { useSceneProps } from '~/stores/SceneProps.store'
+import { type User, useUser } from '~/stores/User.store'
 
 import { Loading } from './scenes/Loading'
 import { Menu } from './scenes/Menu'
@@ -10,7 +14,6 @@ import { Play } from './scenes/Play'
 import { Ready } from './scenes/Ready'
 import { Result } from './scenes/Result'
 import { ResultWaiting } from './scenes/ResultWaiting'
-import { TrialPlay } from './scenes/TrialPlay'
 import { TrialResult } from './scenes/TrialResult'
 import { WarmUp } from './scenes/WarmUp'
 
@@ -22,12 +25,34 @@ const Scenes = {
   PLAY: <Play />,
   RESULT_WAITING: <ResultWaiting />,
   RESULT: <Result />,
-  TRIAL_PLAY: <TrialPlay />,
   TRIAL_RESULT: <TrialResult />,
 } satisfies Record<Scene, React.ReactNode>
 
-export function Game() {
+interface GameProps {
+  user: User | null
+  images: string[]
+  config: Config
+}
+
+const MS_IN_A_DAY = 86400000
+
+export function Game({ user, images, config }: GameProps) {
   const { scene } = useScene()
+  const { setUser } = useUser()
+  const { setSceneProps } = useSceneProps()
+
+  useMount(() => {
+    if (user === null) {
+      setSceneProps('PLAY', { images, total: 1 })
+      return
+    }
+    setUser(user)
+    setSceneProps('PLAY', { images, total: config.questionsPerChallenge })
+    const day = Math.floor(
+      (new Date().getTime() - config.releaseDate.getTime()) / MS_IN_A_DAY
+    )
+    setSceneProps('RESULT', { day })
+  })
 
   return Scenes[scene]
 }

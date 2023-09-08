@@ -6,14 +6,14 @@ import { type Scene } from './Scene.store'
 const DEFAULT_SCENE_PROPS = {
   PLAY: {
     images: [''],
-    questionsPerChallenge: 8,
+    total: 8,
   },
-  TRIAL_PLAY: {
-    image: '',
+  RESULT_WAITING: {
+    answers: [{ image: '', AI: false }],
+    time: 0,
   },
   RESULT: {
     day: 0,
-    time: 0,
     challengeDays: 0,
     score: 0,
   },
@@ -21,6 +21,7 @@ const DEFAULT_SCENE_PROPS = {
     isRight: false,
   },
 } satisfies Partial<Record<Scene, any>>
+
 type SceneProps = typeof DEFAULT_SCENE_PROPS
 type SceneHasProps = keyof SceneProps
 

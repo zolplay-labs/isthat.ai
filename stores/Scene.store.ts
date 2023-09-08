@@ -8,7 +8,6 @@ export type Scene =
   | 'PLAY'
   | 'RESULT_WAITING'
   | 'RESULT'
-  | 'TRIAL_PLAY'
   | 'TRIAL_RESULT'
 
 type SceneStore = {

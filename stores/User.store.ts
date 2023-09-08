@@ -1,6 +1,7 @@
 import { useAuth } from '@clerk/nextjs'
-import { type User } from '@clerk/nextjs/dist/types/server'
 import { create } from 'zustand'
+
+export type User = { name: string; avatar: string }
 
 type UserStore = {
   readonly user: User | null

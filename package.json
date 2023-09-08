@@ -28,6 +28,7 @@
     "framer-motion": "^10.15.0",
     "immer": "^10.0.2",
     "next": "13.4.12",
+    "random-seedable": "^1.0.8",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-use": "^17.4.0",

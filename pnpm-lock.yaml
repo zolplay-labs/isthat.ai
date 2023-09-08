@@ -47,6 +47,9 @@ dependencies:
   next:
     specifier: 13.4.12
     version: 13.4.12(react-dom@18.2.0)(react@18.2.0)
+  random-seedable:
+    specifier: ^1.0.8
+    version: 1.0.8
   react:
     specifier: 18.2.0
     version: 18.2.0
@@ -4680,6 +4683,10 @@ packages:
   /quick-lru@4.0.1:
     resolution: {integrity: sha512-ARhCpm70fzdcvNQfPoy49IaanKkTlRWF2JMzqhcJbhSFRZv7nPTvZJdcY7301IPmvW+/p0RgIWnQDLJxifsQ7g==}
     engines: {node: '>=8'}
+    dev: false
+
+  /random-seedable@1.0.8:
+    resolution: {integrity: sha512-f6gzvNhAnZBht1Prn0e/tpukUNhkANntFF42uIdWDPriyEATYaRpyH8A9bYaGecUB3AL+dXeYtBUggy18fe3rw==}
     dev: false
 
   /react-day-picker@8.8.0(date-fns@2.30.0)(react@18.2.0):

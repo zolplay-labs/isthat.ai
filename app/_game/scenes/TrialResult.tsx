@@ -2,9 +2,13 @@ import { Button } from '@tremor/react'
 
 import { useSceneProps } from '~/stores/SceneProps.store'
 
+import { useUser } from '../hooks/useUser'
+
 export function TrialResult() {
   const { sceneProps } = useSceneProps()
   const props = sceneProps['TRIAL_RESULT']
+
+  const { signInWithGoogle } = useUser()
 
   return (
     <div>
@@ -19,7 +23,7 @@ export function TrialResult() {
           ? "Continuing the challenge won't be that easy..."
           : "Do you want to tell me that you're not just capable of this much?"}
       </div>
-      <Button>Sign up and Battle with AI</Button>
+      <Button onClick={signInWithGoogle}>Sign up and Battle with AI</Button>
     </div>
   )
 }

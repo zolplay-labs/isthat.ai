@@ -3,7 +3,8 @@ import { useMount } from 'react-use'
 import { checkAnswers, saveScore } from '~/app/action'
 import { useScene } from '~/stores/Scene.store'
 import { useSceneProps } from '~/stores/SceneProps.store'
-import { useUser } from '~/stores/User.store'
+
+import { useUser } from '../hooks/useUser'
 
 export type Answers = { image: string; AI: boolean }[]
 

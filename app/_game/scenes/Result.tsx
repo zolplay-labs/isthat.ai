@@ -1,7 +1,8 @@
 import Image from 'next/image'
 
 import { useSceneProps } from '~/stores/SceneProps.store'
-import { useUser } from '~/stores/User.store'
+
+import { useUser } from '../hooks/useUser'
 
 const formatTime = (seconds: number) => {
   const minutes = Math.floor(seconds / 60)

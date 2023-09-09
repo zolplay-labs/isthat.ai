@@ -18,7 +18,11 @@ export function ResultWaiting() {
   useMount(async () => {
     const { score } = await checkAnswers(props.answers)
     if (isSignedIn) {
-      const { challengeDays } = await saveScore(score, props.time)
+      const { challengeDays } = await saveScore(
+        score,
+        props.time,
+        sceneProps['PLAY'].total
+      )
       setSceneProps('RESULT', { score, challengeDays })
       switchScene('RESULT')
     } else {

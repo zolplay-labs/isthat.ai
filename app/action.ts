@@ -24,7 +24,7 @@ export async function checkAnswers(answers: Answers) {
   return { score }
 }
 
-export async function saveScore(score: number, time: number) {
+export async function saveScore(score: number, time: number, total: number) {
   const { userId } = auth()
   if (!userId) {
     throw new Error('Unauthorized')
@@ -35,6 +35,8 @@ export async function saveScore(score: number, time: number) {
     .where(eq(userScores.userId, userId))
   const prevChallengeDay = prevChallengeDayRow?.challengeDay || 0
   const challengeDays = prevChallengeDay + 1
-  await db.insert(userScores).values({ score, userId, challengeDays, time })
+  await db
+    .insert(userScores)
+    .values({ score, userId, challengeDays, time, total })
   return { challengeDays }
 }

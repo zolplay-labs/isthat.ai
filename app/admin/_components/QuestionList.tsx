@@ -10,7 +10,6 @@ import {
   TableHeaderCell,
   TableRow,
 } from '@tremor/react'
-import { type InferModel } from 'drizzle-orm'
 import Image from 'next/image'
 import { useTransition } from 'react'
 
@@ -25,7 +24,7 @@ import { dialog } from '~/lib/dialog'
 
 import { Switch } from './ui/Switch'
 
-type Question = InferModel<typeof questions, 'select'>
+type Question = typeof questions.$inferSelect
 
 function AISwitch({ question }: { question: Question }) {
   const [isPending, startTransition] = useTransition()

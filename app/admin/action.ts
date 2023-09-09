@@ -1,6 +1,6 @@
 'use server'
 
-import { desc, eq, type InferModel } from 'drizzle-orm'
+import { desc, eq } from 'drizzle-orm'
 import { revalidatePath } from 'next/cache'
 
 import { db } from '~/db'
@@ -57,7 +57,7 @@ export async function changeConfig({
   releaseDate,
   activeQuestionsLimit,
   questionsPerChallenge,
-}: Omit<InferModel<typeof config, 'select'>, 'id'>) {
+}: Omit<typeof config.$inferSelect, 'id'>) {
   await db
     .update(config)
     .set({ releaseDate, activeQuestionsLimit, questionsPerChallenge })

@@ -1,9 +1,9 @@
-import { type InferModel, sql } from 'drizzle-orm'
+import { sql } from 'drizzle-orm'
 
 import { db } from '.'
 import { config, questions } from './schema'
 
-export type Config = Omit<InferModel<typeof config, 'select'>, 'id'>
+export type Config = Omit<typeof config.$inferSelect, 'id'>
 export const fetchConfig = async (): Promise<Config> => {
   const [configData] = await db.select().from(config)
   return {

@@ -3,21 +3,20 @@ import { desc, eq } from 'drizzle-orm'
 
 import { db } from '~/db'
 import { type Config, fetchConfig, fetchQuestionCount } from '~/db/queries'
-import { questions } from '~/db/schema'
+import { questions, userScores } from '~/db/schema'
 import { Random } from '~/lib/random'
+import { checkToday } from '~/utils/date'
 
 import { Game } from './_game/Game'
 
 const fetchUser = async () => {
-  const clerkUser = await currentUser()
-  const user =
-    clerkUser !== null
-      ? {
-          name: clerkUser.firstName + ' ' + clerkUser.lastName,
-          avatar: clerkUser.imageUrl,
-        }
-      : null
-  return user
+  const user = await currentUser()
+  if (!user) return null
+  return {
+    name: user.firstName + ' ' + user.lastName,
+    avatar: user.imageUrl,
+    userId: user.id,
+  }
 }
 
 const generateRandomArray = (length: number, max: number) => {
@@ -70,10 +69,33 @@ const fetchRandomQuestions = async (config: Config, isTrial: boolean) => {
   return images
 }
 
+const fetchUserScoreToday = async (userId: string) => {
+  const [latestUserScoreRow] = await db
+    .select()
+    .from(userScores)
+    .where(eq(userScores.userId, userId))
+    .orderBy(desc(userScores.createdAt))
+    .limit(1)
+  if (!latestUserScoreRow) return null
+  const isScoreToday = checkToday(latestUserScoreRow.createdAt)
+  if (!isScoreToday) return null
+  return latestUserScoreRow
+}
+
 export default async function Home() {
   const config = await fetchConfig()
   const user = await fetchUser()
-  const images = await fetchRandomQuestions(config, user === null)
+  const userScoreToday = user ? await fetchUserScoreToday(user.userId) : null
+  const images = userScoreToday
+    ? []
+    : await fetchRandomQuestions(config, user === null)
 
-  return <Game user={user} images={images} config={config} />
+  return (
+    <Game
+      user={user}
+      images={images}
+      config={config}
+      userScoreToday={userScoreToday}
+    />
+  )
 }

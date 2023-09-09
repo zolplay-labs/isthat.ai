@@ -1,26 +1,9 @@
 import Image from 'next/image'
 
 import { useSceneProps } from '~/stores/SceneProps.store'
+import { formatDate, formatTime } from '~/utils/date'
 
 import { useUser } from '../hooks/useUser'
-
-const formatTime = (seconds: number) => {
-  const minutes = Math.floor(seconds / 60)
-  const remainingSeconds = seconds % 60
-
-  const minutesString = String(minutes).padStart(2, '0')
-  const secondsString = String(remainingSeconds).padStart(2, '0')
-
-  return `${minutesString}:${secondsString}`
-}
-
-const formatDate = (date: Date) => {
-  const year = date.getFullYear()
-  const month = String(date.getMonth() + 1).padStart(2, '0')
-  const day = String(date.getDate()).padStart(2, '0')
-
-  return `${year}.${month}.${day}`
-}
 
 const calculateGrade = (score: number, total: number) => {
   if (score === total) return 0

@@ -4,6 +4,9 @@ import { immer } from 'zustand/middleware/immer'
 import { type Scene } from './Scene.store'
 
 const DEFAULT_SCENE_PROPS = {
+  LOADING: {
+    hasUserScoreToday: false,
+  },
   PLAY: {
     images: [''],
     total: 8,

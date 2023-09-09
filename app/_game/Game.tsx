@@ -4,6 +4,7 @@ import React from 'react'
 import { useMount } from 'react-use'
 
 import { type Config } from '~/db/queries'
+import { type userScores } from '~/db/schema'
 import { type Scene, useScene } from '~/stores/Scene.store'
 import { useSceneProps } from '~/stores/SceneProps.store'
 import { type User } from '~/stores/User.store'
@@ -33,25 +34,37 @@ interface GameProps {
   user: User | null
   images: string[]
   config: Config
+  userScoreToday: typeof userScores.$inferSelect | null
 }
 
 const MS_IN_A_DAY = 86400000
 
-export function Game({ user, images, config }: GameProps) {
+export function Game({ user, images, config, userScoreToday }: GameProps) {
   const { scene } = useScene()
   const { setUser } = useUser()
   const { setSceneProps } = useSceneProps()
 
   useMount(() => {
-    if (user === null) {
+    if (!user) {
       setSceneProps('PLAY', { images, total: 1 })
       return
     }
-    setUser(user)
-    setSceneProps('PLAY', { images, total: config.questionsPerChallenge })
     const day = Math.floor(
       (new Date().getTime() - config.releaseDate.getTime()) / MS_IN_A_DAY
     )
+    setUser(user)
+    if (userScoreToday) {
+      setSceneProps('LOADING', { hasUserScoreToday: true })
+      setSceneProps('RESULT', {
+        challengeDays: userScoreToday.challengeDays,
+        score: userScoreToday.score,
+        day,
+      })
+      setSceneProps('RESULT_WAITING', { time: userScoreToday.time })
+      setSceneProps('PLAY', { total: userScoreToday.total })
+      return
+    }
+    setSceneProps('PLAY', { images, total: config.questionsPerChallenge })
     setSceneProps('RESULT', { day })
   })
 

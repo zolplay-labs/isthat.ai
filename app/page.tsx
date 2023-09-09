@@ -46,7 +46,6 @@ const fetchRandomQuestions = async (config: Config, isTrial: boolean) => {
     isTrial ? 1 : config.questionsPerChallenge,
     Math.min(config.activeQuestionsLimit, questionCount)
   )
-  console.log(randomIndexes)
   const activeQuestionsIds = (
     await db
       .select({ id: questions.id })

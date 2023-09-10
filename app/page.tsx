@@ -8,13 +8,13 @@ import { Random } from '~/lib/random'
 import { checkToday } from '~/utils/date'
 
 import { Game } from './_game/Game'
+import { filterUser } from './_game/helpers/filterUser'
 
 const fetchUser = async () => {
   const user = await currentUser()
   if (!user) return null
   return {
-    name: user.firstName + ' ' + user.lastName,
-    avatar: user.imageUrl,
+    ...filterUser(user),
     userId: user.id,
   }
 }

@@ -9,6 +9,7 @@ import { type Scene, useScene } from '~/stores/Scene.store'
 import { useSceneProps } from '~/stores/SceneProps.store'
 import { type User } from '~/stores/User.store'
 
+import { calcDay } from './helpers/calcDay'
 import { useUser } from './hooks/useUser'
 import { Loading } from './scenes/Loading'
 import { Menu } from './scenes/Menu'
@@ -37,8 +38,6 @@ interface GameProps {
   userScoreToday: typeof userScores.$inferSelect | null
 }
 
-const MS_IN_A_DAY = 86400000
-
 export function Game({ user, images, config, userScoreToday }: GameProps) {
   const { scene } = useScene()
   const { setUser } = useUser()
@@ -49,9 +48,7 @@ export function Game({ user, images, config, userScoreToday }: GameProps) {
       setSceneProps('PLAY', { images, total: 1 })
       return
     }
-    const day = Math.floor(
-      (new Date().getTime() - config.releaseDate.getTime()) / MS_IN_A_DAY
-    )
+    const day = calcDay(config, new Date())
     setUser(user)
     if (userScoreToday) {
       setSceneProps('LOADING', { hasUserScoreToday: true })

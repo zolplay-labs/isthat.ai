@@ -1,7 +1,7 @@
 'use server'
 
 import { auth } from '@clerk/nextjs'
-import { eq, sql } from 'drizzle-orm'
+import { desc, eq, sql } from 'drizzle-orm'
 
 import { db } from '~/db'
 import { questions, userScores } from '~/db/schema'
@@ -38,5 +38,12 @@ export async function saveScore(score: number, time: number, total: number) {
   await db
     .insert(userScores)
     .values({ score, userId, challengeDays, time, total })
-  return { challengeDays }
+  const [scoreIdRow] = await db
+    .select({ scoreId: userScores.id })
+    .from(userScores)
+    .where(eq(userScores.userId, userId))
+    .orderBy(desc(userScores.createdAt))
+    .limit(1)
+  const scoreId = scoreIdRow?.scoreId || -1
+  return { challengeDays, scoreId }
 }

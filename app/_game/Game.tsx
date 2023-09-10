@@ -53,6 +53,7 @@ export function Game({ user, images, config, userScoreToday }: GameProps) {
     if (userScoreToday) {
       setSceneProps('LOADING', { hasUserScoreToday: true })
       setSceneProps('RESULT', {
+        scoreId: userScoreToday.id,
         challengeDays: userScoreToday.challengeDays,
         score: userScoreToday.score,
         day,

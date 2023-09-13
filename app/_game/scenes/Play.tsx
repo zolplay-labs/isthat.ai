@@ -52,8 +52,8 @@ export function Play() {
                 key={image}
                 src={`https://imagedelivery.net/${env.NEXT_PUBLIC_CLOUDFLARE_ACCOUNT_HASH}/${image}/public`}
                 alt={`Question ${image}`}
-                width={400}
-                height={400}
+                width={600}
+                height={500}
                 className="pointer-events-none select-none rounded-2xl shadow-xl"
               />
             </TinderCard>

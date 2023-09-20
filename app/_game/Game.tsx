@@ -1,5 +1,6 @@
 'use client'
 
+import { AnimatePresence, motion } from 'framer-motion'
 import React from 'react'
 import { useMount } from 'react-use'
 
@@ -66,5 +67,16 @@ export function Game({ user, images, config, userScoreToday }: GameProps) {
     setSceneProps('RESULT', { day })
   })
 
-  return Scenes[scene]
+  return (
+    <AnimatePresence mode="wait">
+      <motion.div
+        key={scene}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      >
+        {Scenes[scene]}
+      </motion.div>
+    </AnimatePresence>
+  )
 }

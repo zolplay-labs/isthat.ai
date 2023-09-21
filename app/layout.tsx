@@ -1,14 +1,15 @@
 import '~/app/globals.css'
 
 import { ClerkProvider } from '@clerk/nextjs/app-beta'
+import { clsxm } from '@zolplay/utils'
 import { type Metadata } from 'next'
-import { Manrope } from 'next/font/google'
+import { Press_Start_2P } from 'next/font/google'
 
 export const metadata: Metadata = {
   title: 'Is That AI',
 }
 
-const fontSans = Manrope({ subsets: ['latin'], variable: '--font-sans' })
+const pressStart2P = Press_Start_2P({ weight: '400', subsets: ['latin'] })
 
 export default function RootLayout({
   children,
@@ -19,7 +20,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html
         lang="en"
-        className={`${fontSans.variable} font-sans antialiased`}
+        className={clsxm(pressStart2P.className, 'font-sans antialiased')}
         suppressHydrationWarning
       >
         <body>{children}</body>

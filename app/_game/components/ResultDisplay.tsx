@@ -16,6 +16,7 @@ const GRADE_DESCRIPTIONS = [
   'Excellent Job',
   'Congratulations',
   'Good Job',
+  // TODO: Modify this description
   'Not satisfied with the results? Restart',
 ]
 

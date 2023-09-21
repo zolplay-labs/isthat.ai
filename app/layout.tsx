@@ -20,7 +20,8 @@ export default function RootLayout({
     <ClerkProvider>
       <html
         lang="en"
-        className={clsxm(pressStart2P.className, 'font-sans antialiased')}
+        // TODO: Use default font at admin page
+        className={clsxm(pressStart2P.className, 'antialiased')}
         suppressHydrationWarning
       >
         <body>{children}</body>

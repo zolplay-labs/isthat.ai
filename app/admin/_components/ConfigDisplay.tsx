@@ -10,7 +10,7 @@ export function ConfigDisplay({
   questionCount: number
 }) {
   return (
-    <div className="space-x-2 text-center text-sm sm:flex">
+    <div className="space-x-2 text-center text-xs sm:flex">
       <div>
         <span className="font-bold">Release Date: </span>
         <span>{config.releaseDate.toDateString()}</span>

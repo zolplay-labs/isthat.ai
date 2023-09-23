@@ -1,9 +1,11 @@
-import { animate, motion, useMotionValue, useTransform } from 'framer-motion'
+import { animate, useMotionValue, useTransform } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import { useMount } from 'react-use'
 
 import { useScene } from '~/stores/Scene.store'
 import { useSceneProps } from '~/stores/SceneProps.store'
+
+import { LoadingComputer } from '../components/LoadingComputer'
 
 export function Loading() {
   const { switchScene } = useScene()
@@ -11,26 +13,22 @@ export function Loading() {
 
   const count = useMotionValue(0)
   const progress = useTransform(count, Math.round)
-  const [animationFinish, setAnimationFinish] = useState(false)
+  const [isAnimationFinished, setIsAnimationFinished] = useState(false)
 
   useMount(async () => {
     await animate(count, 100, { duration: 3 })
-    setAnimationFinish(true)
+    setIsAnimationFinished(true)
   })
 
   useEffect(() => {
-    if (animationFinish) {
+    if (isAnimationFinished) {
       switchScene(sceneProps['LOADING'].hasUserScoreToday ? 'RESULT' : 'MENU')
     }
-  }, [sceneProps, animationFinish])
+  }, [sceneProps, isAnimationFinished])
 
   return (
-    <>
-      <div>Loading</div>
-      <div>
-        <motion.span>{progress}</motion.span>
-        <span>%</span>
-      </div>
-    </>
+    <div className="flex h-[100dvh] items-center justify-center bg-black">
+      <LoadingComputer progress={progress} />
+    </div>
   )
 }

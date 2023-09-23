@@ -17,9 +17,6 @@ const config = {
       center: true,
     },
     extend: {
-      fontFamily: {
-        sans: ['var(--font-sans)', ...defaultTheme.fontFamily.sans],
-      },
       colors: {
         // light mode
         tremor: {

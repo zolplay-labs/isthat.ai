@@ -27,7 +27,7 @@ export function Loading() {
   }, [sceneProps, isAnimationFinished])
 
   return (
-    <div className="flex h-[100dvh] items-center justify-center bg-black">
+    <div className="flex h-[100dvh] items-center justify-center">
       <LoadingComputer progress={progress} />
     </div>
   )

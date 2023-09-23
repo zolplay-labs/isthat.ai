@@ -11,6 +11,12 @@ const config = {
     './node_modules/@tremor/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
+    fontFamily: {
+      'press-start-2p': [
+        'var(--font-press-start-2p)',
+        ...defaultTheme.fontFamily.mono,
+      ],
+    },
     transparent: 'transparent',
     current: 'currentColor',
     container: {

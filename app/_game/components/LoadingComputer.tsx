@@ -22,7 +22,7 @@ export function LoadingComputer({
           width={168}
           height={168}
         />
-        <div className="text-[12px] leading-[normal] text-white sm:text-[24px]">
+        <div className="text-[12px] leading-[normal] sm:text-[24px]">
           Isthat.ai
         </div>
       </div>
@@ -43,7 +43,7 @@ export function LoadingComputer({
           ))}
         </div>
       </div>
-      <div className="text-[6px] leading-[normal] text-white sm:text-[12px]">
+      <div className="text-[6px] leading-[normal] sm:text-[12px]">
         <motion.span>{progress}</motion.span>
         <span>%</span>
       </div>

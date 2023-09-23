@@ -27,16 +27,16 @@ export default async function Share({ params }: { params: { id: string } }) {
   const day = calcDay(config, userScore.createdAt)
 
   return (
-    <>
+    <div className="font-press-start-2p">
       <ResultDisplay
         userScore={userScore}
         day={day}
         user={user}
         date={userScore.createdAt}
       />
-      <Link href="/" className="block w-fit border-2 border-black p-2 text-xl">
+      <Link href="/" className="block w-fit border-2 border-white p-2 text-xl">
         Battle with AI
       </Link>
-    </>
+    </div>
   )
 }

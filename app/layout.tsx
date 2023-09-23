@@ -9,7 +9,11 @@ export const metadata: Metadata = {
   title: 'Is That AI',
 }
 
-const pressStart2P = Press_Start_2P({ weight: '400', subsets: ['latin'] })
+const pressStart2P = Press_Start_2P({
+  weight: '400',
+  subsets: ['latin'],
+  variable: '--font-press-start-2p',
+})
 
 export default function RootLayout({
   children,
@@ -20,7 +24,10 @@ export default function RootLayout({
     <ClerkProvider>
       <html
         lang="en"
-        className={clsxm(pressStart2P.className, 'bg-black antialiased')}
+        className={clsxm(
+          pressStart2P.variable,
+          'bg-black text-white antialiased'
+        )}
         suppressHydrationWarning
       >
         <body>{children}</body>

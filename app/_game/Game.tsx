@@ -1,7 +1,6 @@
 'use client'
 
 import { AnimatePresence, motion } from 'framer-motion'
-import React from 'react'
 import { useMount } from 'react-use'
 
 import { type Config } from '~/db/queries'

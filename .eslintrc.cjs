@@ -19,10 +19,13 @@ const config = {
       },
     ],
     '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
-
     'simple-import-sort/imports': 'error',
     'simple-import-sort/exports': 'warn',
     'unused-imports/no-unused-imports': 'error',
+    'no-restricted-imports': [
+      'error',
+      { paths: [{ name: 'react', importNames: ['default'] }] },
+    ],
   },
 }
 

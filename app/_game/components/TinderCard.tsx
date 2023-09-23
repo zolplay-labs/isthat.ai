@@ -1,7 +1,7 @@
 import { clsxm } from '@zolplay/utils'
 import { cva } from 'class-variance-authority'
 import { motion, type PanInfo } from 'framer-motion'
-import React from 'react'
+import { useCallback, useState } from 'react'
 
 type SwipeType = 'left' | 'right'
 interface TinderCardProps {
@@ -38,10 +38,10 @@ export function TinderCard({
   className,
   children,
 }: TinderCardProps) {
-  const [leaveX, setLeaveX] = React.useState(0)
-  const [leaveY, setLeaveY] = React.useState(0)
+  const [leaveX, setLeaveX] = useState(0)
+  const [leaveY, setLeaveY] = useState(0)
 
-  const onDragEnd = React.useCallback(
+  const onDragEnd = useCallback(
     (_e: any, info: PanInfo) => {
       if (info.offset.x > SWIPING_THRESHOLD) {
         setLeaveX(1000)

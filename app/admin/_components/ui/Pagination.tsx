@@ -2,7 +2,6 @@
 
 import { Button, Text } from '@tremor/react'
 import { clsxm } from '@zolplay/utils'
-import React from 'react'
 
 interface PaginationProps {
   className?: string

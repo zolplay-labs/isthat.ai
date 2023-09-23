@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { type Config } from '~/db/queries'
 
 export function ConfigDisplay({

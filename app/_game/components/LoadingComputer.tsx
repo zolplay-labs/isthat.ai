@@ -13,7 +13,7 @@ export function LoadingComputer({
   const currentProgress = useMotionValueState(progress)
 
   return (
-    <div className="flex h-[400px] w-[335px] flex-col items-center bg-[url('/images/Loading/computer.svg')] bg-contain bg-no-repeat pt-[54px] sm:h-[700px] sm:w-[643px] sm:pt-[104px]">
+    <div className="flex h-[400px] w-[335px] flex-col items-center bg-[url('/images/loading/computer.svg')] bg-contain bg-no-repeat pt-[54px] sm:h-[700px] sm:w-[643px] sm:pt-[104px]">
       <div className="inline-flex flex-col items-center">
         <Image
           src="/images/logo.svg"

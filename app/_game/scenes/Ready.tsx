@@ -1,9 +1,13 @@
 import { useMount } from 'react-use'
 
 import { useScene } from '~/stores/Scene.store'
+import { useSceneProps } from '~/stores/SceneProps.store'
+
+import { GameLayout } from '../components/GameLayout'
 
 export function Ready() {
   const { switchScene } = useScene()
+  const { sceneProps } = useSceneProps()
 
   useMount(() => {
     setTimeout(() => {
@@ -11,5 +15,9 @@ export function Ready() {
     }, 3000)
   })
 
-  return <div>Ready (3s)</div>
+  return (
+    <GameLayout header={<span>(0/{sceneProps['PLAY'].total})</span>}>
+      Ready (3s)
+    </GameLayout>
+  )
 }

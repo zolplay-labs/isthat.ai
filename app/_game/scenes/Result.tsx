@@ -5,6 +5,7 @@ import { dialog } from '~/lib/dialog'
 import { sqids } from '~/lib/sqids'
 import { useSceneProps } from '~/stores/SceneProps.store'
 
+import { GameLayout } from '../components/GameLayout'
 import { ResultDisplay } from '../components/ResultDisplay'
 import { useUser } from '../hooks/useUser'
 
@@ -64,7 +65,7 @@ export function Result() {
   }
 
   return (
-    <>
+    <GameLayout header={<span>~ Result ~</span>}>
       <Button onClick={handleShare}>Share</Button>
       <ResultDisplay
         userScore={userScore}
@@ -78,6 +79,6 @@ export function Result() {
           shareLink={shareLinkForCopy}
         />
       )}
-    </>
+    </GameLayout>
   )
 }

@@ -2,6 +2,7 @@ import { Button } from '@tremor/react'
 
 import { useSceneProps } from '~/stores/SceneProps.store'
 
+import { GameLayout } from '../components/GameLayout'
 import { useUser } from '../hooks/useUser'
 
 export function TrialResult() {
@@ -11,7 +12,7 @@ export function TrialResult() {
   const { signInWithGoogle } = useUser()
 
   return (
-    <div>
+    <GameLayout header={<span>~ Result ~</span>}>
       <div>{props.isRight ? '😀' : '🙁'}</div>
       <div>
         {props.isRight
@@ -24,6 +25,6 @@ export function TrialResult() {
           : "Do you want to tell me that you're not just capable of this much?"}
       </div>
       <Button onClick={signInWithGoogle}>Sign up and Battle with AI</Button>
-    </div>
+    </GameLayout>
   )
 }

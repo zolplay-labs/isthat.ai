@@ -2,6 +2,8 @@ import { useMount } from 'react-use'
 
 import { useScene } from '~/stores/Scene.store'
 
+import { GameLayout } from '../components/GameLayout'
+
 export function WarmUp() {
   const { switchScene } = useScene()
 
@@ -12,5 +14,5 @@ export function WarmUp() {
     }, 3000)
   })
 
-  return <div>WarmUp...</div>
+  return <GameLayout>WarmUp...</GameLayout>
 }

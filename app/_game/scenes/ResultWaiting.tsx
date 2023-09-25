@@ -4,6 +4,7 @@ import { checkAnswers, saveScore } from '~/app/action'
 import { useScene } from '~/stores/Scene.store'
 import { useSceneProps } from '~/stores/SceneProps.store'
 
+import { GameLayout } from '../components/GameLayout'
 import { useUser } from '../hooks/useUser'
 
 export type Answers = { image: string; AI: boolean }[]
@@ -31,5 +32,5 @@ export function ResultWaiting() {
     }
   })
 
-  return <div>ResultWaiting</div>
+  return <GameLayout header={<span>~ Result ~</span>}>ResultWaiting</GameLayout>
 }

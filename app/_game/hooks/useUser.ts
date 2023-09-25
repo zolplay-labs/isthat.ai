@@ -5,7 +5,7 @@ import { useUserStore } from '~/stores/User.store'
 
 export const useUser = () => {
   const { logout: userStoreLogout, ...userStore } = useUserStore()
-  const { setSceneProps } = useSceneProps()
+  const { sceneProps, setSceneProps } = useSceneProps()
 
   const { signOut } = useAuth()
   const { signIn } = useSignIn()
@@ -13,7 +13,10 @@ export const useUser = () => {
   const logout = async () => {
     await signOut()
     userStoreLogout()
-    setSceneProps('PLAY', { total: 1 })
+    setSceneProps('PLAY', {
+      total: 1,
+      images: [sceneProps['PLAY'].images[0] || ''],
+    })
   }
 
   const signInWithGoogle = async () => {

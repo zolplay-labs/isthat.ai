@@ -1,23 +1,39 @@
+import { useState } from 'react'
 import { useMount } from 'react-use'
 
 import { useScene } from '~/stores/Scene.store'
-import { useSceneProps } from '~/stores/SceneProps.store'
 
 import { GameLayout } from '../components/GameLayout'
 
 export function Ready() {
   const { switchScene } = useScene()
-  const { sceneProps } = useSceneProps()
+
+  const [countdown, setCountdown] = useState<number | string>(3)
 
   useMount(() => {
-    setTimeout(() => {
-      switchScene('PLAY')
-    }, 3000)
+    let currentCountdown = 3
+    const countdownInterval = setInterval(() => {
+      currentCountdown--
+      if (currentCountdown === 0) {
+        setCountdown('GO')
+        setTimeout(() => {
+          switchScene('PLAY')
+        }, 500)
+        clearInterval(countdownInterval)
+        return
+      }
+      setCountdown(currentCountdown)
+    }, 1000)
+
+    return () => clearInterval(countdownInterval)
   })
 
   return (
-    <GameLayout header={<span>(0/{sceneProps['PLAY'].total})</span>}>
-      Ready (3s)
+    <GameLayout
+      header={<span>Ready for today&apos;s challenge?</span>}
+      className="text-[120px] sm:text-[240px]"
+    >
+      {countdown}
     </GameLayout>
   )
 }

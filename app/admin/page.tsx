@@ -54,7 +54,7 @@ export default async function Admin({
           <UserButton />
         </div>
       </div>
-      <div className="flex flex-col items-center gap-2 sm:flex-row sm:justify-between ">
+      <div className="flex flex-col items-center gap-2 sm:flex-row sm:justify-between">
         <UploadQuestionsDialog />
         <ConfigDisplay config={config} questionCount={questionCount} />
         <ConfigDialog config={config} />

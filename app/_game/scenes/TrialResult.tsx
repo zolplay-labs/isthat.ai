@@ -28,14 +28,14 @@ export function TrialResult() {
       <div className="mt-[12px] text-[10px] sm:mt-[8px] sm:text-[16px]">
         <div className="hidden sm:block">
           {props.isRight
-            ? '~ Congratulations! You got it right! ~'
+            ? '~ Congratulations! You got it right. ~'
             : "~ I'm sorry. You got it wrong. ~"}
         </div>
         <div className="sm:hidden">
           {props.isRight ? (
             <>
               <div>Congratulations!</div>
-              <div>You got it right!</div>
+              <div>You got it right.</div>
             </>
           ) : (
             <>

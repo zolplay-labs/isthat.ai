@@ -12,7 +12,7 @@ const calculateGrade = (score: number, total: number) => {
   return 3
 }
 
-const GRADE_IMAGES = [
+export const GRADE_IMAGES = [
   '/images/result/thumb.svg',
   '/images/result/smile.svg',
   '/images/result/think.svg',

@@ -1,7 +1,7 @@
-import { animate, useMotionValue, useTransform } from 'framer-motion'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useMount } from 'react-use'
 
+import { useMotionProgress } from '~/hooks/useMotionProgress'
 import { useScene } from '~/stores/Scene.store'
 import { useSceneProps } from '~/stores/SceneProps.store'
 
@@ -11,20 +11,20 @@ export function Loading() {
   const { switchScene } = useScene()
   const { sceneProps } = useSceneProps()
 
-  const count = useMotionValue(0)
-  const progress = useTransform(count, Math.round)
-  const [isAnimationFinished, setIsAnimationFinished] = useState(false)
+  const { progress, startProgress, isProgressEnd } = useMotionProgress({
+    end: 100,
+    duration: 3,
+  })
 
   useMount(async () => {
-    await animate(count, 100, { duration: 3 })
-    setIsAnimationFinished(true)
+    await startProgress()
   })
 
   useEffect(() => {
-    if (isAnimationFinished) {
+    if (isProgressEnd) {
       switchScene(sceneProps['LOADING'].hasUserScoreToday ? 'RESULT' : 'MENU')
     }
-  }, [sceneProps, isAnimationFinished])
+  }, [sceneProps, isProgressEnd])
 
   return (
     <div className="flex h-[100dvh] items-center justify-center">

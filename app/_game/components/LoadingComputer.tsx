@@ -36,7 +36,7 @@ export function LoadingComputer({
             <div
               key={i}
               className={clsxm(
-                'h-[6px] w-[4px]  sm:h-[12px] sm:w-[8px]',
+                'h-[6px] w-[4px] sm:h-[12px] sm:w-[8px]',
                 currentProgress >= (i + 1) * 10 && 'bg-white'
               )}
             />

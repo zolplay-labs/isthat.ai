@@ -1,7 +1,7 @@
 import { clsxm } from '@zolplay/utils'
 import { AnimatePresence, motion, useTime, useTransform } from 'framer-motion'
 import Image from 'next/image'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useMount } from 'react-use'
 
 import { checkAnswers, saveScore } from '~/app/action'
@@ -24,9 +24,11 @@ export function ResultWaiting() {
   const { isSignedIn } = useUser()
 
   const { progressState, startProgress, isProgressEnd } = useMotionProgress({
-    end: 9,
+    end: 8,
     duration: 3,
   })
+
+  const [hasResult, setHasResult] = useState(false)
 
   useMount(async () => {
     await startProgress()
@@ -41,13 +43,16 @@ export function ResultWaiting() {
     } else {
       setSceneProps('TRIAL_RESULT', { isRight: score === 1 })
     }
+    setHasResult(true)
   })
 
   useEffect(() => {
-    if (isProgressEnd) {
-      switchScene(isSignedIn ? 'RESULT' : 'TRIAL_RESULT')
+    if (isProgressEnd && hasResult) {
+      setTimeout(() => {
+        switchScene(isSignedIn ? 'RESULT' : 'TRIAL_RESULT')
+      }, 300)
     }
-  }, [isProgressEnd])
+  }, [isProgressEnd, hasResult])
 
   const time = useTime()
   const gradeImageIndex = useTransform(
@@ -89,7 +94,7 @@ export function ResultWaiting() {
               key={i}
               className={clsxm(
                 'h-[12px] w-[8px]',
-                progressState >= i && 'bg-white'
+                progressState + Number(hasResult) >= i && 'bg-white'
               )}
             />
           ))}

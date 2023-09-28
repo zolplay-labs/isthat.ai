@@ -2,6 +2,7 @@ import { clsxm } from '@zolplay/utils'
 import { cva } from 'class-variance-authority'
 import { motion, type PanInfo } from 'framer-motion'
 import { useCallback, useState } from 'react'
+import { useMedia } from 'react-use'
 
 export type SwipeType = 'left' | 'right' | 'none'
 interface TinderCardProps {
@@ -32,6 +33,7 @@ const card = cva(
 )
 
 const SWIPING_THRESHOLD = 200
+const SWIPING_THRESHOLD_PHONE = 100
 export function TinderCard({
   idx,
   onSwiped,
@@ -40,15 +42,18 @@ export function TinderCard({
   className,
   children,
 }: TinderCardProps) {
+  const isPC = useMedia('(min-width: 640px)')
+  const swipingThreshold = isPC ? SWIPING_THRESHOLD : SWIPING_THRESHOLD_PHONE
+
   const [leaveX, setLeaveX] = useState(0)
 
   const handleDragEnd = useCallback(
     (_e: any, info: PanInfo) => {
-      if (info.offset.x > SWIPING_THRESHOLD) {
+      if (info.offset.x > swipingThreshold) {
         setLeaveX(1000)
         onSwiped('right')
       }
-      if (info.offset.x < -SWIPING_THRESHOLD) {
+      if (info.offset.x < -swipingThreshold) {
         setLeaveX(-1000)
         onSwiped('left')
       }
@@ -58,9 +63,9 @@ export function TinderCard({
 
   const handleDrag = useCallback(
     (_e: any, info: PanInfo) => {
-      if (info.offset.x > SWIPING_THRESHOLD) {
+      if (info.offset.x > swipingThreshold) {
         onSwiping('right')
-      } else if (info.offset.x < -SWIPING_THRESHOLD) {
+      } else if (info.offset.x < -swipingThreshold) {
         onSwiping('left')
       } else {
         onSwiping('none')

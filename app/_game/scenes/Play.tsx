@@ -19,6 +19,7 @@ export function Play() {
   const { sceneProps, setSceneProps } = useSceneProps()
   const props = sceneProps['PLAY']
 
+  const [swipingDirection, setSwipingDirection] = useState<SwipeType>('none')
   const [imageIndex, setImageIndex] = useState(0)
 
   const handleAnswer = (AI: boolean) => {
@@ -32,9 +33,8 @@ export function Play() {
       return
     }
     setImageIndex(imageIndex + 1)
+    setSwipingDirection('none')
   }
-
-  const [swipingDirection, setSwipingDirection] = useState<SwipeType>('none')
 
   return (
     <GameLayout

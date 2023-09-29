@@ -39,7 +39,7 @@ interface InfoItemProps {
 function InfoItem({ name, value }: InfoItemProps) {
   return (
     <div className="space-y-[4px] sm:space-y-[8px]">
-      <div className="text-[8px] text-[#a9a9a9] sm:text-[12px]">{name}</div>
+      <div className="text-[8px] sm:text-[12px] sm:text-[#a9a9a9]">{name}</div>
       <div className="text-[12px] sm:text-[16px]">{value}</div>
     </div>
   )

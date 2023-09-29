@@ -8,7 +8,7 @@ import { useScene } from '~/stores/Scene.store'
 import { useSceneProps } from '~/stores/SceneProps.store'
 
 import { GameLayout } from '../components/GameLayout'
-import { type SwipeType, TinderCard } from '../components/TinderCard'
+import { type SwipeSide, TinderCard } from '../components/TinderCard'
 import { type Answers } from './ResultWaiting'
 
 const startTime = new Date()
@@ -19,7 +19,7 @@ export function Play() {
   const { sceneProps, setSceneProps } = useSceneProps()
   const props = sceneProps['PLAY']
 
-  const [swipingDirection, setSwipingDirection] = useState<SwipeType>('none')
+  const [swipingSide, setSwipingSide] = useState<SwipeSide>('none')
   const [imageIndex, setImageIndex] = useState(0)
 
   const handleAnswer = (AI: boolean) => {
@@ -33,7 +33,7 @@ export function Play() {
       return
     }
     setImageIndex(imageIndex + 1)
-    setSwipingDirection('none')
+    setSwipingSide('none')
   }
 
   return (
@@ -45,15 +45,15 @@ export function Play() {
       }
       className={clsxm(
         'relative flex h-full w-full items-center justify-center transition-colors',
-        swipingDirection === 'right' && 'bg-[#CCFBF166] sm:bg-transparent',
-        swipingDirection === 'left' && 'bg-[#FECDD366] sm:bg-transparent'
+        swipingSide === 'right' && 'bg-[#CCFBF166] sm:bg-transparent',
+        swipingSide === 'left' && 'bg-[#FECDD366] sm:bg-transparent'
       )}
     >
       <div
         className={clsxm(
           'absolute z-0 hidden h-full w-1/2 sm:block',
-          swipingDirection === 'right' && 'right-0 bg-[#CCFBF166]',
-          swipingDirection === 'left' && 'left-0 bg-[#FECDD366]'
+          swipingSide === 'right' && 'right-0 bg-[#CCFBF166]',
+          swipingSide === 'left' && 'left-0 bg-[#FECDD366]'
         )}
       />
       <AnimatePresence>
@@ -63,7 +63,7 @@ export function Play() {
             idx={index}
             active={imageIndex === index}
             onSwiped={(swipe) => handleAnswer(swipe === 'right')}
-            onSwiping={(swipe) => setSwipingDirection(swipe)}
+            onSwiping={(swipe) => setSwipingSide(swipe)}
             className={clsxm(index < imageIndex && 'hidden')}
           >
             <Image

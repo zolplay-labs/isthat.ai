@@ -4,13 +4,13 @@ import { motion, type PanInfo } from 'framer-motion'
 import { useCallback, useState } from 'react'
 import { useMedia } from 'react-use'
 
-export type SwipeType = 'left' | 'right' | 'none'
+export type SwipeSide = 'left' | 'right' | 'none'
 interface TinderCardProps {
   idx: number
   active: boolean
   className?: string
-  onSwiped: (swipe: SwipeType) => void
-  onSwiping: (swipe: SwipeType) => void
+  onSwiped: (swipe: SwipeSide) => void
+  onSwiping: (swipe: SwipeSide) => void
   children: React.ReactNode
 }
 

@@ -41,9 +41,7 @@ export function Menu() {
             </>
           ) : (
             <>
-              <MenuButton onClick={signInWithGoogle}>
-                Sign in with Google
-              </MenuButton>
+              <MenuButton onClick={signInWithGoogle}>Sign In</MenuButton>
               <MenuButton onClick={() => switchScene('WARM_UP')}>
                 Trial Play
               </MenuButton>

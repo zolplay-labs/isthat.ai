@@ -1,4 +1,4 @@
-import { useAuth, useSignIn } from '@clerk/nextjs'
+import { useAuth, useClerk } from '@clerk/nextjs'
 
 import { useSceneProps } from '~/stores/SceneProps.store'
 import { useUserStore } from '~/stores/User.store'
@@ -8,7 +8,7 @@ export const useUser = () => {
   const { sceneProps, setSceneProps } = useSceneProps()
 
   const { signOut } = useAuth()
-  const { signIn } = useSignIn()
+  const clerk = useClerk()
 
   const logout = async () => {
     await signOut()
@@ -20,11 +20,7 @@ export const useUser = () => {
   }
 
   const signInWithGoogle = async () => {
-    await signIn?.authenticateWithRedirect({
-      strategy: 'oauth_google',
-      redirectUrl: '/',
-      redirectUrlComplete: '/',
-    })
+    await clerk.redirectToSignIn()
   }
 
   return { ...userStore, logout, signInWithGoogle }

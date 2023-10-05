@@ -30,3 +30,13 @@ pnpm run db:seed
 ```bash
 pnpm run dev
 ```
+
+## Access Admin Panel
+
+1. Sign in or sign up an account
+2. Go to clerk dashboard
+   1. Find app and select the instance
+   2. Go to `Users`
+   3. Find your account and `View profile`
+   4. Add `{ "isAdmin": true }` in public metadata
+3. Visit `/admin`

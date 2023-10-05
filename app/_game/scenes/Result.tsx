@@ -2,7 +2,6 @@ import { Button } from '@tremor/react'
 import Image from 'next/image'
 import { useState } from 'react'
 
-import { dialog } from '~/lib/dialog'
 import { sqids } from '~/lib/sqids'
 import { useSceneProps } from '~/stores/SceneProps.store'
 
@@ -63,7 +62,7 @@ export function Result() {
       setIsCopyShareLinkDialogOpen(true)
       return
     }
-    await dialog.fire({ title: 'Unable to share', icon: 'error' })
+    alert('Unable to share!')
   }
 
   return (

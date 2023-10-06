@@ -5,7 +5,9 @@ import { type User } from '~/stores/User.store'
 export const filterUser = (clerkUser: ClerkUser) => {
   const user: User = {
     name: clerkUser.firstName + ' ' + clerkUser.lastName,
-    avatar: clerkUser.imageUrl,
+    avatar: clerkUser.hasImage
+      ? clerkUser.imageUrl
+      : '/images/default-avatar.png',
   }
   return user
 }

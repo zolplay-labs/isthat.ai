@@ -5,6 +5,8 @@ import { type userScores } from '~/db/schema'
 import { type User } from '~/stores/User.store'
 import { formatDate, formatTime } from '~/utils/date'
 
+import { useUser } from '../hooks/useUser'
+
 const calculateGrade = (score: number, total: number) => {
   if (score === total) return 0
   if (score > Math.floor(total / 2)) return 1
@@ -59,6 +61,8 @@ export function ResultDisplay({
     { name: 'Date', value: formatDate(date) },
   ]
 
+  const { setAvatarToDefault } = useUser()
+
   return (
     <>
       <div className="flex flex-col items-center justify-center gap-[12px] text-center sm:gap-[28px]">
@@ -79,10 +83,11 @@ export function ResultDisplay({
             <div className="absolute bottom-[-2px] left-[-2px] h-[2px] w-[2px] bg-black" />
             <div className="absolute bottom-[-2px] right-[-2px] h-[2px] w-[2px] bg-black" />
             <Image
-              src={user.avatar || ''}
+              src={user.avatar!}
               width={28}
               height={28}
-              alt="User Avatar"
+              alt="avatar"
+              onError={setAvatarToDefault}
             />
           </div>
           <div className="text-[16px] sm:text-[24px]">{user.name}</div>

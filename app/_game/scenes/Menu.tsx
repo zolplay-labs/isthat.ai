@@ -6,7 +6,8 @@ import { MenuButton } from '../components/MenuButton'
 import { useUser } from '../hooks/useUser'
 
 export function Menu() {
-  const { isSignedIn, logout, signInWithGoogle, user } = useUser()
+  const { isSignedIn, logout, signInWithGoogle, user, setAvatarToDefault } =
+    useUser()
   const { switchScene } = useScene()
 
   return (
@@ -17,7 +18,13 @@ export function Menu() {
           <div className="absolute right-[-3px] top-[-3px] h-[3px] w-[3px] bg-[#282828]" />
           <div className="absolute bottom-[-3px] left-[-3px] h-[3px] w-[3px] bg-[#282828]" />
           <div className="absolute bottom-[-3px] right-[-3px] h-[3px] w-[3px] bg-[#282828]" />
-          <Image src={user.avatar} alt="avatar" height={42} width={42} />
+          <Image
+            src={user.avatar}
+            alt="avatar"
+            height={42}
+            width={42}
+            onError={setAvatarToDefault}
+          />
         </div>
       )}
       <div className="flex flex-col items-center">

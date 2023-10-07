@@ -2,7 +2,8 @@ import { clsxm } from '@zolplay/utils'
 import { cva } from 'class-variance-authority'
 import { motion, type PanInfo } from 'framer-motion'
 import { useCallback, useState } from 'react'
-import { useMedia } from 'react-use'
+
+import { useIsPC } from '~/hooks/useIsPC'
 
 export type SwipeSide = 'left' | 'right' | 'none'
 interface TinderCardProps {
@@ -42,7 +43,7 @@ export function TinderCard({
   className,
   children,
 }: TinderCardProps) {
-  const isPC = useMedia('(min-width: 640px)')
+  const isPC = useIsPC()
   const swipingThreshold = isPC ? SWIPING_THRESHOLD : SWIPING_THRESHOLD_PHONE
 
   const [leaveX, setLeaveX] = useState(0)

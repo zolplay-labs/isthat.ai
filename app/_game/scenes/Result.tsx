@@ -25,9 +25,13 @@ function CopyShareLinkDialog({
 
   return (
     <div className="border-2 border-black p-2">
-      <Button onClick={onClose}>Close</Button>
+      <Button className="cursor-pointer" onClick={onClose}>
+        Close
+      </Button>
       <div>Share link: {shareLink}</div>
-      <Button onClick={handleCopy}>{copyButtonText}</Button>
+      <Button className="cursor-pointer" onClick={handleCopy}>
+        {copyButtonText}
+      </Button>
     </div>
   )
 }
@@ -71,7 +75,7 @@ export function Result() {
       className="relative flex h-full w-full flex-col items-center justify-center gap-[35px] px-[10px] sm:px-[30px]"
     >
       <button
-        className="absolute right-[10px] top-[10px] flex items-center gap-[4px] sm:right-[30px] sm:top-[30px] sm:gap-[8px]"
+        className="absolute right-[10px] top-[10px] flex cursor-pointer items-center gap-[4px] sm:right-[30px] sm:top-[30px] sm:gap-[8px]"
         onClick={handleShare}
       >
         <Image

@@ -9,7 +9,7 @@ export function MenuButton({ children, onClick }: MenuButtonProps) {
       <div className="hidden select-none group-hover:block">&gt;</div>
       <button
         onClick={onClick}
-        className="block text-[#929292] group-hover:text-white"
+        className="block cursor-pointer text-[#929292] group-hover:text-white"
       >
         {children}
       </button>

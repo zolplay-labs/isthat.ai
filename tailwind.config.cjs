@@ -85,6 +85,12 @@ const config = {
           },
         },
       },
+      cursor: {
+        default: 'url(/cursors/default.svg), pointer',
+        pointer: 'url(/cursors/pointer.svg), pointer',
+        grab: 'url(/cursors/grab.svg), pointer',
+        loading: 'url(/cursors/loading.svg), pointer',
+      },
       boxShadow: {
         // light
         'tremor-input': '0 1px 2px 0 rgb(0 0 0 / 0.05)',

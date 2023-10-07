@@ -52,7 +52,7 @@ export function TrialResult() {
       </div>
       <button
         onClick={signInWithGoogle}
-        className="relative block border-[4px] border-white py-[6px] text-[9px] leading-[24px] sm:p-[6px] sm:text-[14px]"
+        className="relative block cursor-pointer border-[4px] border-white py-[6px] text-[9px] leading-[24px] sm:p-[6px] sm:text-[14px]"
       >
         <div className="absolute left-[-4px] top-[-4px] h-[4px] w-[4px] bg-black" />
         <div className="absolute right-[-4px] top-[-4px] h-[4px] w-[4px] bg-black" />

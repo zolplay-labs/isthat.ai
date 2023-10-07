@@ -1,5 +1,5 @@
 import { currentUser } from '@clerk/nextjs'
-import { desc, eq } from 'drizzle-orm'
+import { desc, eq, inArray } from 'drizzle-orm'
 
 import { db } from '~/db'
 import { type Config, fetchConfig, fetchQuestionCount } from '~/db/queries'
@@ -55,17 +55,12 @@ const fetchRandomQuestions = async (config: Config, isTrial: boolean) => {
   const randomIds = randomIndexes.map(
     (index) => activeQuestionsIds[index] || -1
   )
-  const images = await Promise.all(
-    randomIds.map(
-      async (id) =>
-        (
-          await db
-            .select({ image: questions.image })
-            .from(questions)
-            .where(eq(questions.id, id))
-        )[0]?.image || ''
-    )
-  )
+  const images = (
+    await db
+      .select({ image: questions.image })
+      .from(questions)
+      .where(inArray(questions.id, randomIds))
+  ).map(({ image }) => image)
   return images
 }
 

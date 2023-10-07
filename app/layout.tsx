@@ -1,6 +1,6 @@
 import '~/app/globals.css'
 
-import { ClerkProvider } from '@clerk/nextjs/app-beta'
+import { ClerkProvider } from '@clerk/nextjs'
 import { clsxm } from '@zolplay/utils'
 import { type Metadata } from 'next'
 import { Press_Start_2P } from 'next/font/google'

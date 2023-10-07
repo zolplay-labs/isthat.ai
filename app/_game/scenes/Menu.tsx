@@ -31,7 +31,7 @@ export function Menu() {
         <Image
           src="/images/logo.svg"
           alt="logo"
-          className="h-[168px] w-[168px] sm:h-[200] sm:w-[200px]"
+          className="h-[168px] w-[168px] sm:h-[200px] sm:w-[200px]"
           width={200}
           height={200}
         />

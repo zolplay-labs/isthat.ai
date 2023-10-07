@@ -88,6 +88,7 @@ export function ResultDisplay({
               height={28}
               alt="avatar"
               onError={setAvatarToDefault}
+              priority
             />
           </div>
           <div className="text-[16px] sm:text-[24px]">{user.name}</div>

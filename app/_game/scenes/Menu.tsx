@@ -24,6 +24,7 @@ export function Menu() {
             height={42}
             width={42}
             onError={setAvatarToDefault}
+            priority
           />
         </div>
       )}
@@ -34,6 +35,7 @@ export function Menu() {
           className="h-[168px] w-[168px] sm:h-[200px] sm:w-[200px]"
           width={200}
           height={200}
+          priority
         />
         <div className="mb-[50px] text-[14px] leading-[normal] sm:mb-[100px] sm:text-[24px]">
           Isthat.ai

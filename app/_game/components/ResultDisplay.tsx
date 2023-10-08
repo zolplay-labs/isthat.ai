@@ -1,11 +1,12 @@
+'use client'
+
 import { clsxm } from '@zolplay/utils'
 import Image from 'next/image'
+import { useState } from 'react'
 
 import { type userScores } from '~/db/schema'
 import { type User } from '~/stores/User.store'
 import { formatDate, formatTime } from '~/utils/date'
-
-import { useUser } from '../hooks/useUser'
 
 const calculateGrade = (score: number, total: number) => {
   if (score === total) return 0
@@ -61,7 +62,7 @@ export function ResultDisplay({
     { name: 'Date', value: formatDate(date) },
   ]
 
-  const { setAvatarToDefault } = useUser()
+  const [avatar, setAvatar] = useState(user.avatar!)
 
   return (
     <>
@@ -83,11 +84,11 @@ export function ResultDisplay({
             <div className="absolute bottom-[-2px] left-[-2px] h-[2px] w-[2px] bg-black" />
             <div className="absolute bottom-[-2px] right-[-2px] h-[2px] w-[2px] bg-black" />
             <Image
-              src={user.avatar!}
+              src={avatar}
               width={28}
               height={28}
               alt="avatar"
-              onError={setAvatarToDefault}
+              onError={() => setAvatar('/images/default-avatar.png')}
               priority
             />
           </div>

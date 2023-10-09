@@ -6,6 +6,7 @@ import { useIsPC } from '~/hooks/useIsPC'
 import { sqids } from '~/lib/sqids'
 import { useSceneProps } from '~/stores/SceneProps.store'
 
+import { BorderWithoutCorner } from '../components/BorderWithoutCorner'
 import { GameLayout } from '../components/GameLayout'
 import { ResultDisplay } from '../components/ResultDisplay'
 import { useUser } from '../hooks/useUser'
@@ -19,13 +20,10 @@ function ShareDialogButton({
 }) {
   return (
     <button
-      className="relative block cursor-pointer border-[2px] border-white p-[10px] text-[15px]"
+      className="relative block cursor-pointer p-[10px] text-[15px]"
       onClick={onClick}
     >
-      <div className="absolute left-[-2px] top-[-2px] h-[2px] w-[2px] bg-black" />
-      <div className="absolute right-[-2px] top-[-2px] h-[2px] w-[2px] bg-black" />
-      <div className="absolute bottom-[-2px] left-[-2px] h-[2px] w-[2px] bg-black" />
-      <div className="absolute bottom-[-2px] right-[-2px] h-[2px] w-[2px] bg-black" />
+      <BorderWithoutCorner width={2} />
       {children}
     </button>
   )
@@ -67,11 +65,8 @@ function ShareDialog({
       dragElastic={false}
       dragListener={false}
     >
-      <div className="relative border-[4px] border-white bg-[#5A5A5A] p-[12px]">
-        <div className="absolute left-[-4px] top-[-4px] h-[4px] w-[4px] bg-black" />
-        <div className="absolute right-[-4px] top-[-4px] h-[4px] w-[4px] bg-black" />
-        <div className="absolute bottom-[-4px] left-[-4px] h-[4px] w-[4px] bg-black" />
-        <div className="absolute bottom-[-4px] right-[-4px] h-[4px] w-[4px] bg-black" />
+      <div className="relative bg-[#5A5A5A] p-[12px]">
+        <BorderWithoutCorner width={4} />
         <div className="mb-[12px] flex justify-between selection:items-center">
           <div className="text-[16px]">Share</div>
           <div

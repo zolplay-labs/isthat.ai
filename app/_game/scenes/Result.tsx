@@ -80,7 +80,7 @@ function ShareDialog({
               dragControls.start(e)
             }}
           />
-          <button className="block cursor-pointer" onClick={onClose}>
+          <button className="block cursor-pointer pl-[12px]" onClick={onClose}>
             <Image
               src="/images/result/close.svg"
               alt="close"

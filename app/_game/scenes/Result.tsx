@@ -118,7 +118,7 @@ export function Result() {
   }
 
   const isPC = useIsPC()
-  const [shareLink, setShareLink] = useState('')
+  const [shareLinkForDialog, setShareLinkForDialog] = useState('')
   const [isCopyShareLinkDialogOpen, setIsShareDialogOpen] = useState(false)
   const dialogDragConstraintsRef = useRef<HTMLDivElement>(null)
 
@@ -136,8 +136,14 @@ export function Result() {
       return
     }
     if (navigator.clipboard && isPC) {
-      setShareLink(window.location.origin + shareUrl)
-      setIsShareDialogOpen(true)
+      const shareLink = window.location.origin + shareUrl
+      if (isPC) {
+        setShareLinkForDialog(shareLink)
+        setIsShareDialogOpen(true)
+      } else {
+        await navigator.clipboard.writeText(shareLink)
+        alert('Share link is copied!')
+      }
       return
     }
     alert('Unable to share!')
@@ -171,7 +177,7 @@ export function Result() {
       {isCopyShareLinkDialogOpen && (
         <ShareDialog
           onClose={() => setIsShareDialogOpen(false)}
-          shareLink={shareLink}
+          shareLink={shareLinkForDialog}
           dragConstraintsRef={dialogDragConstraintsRef}
         />
       )}

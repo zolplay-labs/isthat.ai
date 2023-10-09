@@ -65,7 +65,7 @@ export function ResultWaiting() {
   return (
     <GameLayout
       header={<span>~ Result ~</span>}
-      className="flex flex-col items-center justify-center gap-[28px]"
+      className="flex cursor-loading flex-col items-center justify-center gap-[28px]"
     >
       <AnimatePresence mode="wait">
         <motion.div

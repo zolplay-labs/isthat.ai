@@ -2,6 +2,7 @@ import { useMount } from 'react-use'
 
 import { useScene } from '~/stores/Scene.store'
 
+import { BorderWithoutCorner } from '../components/BorderWithoutCorner'
 import { GameLayout } from '../components/GameLayout'
 
 function Header() {
@@ -19,12 +20,27 @@ function Header() {
 export function WarmUp() {
   const { switchScene } = useScene()
 
+  const skipWarmUp = () => {
+    localStorage.setItem('hasWarmedUp', 'true')
+    switchScene('READY')
+  }
+
   useMount(() => {
     setTimeout(() => {
-      localStorage.setItem('hasWarmedUp', 'true')
-      switchScene('READY')
+      skipWarmUp()
     }, 3000)
   })
 
-  return <GameLayout header={<Header />}>WarmUp...</GameLayout>
+  return (
+    <GameLayout header={<Header />} className="relative h-full w-full">
+      <h1>Warm up...</h1>
+      <button
+        className="absolute right-[20px] top-[20px] block h-fit w-fit p-[6px] text-[14px] sm:bottom-[77px] sm:right-[40px] sm:top-auto"
+        onClick={skipWarmUp}
+      >
+        <BorderWithoutCorner width={4} />
+        Skip&gt;&gt;
+      </button>
+    </GameLayout>
+  )
 }

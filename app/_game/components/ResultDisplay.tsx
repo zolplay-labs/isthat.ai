@@ -8,6 +8,8 @@ import { type userScores } from '~/db/schema'
 import { type User } from '~/stores/User.store'
 import { formatDate, formatTime } from '~/utils/date'
 
+import { BorderWithoutCorner } from './BorderWithoutCorner'
+
 const calculateGrade = (score: number, total: number) => {
   if (score === total) return 0
   if (score > Math.floor(total / 2)) return 1
@@ -78,11 +80,8 @@ export function ResultDisplay({
           ~ {GRADE_DESCRIPTIONS[grade]} ~
         </div>
         <div className="flex items-center justify-center gap-[16px]">
-          <div className="relative w-fit border-[2px] border-white">
-            <div className="absolute left-[-2px] top-[-2px] h-[2px] w-[2px] bg-black" />
-            <div className="absolute right-[-2px] top-[-2px] h-[2px] w-[2px] bg-black" />
-            <div className="absolute bottom-[-2px] left-[-2px] h-[2px] w-[2px] bg-black" />
-            <div className="absolute bottom-[-2px] right-[-2px] h-[2px] w-[2px] bg-black" />
+          <div className="relative w-fit">
+            <BorderWithoutCorner width={2} />
             <Image
               src={avatar}
               width={28}

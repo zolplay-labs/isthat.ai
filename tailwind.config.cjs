@@ -17,6 +17,12 @@ const config = {
         ...defaultTheme.fontFamily.mono,
       ],
     },
+    cursor: {
+      default: 'url(/cursors/default.svg), default',
+      pointer: 'url(/cursors/pointer.svg), pointer',
+      grab: 'url(/cursors/grab.svg), grab',
+      loading: 'url(/cursors/loading.svg), wait',
+    },
     transparent: 'transparent',
     current: 'currentColor',
     container: {
@@ -84,12 +90,6 @@ const config = {
             inverted: '#000000', // black
           },
         },
-      },
-      cursor: {
-        default: 'url(/cursors/default.svg), pointer',
-        pointer: 'url(/cursors/pointer.svg), pointer',
-        grab: 'url(/cursors/grab.svg), pointer',
-        loading: 'url(/cursors/loading.svg), pointer',
       },
       boxShadow: {
         // light

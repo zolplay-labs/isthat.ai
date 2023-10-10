@@ -10,6 +10,7 @@ import { useMotionValueState } from '~/hooks/useMotionValueState'
 import { useScene } from '~/stores/Scene.store'
 import { useSceneProps } from '~/stores/SceneProps.store'
 
+import { BorderWithoutCorner } from '../components/BorderWithoutCorner'
 import { GameLayout } from '../components/GameLayout'
 import { GRADE_IMAGES } from '../components/ResultDisplay'
 import { useUser } from '../hooks/useUser'
@@ -64,7 +65,7 @@ export function ResultWaiting() {
   return (
     <GameLayout
       header={<span>~ Result ~</span>}
-      className="flex flex-col items-center justify-center gap-[28px]"
+      className="flex cursor-loading flex-col items-center justify-center gap-[28px]"
     >
       <AnimatePresence mode="wait">
         <motion.div
@@ -83,11 +84,8 @@ export function ResultWaiting() {
         </motion.div>
       </AnimatePresence>
       <div>~ Waiting ~</div>
-      <div className="relative border-[2px] border-[#D9D9D9] p-[4px]">
-        <div className="absolute left-[-2px] top-[-2px] h-[2px] w-[2px] bg-black" />
-        <div className="absolute right-[-2px] top-[-2px] h-[2px] w-[2px] bg-black" />
-        <div className="absolute bottom-[-2px] left-[-2px] h-[2px] w-[2px] bg-black" />
-        <div className="absolute bottom-[-2px] right-[-2px] h-[2px] w-[2px] bg-black" />
+      <div className="relative p-[4px]">
+        <BorderWithoutCorner width={2} />
         <div className="flex gap-[4px]">
           {new Array(10).fill(null).map((_, i) => (
             <div

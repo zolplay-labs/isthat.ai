@@ -2,6 +2,7 @@ import Image from 'next/image'
 
 import { useSceneProps } from '~/stores/SceneProps.store'
 
+import { BorderWithoutCorner } from '../components/BorderWithoutCorner'
 import { GameLayout } from '../components/GameLayout'
 import { useUser } from '../hooks/useUser'
 
@@ -52,12 +53,9 @@ export function TrialResult() {
       </div>
       <button
         onClick={signInWithGoogle}
-        className="relative block cursor-pointer border-[4px] border-white py-[6px] text-[9px] leading-[24px] sm:p-[6px] sm:text-[14px]"
+        className="relative block cursor-pointer py-[6px] text-[9px] leading-[24px] sm:p-[6px] sm:text-[14px]"
       >
-        <div className="absolute left-[-4px] top-[-4px] h-[4px] w-[4px] bg-black" />
-        <div className="absolute right-[-4px] top-[-4px] h-[4px] w-[4px] bg-black" />
-        <div className="absolute bottom-[-4px] left-[-4px] h-[4px] w-[4px] bg-black" />
-        <div className="absolute bottom-[-4px] right-[-4px] h-[4px] w-[4px] bg-black" />
+        <BorderWithoutCorner width={4} />
         Sign up and Battle with AI
       </button>
     </GameLayout>

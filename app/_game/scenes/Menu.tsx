@@ -2,6 +2,7 @@ import Image from 'next/image'
 
 import { useScene } from '~/stores/Scene.store'
 
+import { BorderWithoutCorner } from '../components/BorderWithoutCorner'
 import { MenuButton } from '../components/MenuButton'
 import { useUser } from '../hooks/useUser'
 
@@ -13,11 +14,8 @@ export function Menu() {
   return (
     <div className="relative flex h-[100dvh] items-center justify-center bg-[url('/images/menu/screen.svg')] bg-cover bg-center bg-no-repeat">
       {isSignedIn && user?.avatar && (
-        <div className="absolute right-[5%] top-[16%] border-[3px] border-white sm:right-[20%]">
-          <div className="absolute left-[-3px] top-[-3px] h-[3px] w-[3px] bg-[#282828]" />
-          <div className="absolute right-[-3px] top-[-3px] h-[3px] w-[3px] bg-[#282828]" />
-          <div className="absolute bottom-[-3px] left-[-3px] h-[3px] w-[3px] bg-[#282828]" />
-          <div className="absolute bottom-[-3px] right-[-3px] h-[3px] w-[3px] bg-[#282828]" />
+        <div className="absolute right-[5%] top-[16%] sm:right-[20%]">
+          <BorderWithoutCorner width={3} />
           <Image
             src={user.avatar}
             alt="avatar"

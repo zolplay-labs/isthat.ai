@@ -85,7 +85,9 @@ function ShareDialog({
           </button>
         </div>
         <div className="flex flex-col items-center justify-center gap-[20px] bg-black p-[20px]">
-          <div className="text-[12px] text-[#a9a9a9]">~ Share isthat.ai ~</div>
+          <div className="text-[12px] text-[#a9a9a9]">
+            {shareLink.replace(/^(http:\/\/|https:\/\/)/, '')}
+          </div>
           <ShareDialogButton onClick={handleCopy}>
             {isCopied ? 'Copied!' : 'Copy link'}
           </ShareDialogButton>

@@ -69,7 +69,7 @@ export function Play() {
             <Image
               key={image}
               src={`https://imagedelivery.net/${env.NEXT_PUBLIC_CLOUDFLARE_ACCOUNT_HASH}/${image}/public`}
-              alt={`Question ${image}`}
+              alt={`question ${image}`}
               width={600}
               height={600}
               className="pointer-events-none max-h-[200px] max-w-[200px] select-none border-[4px] border-white shadow-xl sm:max-h-[600px] sm:max-w-[600px]"
@@ -80,7 +80,7 @@ export function Play() {
       <div className="absolute bottom-[16px] left-[16px] space-y-[18px] sm:bottom-auto sm:left-[50px]">
         <Image
           src="/images/play/arrow-left.svg"
-          alt="Left arrow"
+          alt="left arrow"
           width={64}
           height={64}
         />
@@ -89,7 +89,7 @@ export function Play() {
       <div className="absolute bottom-[16px] right-[16px] space-y-[18px] sm:bottom-auto sm:right-[50px]">
         <Image
           src="/images/play/arrow-right.svg"
-          alt="Right arrow"
+          alt="right arrow"
           width={64}
           height={64}
         />

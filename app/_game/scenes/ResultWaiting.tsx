@@ -76,7 +76,7 @@ export function ResultWaiting() {
         >
           <Image
             src={GRADE_IMAGES[currentGradeImageIndex] || ''}
-            alt="Grade Image"
+            alt="grade"
             className="h-[168px] w-[168px] sm:h-[268px] sm:w-[268px]"
             width={268}
             height={268}

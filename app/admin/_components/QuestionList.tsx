@@ -131,7 +131,7 @@ export function QuestionList({
               {/* FIXME: Image with src "<url>" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio. */}
               <Image
                 src={`https://imagedelivery.net/${env.NEXT_PUBLIC_CLOUDFLARE_ACCOUNT_HASH}/${question.image}/public`}
-                alt={`Question ${question.image}`}
+                alt={`question ${question.image}`}
                 width={200}
                 height={0}
                 quality={1}

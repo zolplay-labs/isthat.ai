@@ -158,7 +158,7 @@ export function Result() {
       >
         <Image
           src="/images/result/share.svg"
-          alt="share icon"
+          alt="share"
           className="h-[16px] w-[16px] sm:h-[24px] sm:w-[24px]"
           width={24}
           height={24}

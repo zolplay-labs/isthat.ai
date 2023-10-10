@@ -26,7 +26,7 @@ export default function RootLayout({
         lang="en"
         className={clsxm(
           pressStart2P.variable,
-          'cursor-default bg-black text-white antialiased'
+          'cursor-default select-none bg-black text-white antialiased'
         )}
         suppressHydrationWarning
       >

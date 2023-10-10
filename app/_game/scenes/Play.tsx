@@ -72,7 +72,7 @@ export function Play() {
               alt={`question ${image}`}
               width={600}
               height={600}
-              className="pointer-events-none max-h-[200px] max-w-[200px] select-none border-[4px] border-white shadow-xl sm:max-h-[600px] sm:max-w-[600px]"
+              className="pointer-events-none max-h-[200px] max-w-[200px] border-[4px] border-white shadow-xl sm:max-h-[600px] sm:max-w-[600px]"
             />
           </TinderCard>
         ))}

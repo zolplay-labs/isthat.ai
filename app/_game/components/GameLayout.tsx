@@ -37,7 +37,7 @@ export const GameLayout = forwardRef(
                 width={24}
                 height={24}
               />
-              <span className="hidden sm:block">Isthat.ai</span>
+              <span className="hidden sm:block">isthat.ai</span>
             </div>
             <div className="text-center text-[12px] sm:text-[16px]">
               {header}

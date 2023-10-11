@@ -56,7 +56,7 @@ export function Menu() {
           )}
         </div>
       </div>
-      <div className="absolute bottom-0 w-[80%] bg-white py-[20px] text-center text-[12px] text-[#989898]">
+      <div className="absolute bottom-0 w-[80%] bg-white py-[10px] text-center text-[12px] text-[#989898] sm:py-[20px]">
         Craft by{' '}
         <a
           href="https://zolplay.com"

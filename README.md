@@ -1,4 +1,4 @@
-# Isthat.ai
+# isthat.ai
 
 ## Development
 

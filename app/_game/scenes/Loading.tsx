@@ -40,7 +40,7 @@ export function Loading() {
             height={168}
           />
           <div className="text-[12px] leading-[normal] sm:text-[24px]">
-            Isthat.ai
+            isthat.ai
           </div>
         </div>
         <div className="relative mb-[4px] mt-[12px] border-[1px] border-[#D9D9D9] p-[2px] sm:mb-[7px] sm:mt-[24px] sm:border-[2px] sm:p-[4px]">

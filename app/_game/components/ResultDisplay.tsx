@@ -58,7 +58,7 @@ export function ResultDisplay({
 }: ResultDisplayProps) {
   const grade = calculateGrade(userScore.score, userScore.total)
   const info: InfoItemProps[] = [
-    { name: 'Isthat.ai', value: `Day ${day}` },
+    { name: 'isthat.ai', value: `Day ${day}` },
     { name: 'Time', value: formatTime(userScore.time) },
     { name: 'Challenge Days', value: String(userScore.challengeDays) },
     { name: 'Date', value: formatDate(date) },

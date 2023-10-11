@@ -36,7 +36,7 @@ export function Menu() {
           priority
         />
         <div className="mb-[50px] text-[14px] leading-[normal] sm:mb-[100px] sm:text-[24px]">
-          Isthat.ai
+          isthat.ai
         </div>
         <div className="flex flex-col items-center gap-[24px] sm:gap-[44px]">
           {isSignedIn ? (

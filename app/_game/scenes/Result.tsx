@@ -125,8 +125,8 @@ export function Result() {
     // TODO: Change contents
     const shareData: ShareData = {
       url: shareUrl,
-      title: 'Isthat.ai',
-      text: 'Come and battle with AI at Isthat.ai!',
+      title: 'isthat.ai',
+      text: 'Come and battle with AI at isthat.ai!',
     }
     if (navigator.share && navigator.canShare(shareData)) {
       navigator.share(shareData)

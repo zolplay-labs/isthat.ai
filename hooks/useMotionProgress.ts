@@ -1,4 +1,9 @@
-import { animate, useMotionValue, useTransform } from 'framer-motion'
+import {
+  animate,
+  useMotionValue,
+  useMotionValueEvent,
+  useTransform,
+} from 'framer-motion'
 import { useState } from 'react'
 
 import { useMotionValueState } from './useMotionValueState'
@@ -17,8 +22,11 @@ export const useMotionProgress = ({
 
   const startProgress = async () => {
     await animate(count, end, { duration })
-    setIsProgressEnd(true)
   }
+
+  useMotionValueEvent(count, 'animationComplete', () => {
+    setIsProgressEnd(true)
+  })
 
   return { progress, startProgress, isProgressEnd, progressState }
 }

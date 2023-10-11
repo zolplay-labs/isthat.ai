@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react'
 
 import { changeConfig } from '~/app/admin/action'
 import { type Config } from '~/db/queries'
-import { dialog } from '~/lib/dialog'
 
 import { Dialog } from './ui/Dialog'
 
@@ -40,19 +39,11 @@ export function ConfigDialog({ config }: { config: Config }) {
       })
       setIsLoading(false)
       setIsOpen(false)
-      await dialog.fire({
-        title: 'Config is changed successfully!',
-        icon: 'success',
-        confirmButtonColor: '#3b82f6',
-      })
+      alert('Config is changed successfully!')
     } catch (error) {
       setIsLoading(false)
       setIsOpen(false)
-      await dialog.fire({
-        title: 'Config failed to be changed!',
-        icon: 'error',
-        confirmButtonColor: '#3b82f6',
-      })
+      alert('Config failed to be changed!')
     }
   }
 

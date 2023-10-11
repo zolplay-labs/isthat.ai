@@ -5,7 +5,6 @@ import { clsxm } from '@zolplay/utils'
 import { useRef, useState } from 'react'
 
 import { uploadQuestion } from '~/app/admin/action'
-import { dialog } from '~/lib/dialog'
 
 import { Dialog } from './ui/Dialog'
 
@@ -38,23 +37,13 @@ export function UploadQuestionsDialog() {
       (res) => res.status === 'rejected'
     ).length
     if (total === successLength) {
-      await dialog.fire({
-        title: `${total} files uploaded successfully!`,
-        icon: 'success',
-        confirmButtonColor: '#3b82f6',
-      })
+      alert(`${total} files uploaded successfully!`)
     } else if (total > successLength) {
-      await dialog.fire({
-        title: `${errorLength} out of ${total} files failed to upload successfully`,
-        icon: 'warning',
-        confirmButtonColor: '#3b82f6',
-      })
+      alert(
+        `${errorLength} out of ${total} files failed to upload successfully`
+      )
     } else {
-      await dialog.fire({
-        title: `${total} files failed to upload successfully`,
-        icon: 'error',
-        confirmButtonColor: '#3b82f6',
-      })
+      alert(`${total} files failed to upload successfully`)
     }
   }
 

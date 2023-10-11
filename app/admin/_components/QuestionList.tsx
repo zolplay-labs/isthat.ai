@@ -20,7 +20,6 @@ import {
 } from '~/app/admin/action'
 import { type questions } from '~/db/schema'
 import { env } from '~/env.mjs'
-import { dialog } from '~/lib/dialog'
 
 import { Switch } from './ui/Switch'
 
@@ -62,16 +61,10 @@ function Actions({
           variant="secondary"
           color="orange"
           disabled={isPending}
-          onClick={async () => {
-            const { isConfirmed } = await dialog.fire({
-              icon: 'info',
-              title: 'Are you sure?',
-              text: 'Reactivation will refresh the question id and expire the last active question',
-              confirmButtonText: 'Yes, reactivate it!',
-              showCancelButton: true,
-              confirmButtonColor: '#f97316',
-              focusCancel: true,
-            })
+          onClick={() => {
+            const isConfirmed = confirm(
+              'Are you sure? Reactivation will refresh the question id and expire the last active question'
+            )
             if (isConfirmed) {
               startTransition(() => reactivateQuestion({ id: question.id }))
             }
@@ -85,15 +78,8 @@ function Actions({
         variant="secondary"
         color="red"
         disabled={isPending}
-        onClick={async () => {
-          const { isConfirmed } = await dialog.fire({
-            icon: 'warning',
-            title: 'Are you sure to delete this question?',
-            confirmButtonText: 'Yes, delete it!',
-            showCancelButton: true,
-            confirmButtonColor: '#ef4444',
-            focusCancel: true,
-          })
+        onClick={() => {
+          const isConfirmed = confirm('Are you sure to delete this question?')
           if (isConfirmed) {
             startTransition(() =>
               deleteQuestion({ id: question.id, image: question.image })

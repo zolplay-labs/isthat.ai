@@ -34,8 +34,6 @@
     "react-use": "^17.4.0",
     "sharp": "^0.32.6",
     "sqids": "^0.3.0",
-    "sweetalert2": "^11.7.20",
-    "sweetalert2-react-content": "^5.0.7",
     "zod": "^3.21.4",
     "zustand": "^4.3.9"
   },

@@ -58,7 +58,7 @@ export function ResultDisplay({
 }: ResultDisplayProps) {
   const grade = calculateGrade(userScore.score, userScore.total)
   const info: InfoItemProps[] = [
-    { name: 'Isthat.ai', value: `Day ${day}` },
+    { name: 'isthat.ai', value: `Day ${day}` },
     { name: 'Time', value: formatTime(userScore.time) },
     { name: 'Challenge Days', value: String(userScore.challengeDays) },
     { name: 'Date', value: formatDate(date) },
@@ -71,7 +71,7 @@ export function ResultDisplay({
       <div className="flex flex-col items-center justify-center gap-[12px] text-center sm:gap-[28px]">
         <Image
           src={GRADE_IMAGES[grade] || ''}
-          alt="Grade Image"
+          alt="grade"
           className="h-[168px] w-[168px] sm:h-[268px] sm:w-[268px]"
           width={268}
           height={268}

@@ -85,7 +85,9 @@ function ShareDialog({
           </button>
         </div>
         <div className="flex flex-col items-center justify-center gap-[20px] bg-black p-[20px]">
-          <div className="text-[12px] text-[#a9a9a9]">~ Share isthat.ai ~</div>
+          <div className="text-[12px] text-[#a9a9a9]">
+            {shareLink.replace(/^(http:\/\/|https:\/\/)/, '')}
+          </div>
           <ShareDialogButton onClick={handleCopy}>
             {isCopied ? 'Copied!' : 'Copy link'}
           </ShareDialogButton>
@@ -123,8 +125,8 @@ export function Result() {
     // TODO: Change contents
     const shareData: ShareData = {
       url: shareUrl,
-      title: 'Isthat.ai',
-      text: 'Come and battle with AI at Isthat.ai!',
+      title: 'isthat.ai',
+      text: 'Come and battle with AI at isthat.ai!',
     }
     if (navigator.share && navigator.canShare(shareData)) {
       navigator.share(shareData)
@@ -156,7 +158,7 @@ export function Result() {
       >
         <Image
           src="/images/result/share.svg"
-          alt="share icon"
+          alt="share"
           className="h-[16px] w-[16px] sm:h-[24px] sm:w-[24px]"
           width={24}
           height={24}

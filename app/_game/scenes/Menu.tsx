@@ -36,7 +36,7 @@ export function Menu() {
           priority
         />
         <div className="mb-[50px] text-[14px] leading-[normal] sm:mb-[100px] sm:text-[24px]">
-          Isthat.ai
+          isthat.ai
         </div>
         <div className="flex flex-col items-center gap-[24px] sm:gap-[44px]">
           {isSignedIn ? (
@@ -55,6 +55,15 @@ export function Menu() {
             </>
           )}
         </div>
+      </div>
+      <div className="absolute bottom-0 w-[80%] bg-white py-[20px] text-center text-[12px] text-[#989898]">
+        Craft by{' '}
+        <a
+          href="https://zolplay.com"
+          className="cursor-pointer text-[#626262] underline"
+        >
+          Zolplay
+        </a>
       </div>
     </div>
   )

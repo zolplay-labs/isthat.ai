@@ -31,4 +31,5 @@ export const config = mysqlTable('config', {
   releaseDate: date('release_date').default(new Date('2023-7-25')).notNull(),
   activeQuestionsLimit: int('active_questions_limit').default(100).notNull(),
   questionsPerChallenge: int('questions_per_challenge').default(8).notNull(),
+  refreshIntervalHours: int('refresh_interval_hours').default(12).notNull(),
 })

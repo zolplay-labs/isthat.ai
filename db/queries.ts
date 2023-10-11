@@ -10,6 +10,7 @@ export const fetchConfig = async (): Promise<Config> => {
     releaseDate: configData?.releaseDate || new Date('2023-7-25'),
     activeQuestionsLimit: configData?.activeQuestionsLimit || 0,
     questionsPerChallenge: configData?.questionsPerChallenge || 0,
+    refreshIntervalHours: configData?.refreshIntervalHours || 0,
   }
 }
 

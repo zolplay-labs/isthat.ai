@@ -25,6 +25,10 @@ export function ConfigDisplay({
         <span className="font-bold">Total Questions: </span>
         <span>{questionCount}</span>
       </div>
+      <div>
+        <span className="font-bold">Refresh Interval Hours: </span>
+        <span>{config.refreshIntervalHours}</span>
+      </div>
     </div>
   )
 }

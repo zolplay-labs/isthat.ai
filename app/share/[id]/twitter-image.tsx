@@ -9,22 +9,17 @@ import { userScores } from '~/db/schema'
 import { sqids } from '~/lib/sqids'
 import { formatLocaleDate } from '~/utils/date'
 
+// Image metadata
 export const alt = 'isthat.ai'
 export const size = { width: 1200, height: 675 }
 export const contentType = 'image/png'
 
-export const runtime = 'edge'
-
-const obj = {
-  a: fetch(
-    new URL('./../../../public/images/social/bg.png', import.meta.url)
-  ).then((res) => res.arrayBuffer()),
-  b: fetch(
-    new URL('./../../../public/images/social/result.png', import.meta.url)
-  ).then((res) => res.arrayBuffer()),
-}
-
-export default async function Image({ params }: { params: { id: string } }) {
+// Image generation
+export default async function Image({
+  params,
+}: {
+  params: { id: string; name: string }
+}) {
   const [id] = sqids.decode(params.id)
 
   if (!id) return notFound()
@@ -32,43 +27,40 @@ export default async function Image({ params }: { params: { id: string } }) {
   const [userScore] = await db
     .select()
     .from(userScores)
-    .where(eq(userScores.id, 48))
+    .where(eq(userScores.id, id))
 
   if (!userScore) return notFound()
 
   const clerkUser = await clerkClient.users.getUser(userScore.userId)
   const user = filterUser(clerkUser)
 
-  const [fontData, ogBackground, ogResult, ogAvatar] = await Promise.all([
-    fetch(
-      new URL('./../../../public/fonts/PressStart2P.ttf', import.meta.url)
-    ).then((res) => res.arrayBuffer()),
-    fetch(
-      new URL('./../../../public/images/social/bg.png', import.meta.url)
-    ).then((res) => res.arrayBuffer()),
-    obj.b,
-    fetch(
-      new URL('./../../../public/images/default-avatar.png', import.meta.url)
-    ).then((res) => res.arrayBuffer()),
-  ])
+  const fontData = await fetch(
+    'http://localhost:3000/fonts/PressStart2P.ttf'
+  ).then((res) => res.arrayBuffer())
 
   return new ImageResponse(
     (
       <div
         style={{
+          background: 'white',
           width: '100%',
           height: '100%',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
+          backgroundImage: `url("http://localhost:3000/images/social/bg.png")`,
           color: '#fff',
-          position: 'relative',
         }}
       >
-        {/* @ts-expect-error Lack of typing from ImageResponse */}
-        <img src={ogBackground} alt="og-bg" style={{ position: 'absolute' }} />
-        {/* @ts-expect-error Lack of typing from ImageResponse */}
-        <img src={ogResult} alt="og-result" width={539} height={539} />
+        <div
+          style={{
+            width: 539,
+            height: 539,
+            backgroundImage:
+              'url("http://localhost:3000/images/social/result.png")',
+            backgroundSize: '539px 539px',
+          }}
+        />
         <div
           style={{
             width: 525,
@@ -95,12 +87,13 @@ export default async function Image({ params }: { params: { id: string } }) {
                 fontSize: 14,
                 borderWidth: 2,
                 borderColor: '#fff',
+                backgroundImage:
+                  'url("http://localhost:3000/images/default-avatar.png")',
+                backgroundSize: '100% 100%',
                 position: 'relative',
                 display: 'flex',
               }}
             >
-              {/* @ts-expect-error Lack of typing from ImageResponse */}
-              <img src={ogAvatar} alt="og-bg" />
               <div
                 style={{
                   width: 2,

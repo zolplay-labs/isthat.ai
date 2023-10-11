@@ -16,6 +16,31 @@ export const formatDate = (date: Date) => {
   return `${year}.${month}.${day}`
 }
 
+export const formatLocaleDate = (date: Date) => {
+  const year = date.getFullYear()
+  const month = date.getMonth()
+  const day = String(date.getDate()).padStart(2, '0')
+
+  const monthMap: { [key: number]: string } = {
+    0: 'Jan',
+    1: 'Feb',
+    2: 'Mar',
+    3: 'Apr',
+    4: 'May',
+    5: 'June',
+    6: 'July',
+    7: 'Aug',
+    8: 'Sept',
+    9: 'Oct',
+    10: 'Nov',
+    11: 'Dec',
+  }
+
+  const localeMonth = monthMap[month]
+
+  return `${localeMonth} ${day}, ${year}`
+}
+
 export const checkToday = (date: Date) => {
   const today = new Date()
   const isToday =

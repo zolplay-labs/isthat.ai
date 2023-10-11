@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     siteName: title,
     images: [
       {
-        url: '/images/og.png',
+        url: '/images/social/og.png',
         width: 1200,
         height: 675,
       },
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     description,
     site: '@zolplay',
     creator: '@zolplay',
-    images: ['/images/og.png'],
+    images: ['/images/social/og.png'],
   },
   viewport: {
     height: 'device-height',

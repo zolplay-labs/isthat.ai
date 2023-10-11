@@ -1,7 +1,7 @@
 import { clsxm } from '@zolplay/utils'
 import { AnimatePresence, motion, useTime, useTransform } from 'framer-motion'
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useMount } from 'react-use'
 
 import { checkAnswers, saveScore } from '~/app/action'
@@ -10,12 +10,22 @@ import { useMotionValueState } from '~/hooks/useMotionValueState'
 import { useScene } from '~/stores/Scene.store'
 import { useSceneProps } from '~/stores/SceneProps.store'
 
-import { BorderWithoutCorner } from '../components/BorderWithoutCorner'
 import { GameLayout } from '../components/GameLayout'
-import { GRADE_IMAGES } from '../components/ResultDisplay'
 import { useUser } from '../hooks/useUser'
 
 export type Answers = { image: string; AI: boolean }[]
+
+const PIXELATED_RESULT_TIERS = [
+  '/images/result-tiers/pixel/ai-detective.png',
+  '/images/result-tiers/pixel/ai-spy.png',
+  '/images/result-tiers/pixel/algorithm-apprentice.png',
+  '/images/result-tiers/pixel/blundering-botanist.png',
+  '/images/result-tiers/pixel/clueless-coder.png',
+  '/images/result-tiers/pixel/code-curator.png',
+  '/images/result-tiers/pixel/digital-diplomat.png',
+  '/images/result-tiers/pixel/pixel-pro.png',
+  '/images/result-tiers/pixel/techie-trainee.png',
+]
 
 export function ResultWaiting() {
   const { switchScene } = useScene()
@@ -25,14 +35,11 @@ export function ResultWaiting() {
   const { isSignedIn } = useUser()
 
   const { progressState, startProgress, isProgressEnd } = useMotionProgress({
-    end: 8,
-    duration: 3,
+    end: 9,
+    duration: 5,
   })
 
-  const [hasResult, setHasResult] = useState(false)
-
   useMount(async () => {
-    await startProgress()
     const { score } = await checkAnswers(props.answers)
     if (isSignedIn) {
       const { challengeDays, scoreId } = await saveScore(
@@ -44,58 +51,64 @@ export function ResultWaiting() {
     } else {
       setSceneProps('TRIAL_RESULT', { isRight: score === 1 })
     }
-    setHasResult(true)
+    await startProgress()
   })
 
   useEffect(() => {
-    if (isProgressEnd && hasResult) {
-      setTimeout(() => {
-        switchScene(isSignedIn ? 'RESULT' : 'TRIAL_RESULT')
-      }, 300)
+    if (isProgressEnd) {
+      switchScene(isSignedIn ? 'RESULT' : 'TRIAL_RESULT')
     }
-  }, [isProgressEnd, hasResult])
+  }, [isProgressEnd])
 
   const time = useTime()
-  const gradeImageIndex = useTransform(
+  const loadingImageIndex = useTransform(
     time,
-    (current) => (Math.round(current / 1000) % 3) + 1
+    (current) => Math.round(current / 800) % 9
   )
-  const currentGradeImageIndex = useMotionValueState(gradeImageIndex)
+  const currentLoadingImageIndex = useMotionValueState(loadingImageIndex)
 
   return (
     <GameLayout
       header={<span>~ Result ~</span>}
-      className="flex cursor-loading flex-col items-center justify-center gap-[28px]"
+      className="cursor-loading space-y-[32px] sm:flex sm:h-full sm:w-full sm:flex-row sm:items-center sm:justify-center sm:gap-0"
     >
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={currentGradeImageIndex}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-        >
-          <Image
-            src={GRADE_IMAGES[currentGradeImageIndex] || ''}
-            alt="grade"
-            className="h-[168px] w-[168px] sm:h-[268px] sm:w-[268px]"
-            width={268}
-            height={268}
-          />
-        </motion.div>
-      </AnimatePresence>
-      <div>~ Waiting ~</div>
-      <div className="relative p-[4px]">
-        <BorderWithoutCorner width={2} />
-        <div className="flex gap-[4px]">
-          {new Array(10).fill(null).map((_, i) => (
-            <div
-              key={i}
-              className={clsxm(
-                'h-[12px] w-[8px]',
-                progressState + Number(hasResult) >= i && 'bg-white'
-              )}
+      <div className="sm:w-1/2">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentLoadingImageIndex}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <Image
+              src={PIXELATED_RESULT_TIERS[currentLoadingImageIndex] || ''}
+              alt="grade"
+              className="h-[248px] w-[248px] sm:h-full sm:w-full"
+              width={248}
+              height={248}
+              loading="eager"
             />
-          ))}
+          </motion.div>
+        </AnimatePresence>
+      </div>
+      <div className="flex flex-col items-center justify-center gap-[12px] sm:w-1/2 sm:gap-[24px]">
+        <div className="text-[16px] sm:text-[32px]">~ Waiting ~</div>
+        <div className="relative w-fit border-[2px] border-[#D9D9D9] p-[8px] sm:border-[4px]">
+          <div className="absolute left-[-2px] top-[-2px] h-[2px] w-[2px] bg-black sm:left-[-4px] sm:top-[-4px] sm:h-[4px] sm:w-[4px]" />
+          <div className="absolute right-[-2px] top-[-2px] h-[2px] w-[2px] bg-black sm:right-[-4px] sm:top-[-4px] sm:h-[4px] sm:w-[4px]" />
+          <div className="absolute bottom-[-2px] left-[-2px] h-[2px] w-[2px] bg-black sm:bottom-[-4px] sm:left-[-4px] sm:h-[4px] sm:w-[4px]" />
+          <div className="absolute bottom-[-2px] right-[-2px] h-[2px] w-[2px] bg-black sm:bottom-[-4px] sm:right-[-4px] sm:h-[4px] sm:w-[4px]" />
+          <div className="flex gap-[4px] sm:gap-[8px]">
+            {new Array(10).fill(null).map((_, i) => (
+              <div
+                key={i}
+                className={clsxm(
+                  'h-[12px] w-[8px] sm:h-[24px] sm:w-[16px]',
+                  progressState >= i && 'bg-white'
+                )}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </GameLayout>

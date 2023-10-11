@@ -1,6 +1,7 @@
 import '~/app/globals.css'
 
 import { ClerkProvider } from '@clerk/nextjs'
+import { Analytics } from '@vercel/analytics/react'
 import { clsxm } from '@zolplay/utils'
 import { type Metadata } from 'next'
 import { Press_Start_2P } from 'next/font/google'
@@ -30,7 +31,10 @@ export default function RootLayout({
         )}
         suppressHydrationWarning
       >
-        <body>{children}</body>
+        <body>
+          {children}
+          <Analytics />
+        </body>
       </html>
     </ClerkProvider>
   )

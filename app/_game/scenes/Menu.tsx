@@ -60,7 +60,7 @@ export function Menu() {
         Craft by{' '}
         <a
           href="https://zolplay.com"
-          className="cursor-pointer text-[#626262] underline"
+          className="cursor-click text-[#626262] underline"
         >
           Zolplay
         </a>

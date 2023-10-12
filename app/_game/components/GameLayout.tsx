@@ -45,7 +45,7 @@ export const GameLayout = forwardRef(
             <div className="min-w-[24px] sm:min-w-[136px]">
               {headerRight ?? (
                 <a
-                  className="block cursor-pointer text-[12px] sm:flex sm:items-center sm:justify-end sm:gap-[4px]"
+                  className="block cursor-click text-[12px] sm:flex sm:items-center sm:justify-end sm:gap-[4px]"
                   href="https://zolplay.com"
                 >
                   <Image

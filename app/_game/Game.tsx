@@ -73,7 +73,7 @@ export function Game({ user, images, config, userScoreToday }: GameProps) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="cursor-default select-none font-press-start-2p"
+        className="cursor-normal select-none font-press-start-2p"
       >
         {Scenes[scene]}
       </motion.div>

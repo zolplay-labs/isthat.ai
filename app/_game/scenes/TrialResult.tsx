@@ -53,7 +53,7 @@ export function TrialResult() {
       </div>
       <button
         onClick={signInWithGoogle}
-        className="relative block cursor-pointer py-[6px] text-[9px] leading-[24px] sm:p-[6px] sm:text-[14px]"
+        className="relative block cursor-click py-[6px] text-[9px] leading-[24px] sm:p-[6px] sm:text-[14px]"
       >
         <BorderWithoutCorner width={4} />
         Sign up and Battle with AI

@@ -19,7 +19,7 @@ function BattleButton({ className }: { className?: string }) {
     <Link
       href="/"
       className={clsxm(
-        'relative w-fit cursor-pointer p-[6px] text-[14px] sm:text-[12px]',
+        'relative w-fit cursor-click p-[6px] text-[14px] sm:text-[12px]',
         className
       )}
     >

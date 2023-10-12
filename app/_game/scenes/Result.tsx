@@ -20,7 +20,7 @@ function ShareDialogButton({
 }) {
   return (
     <button
-      className="relative block cursor-pointer p-[10px] text-[15px]"
+      className="relative block cursor-click p-[10px] text-[15px]"
       onClick={onClick}
     >
       <BorderWithoutCorner width={2} />
@@ -70,12 +70,12 @@ function ShareDialog({
         <div className="mb-[12px] flex justify-between selection:items-center">
           <div className="text-[16px]">Share</div>
           <div
-            className="flex-1 cursor-grab"
+            className="flex-1 cursor-move"
             onPointerDown={(e) => {
               dragControls.start(e)
             }}
           />
-          <button className="block cursor-pointer pl-[12px]" onClick={onClose}>
+          <button className="block cursor-click pl-[12px]" onClick={onClose}>
             <Image
               src="/images/result/close.svg"
               alt="close"
@@ -153,7 +153,7 @@ export function Result() {
       ref={dialogDragConstraintsRef}
     >
       <button
-        className="absolute right-[10px] top-[10px] flex cursor-pointer items-center gap-[4px] sm:right-[30px] sm:top-[30px] sm:gap-[8px]"
+        className="absolute right-[10px] top-[10px] flex cursor-click items-center gap-[4px] sm:right-[30px] sm:top-[30px] sm:gap-[8px]"
         onClick={handleShare}
       >
         <Image

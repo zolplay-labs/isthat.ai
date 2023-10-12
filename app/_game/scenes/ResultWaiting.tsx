@@ -70,7 +70,7 @@ export function ResultWaiting() {
   return (
     <GameLayout
       header={<span>~ Result ~</span>}
-      className="cursor-loading space-y-[32px] sm:flex sm:h-full sm:w-full sm:flex-row sm:items-center sm:justify-center sm:gap-0"
+      className="cursor-loading space-y-[32px] sm:flex sm:h-full sm:w-full sm:items-center sm:justify-center sm:gap-0"
     >
       <div className="sm:w-1/2">
         <AnimatePresence mode="wait">

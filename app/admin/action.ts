@@ -54,21 +54,8 @@ export async function reactivateQuestion({ id }: { id: number }) {
   revalidatePath('/admin')
 }
 
-export async function changeConfig({
-  releaseDate,
-  activeQuestionsLimit,
-  questionsPerChallenge,
-  refreshIntervalHours,
-}: Config) {
-  await db
-    .update(config)
-    .set({
-      releaseDate,
-      activeQuestionsLimit,
-      questionsPerChallenge,
-      refreshIntervalHours,
-    })
-    .where(eq(config.id, 'single'))
+export async function changeConfig(configData: Config) {
+  await db.update(config).set(configData).where(eq(config.id, 'single'))
   revalidatePath('/admin')
 }
 

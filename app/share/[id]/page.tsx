@@ -7,10 +7,8 @@ import { notFound } from 'next/navigation'
 import { BorderWithoutCorner } from '~/app/_game/components/BorderWithoutCorner'
 import { GameLayout } from '~/app/_game/components/GameLayout'
 import { ResultDisplay } from '~/app/_game/components/ResultDisplay'
-import { calcDay } from '~/app/_game/helpers/calcDay'
 import { filterUser } from '~/app/_game/helpers/filterUser'
 import { db } from '~/db'
-import { fetchConfig } from '~/db/queries'
 import { userScores } from '~/db/schema'
 import { sqids } from '~/lib/sqids'
 
@@ -41,9 +39,6 @@ export default async function Share({ params }: { params: { id: string } }) {
   const clerkUser = await clerkClient.users.getUser(userScore.userId)
   const user = filterUser(clerkUser)
 
-  const config = await fetchConfig()
-  const day = calcDay(config, userScore.createdAt)
-
   return (
     <div className="font-press-start-2p">
       <GameLayout
@@ -53,7 +48,6 @@ export default async function Share({ params }: { params: { id: string } }) {
       >
         <ResultDisplay
           userScore={userScore}
-          day={day}
           user={user}
           date={userScore.createdAt}
         />

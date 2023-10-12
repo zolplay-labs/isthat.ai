@@ -1,6 +1,6 @@
 'use client'
 
-import { Button, DatePicker, NumberInput, Text } from '@tremor/react'
+import { Button, NumberInput, Text } from '@tremor/react'
 import { useEffect, useState } from 'react'
 
 import { changeConfig } from '~/app/admin/action'
@@ -11,7 +11,6 @@ import { Dialog } from './ui/Dialog'
 export function ConfigDialog({ config }: { config: Config }) {
   const [isOpen, setIsOpen] = useState(false)
 
-  const [releaseDate, setReleaseDate] = useState(config.releaseDate)
   const [activeQuestionsLimit, setActiveQuestionsLimit] = useState(
     config.activeQuestionsLimit
   )
@@ -25,13 +24,11 @@ export function ConfigDialog({ config }: { config: Config }) {
   const [isChanged, setIsChanged] = useState(false)
   useEffect(() => {
     setIsChanged(
-      releaseDate.getDate() !== config.releaseDate?.getDate() ||
-        activeQuestionsLimit !== config.activeQuestionsLimit ||
+      activeQuestionsLimit !== config.activeQuestionsLimit ||
         questionsPerChallenge !== config.questionsPerChallenge ||
         refreshIntervalHours !== config.refreshIntervalHours
     )
   }, [
-    releaseDate,
     activeQuestionsLimit,
     questionsPerChallenge,
     refreshIntervalHours,
@@ -43,7 +40,6 @@ export function ConfigDialog({ config }: { config: Config }) {
     setIsLoading(true)
     try {
       await changeConfig({
-        releaseDate,
         activeQuestionsLimit,
         questionsPerChallenge,
         refreshIntervalHours,
@@ -69,15 +65,6 @@ export function ConfigDialog({ config }: { config: Config }) {
         }}
       >
         <div className="grid grid-cols-2 items-center gap-y-4">
-          <Text>Release Date</Text>
-          <DatePicker
-            maxDate={new Date()}
-            enableClear={false}
-            value={releaseDate}
-            onValueChange={(value) =>
-              setReleaseDate(value || new Date('2023-7-25'))
-            }
-          />
           <Text>Active Questions Limit</Text>
           <NumberInput
             min={0}

@@ -7,7 +7,6 @@ export type Config = Omit<typeof config.$inferSelect, 'id'>
 export const fetchConfig = async (): Promise<Config> => {
   const [configData] = await db.select().from(config)
   return {
-    releaseDate: configData?.releaseDate || new Date('2023-7-25'),
     activeQuestionsLimit: configData?.activeQuestionsLimit || 0,
     questionsPerChallenge: configData?.questionsPerChallenge || 0,
     refreshIntervalHours: configData?.refreshIntervalHours || 0,

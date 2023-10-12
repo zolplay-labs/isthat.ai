@@ -9,7 +9,6 @@ import { type Scene, useScene } from '~/stores/Scene.store'
 import { useSceneProps } from '~/stores/SceneProps.store'
 import { type User } from '~/stores/User.store'
 
-import { calcDay } from './helpers/calcDay'
 import { useUser } from './hooks/useUser'
 import { Loading } from './scenes/Loading'
 import { Menu } from './scenes/Menu'
@@ -48,7 +47,6 @@ export function Game({ user, images, config, userScoreToday }: GameProps) {
       setSceneProps('PLAY', { images, total: 1 })
       return
     }
-    const day = calcDay(config, new Date())
     setUser(user)
     if (userScoreToday) {
       setSceneProps('LOADING', { hasUserScoreToday: true })
@@ -56,14 +54,12 @@ export function Game({ user, images, config, userScoreToday }: GameProps) {
         scoreId: userScoreToday.id,
         challengeDays: userScoreToday.challengeDays,
         score: userScoreToday.score,
-        day,
       })
       setSceneProps('RESULT_WAITING', { time: userScoreToday.time })
       setSceneProps('PLAY', { total: userScoreToday.total })
       return
     }
     setSceneProps('PLAY', { images, total: config.questionsPerChallenge })
-    setSceneProps('RESULT', { day })
   })
 
   return (

@@ -1,6 +1,5 @@
 'use client'
 
-import { clsxm } from '@zolplay/utils'
 import Image from 'next/image'
 import { useState } from 'react'
 
@@ -8,34 +7,8 @@ import { type userScores } from '~/db/schema'
 import { type User } from '~/stores/User.store'
 import { formatDate, formatTime } from '~/utils/date'
 
+import { getResultTier } from '../helpers/getResultTier'
 import { BorderWithoutCorner } from './BorderWithoutCorner'
-
-const calculateGrade = (score: number, total: number) => {
-  if (score === total) return 0
-  if (score > Math.floor(total / 2)) return 1
-  if (score > Math.floor(total / 4)) return 2
-  return 3
-}
-
-export const GRADE_IMAGES = [
-  '/images/result/thumb.svg',
-  '/images/result/smile.svg',
-  '/images/result/think.svg',
-  '/images/result/sad.svg',
-]
-const GRADE_DESCRIPTIONS = [
-  'Excellent Job',
-  'Congratulations',
-  'Good Job',
-  "Don't lose heart. Try again tomorrow!",
-]
-
-interface ResultDisplayProps {
-  userScore: Omit<typeof userScores.$inferSelect, 'id' | 'userId' | 'createdAt'>
-  user: User
-  day: number
-  date: Date
-}
 
 interface InfoItemProps {
   name: string
@@ -50,74 +23,74 @@ function InfoItem({ name, value }: InfoItemProps) {
   )
 }
 
-export function ResultDisplay({
-  userScore,
-  user,
-  day,
-  date,
-}: ResultDisplayProps) {
-  const grade = calculateGrade(userScore.score, userScore.total)
+interface ResultDisplayProps {
+  userScore: Omit<typeof userScores.$inferSelect, 'id' | 'userId' | 'createdAt'>
+  user: User
+  date: Date
+}
+export function ResultDisplay({ userScore, user, date }: ResultDisplayProps) {
+  const tier = getResultTier(userScore.score, userScore.total, userScore.time)
   const info: InfoItemProps[] = [
-    { name: 'isthat.ai', value: `Day ${day}` },
     { name: 'Time', value: formatTime(userScore.time) },
     { name: 'Challenge Days', value: String(userScore.challengeDays) },
-    { name: 'Date', value: formatDate(date) },
   ]
 
   const [avatar, setAvatar] = useState(user.avatar!)
 
   return (
-    <>
-      <div className="flex flex-col items-center justify-center gap-[12px] text-center sm:gap-[28px]">
+    <div className="h-full w-full sm:flex sm:items-center sm:justify-center sm:gap-0">
+      <div className="hidden sm:ml-2 sm:block sm:w-1/2">
         <Image
-          src={GRADE_IMAGES[grade] || ''}
+          src={tier.image}
           alt="grade"
-          className="h-[168px] w-[168px] sm:h-[268px] sm:w-[268px]"
-          width={268}
-          height={268}
+          className="h-full w-full"
+          width={1024}
+          height={1024}
         />
-        <div className="text-[10px] sm:text-[13px]">
-          ~ {GRADE_DESCRIPTIONS[grade]} ~
-        </div>
-        <div className="flex items-center justify-center gap-[16px]">
-          <div className="relative w-fit">
-            <BorderWithoutCorner width={2} />
-            <Image
-              src={avatar}
-              width={28}
-              height={28}
-              alt="avatar"
-              onError={() => setAvatar('/images/default-avatar.png')}
-              priority
-            />
+      </div>
+      <div className="flex h-full flex-col items-center justify-between px-[10px] py-[20px] sm:w-1/2 sm:p-[24px]">
+        <div className="text-center">
+          <div className="text-[16px] sm:text-[20px]">
+            ~ {formatDate(date)} ~
           </div>
-          <div className="text-[16px] sm:text-[24px]">{user.name}</div>
-        </div>
-        <div className="flex items-center justify-center gap-[36px]">
-          <Image
-            src="/images/result/trophy.svg"
-            alt="trophy"
-            className="h-[44px] w-[44px] sm:h-[64px] sm:w-[64px]"
-            width={64}
-            height={64}
-          />
-          <div className="text-[16px] sm:text-[24px]">X</div>
-          <div
-            className={clsxm(
-              'text-[32px] sm:text-[54px]',
-              grade === 0 && 'text-[#ee418c]'
-            )}
-          >
-            {userScore.score}
+          <div className="text-[13px] sm:text-[16px] sm:text-[#A9A9A9]">
+            @isthat.ai
           </div>
         </div>
+        <Image
+          src={tier.image}
+          alt="grade"
+          className="block sm:hidden"
+          width={248}
+          height={248}
+        />
+        <div className="space-y-[10px] text-center sm:space-y-[14px]">
+          <div className="flex items-center justify-center gap-[8px] sm:gap-[16px]">
+            <div className="relative w-fit">
+              <BorderWithoutCorner width={2} />
+              <Image
+                src={avatar}
+                width={20}
+                height={20}
+                alt="avatar"
+                onError={() => setAvatar('/images/default-avatar.png')}
+                priority
+                className="h-[16px] w-[16px] sm:h-[20px] sm:w-[20px]"
+              />
+            </div>
+            <div className="text-[12px] sm:text-[16px]">{user.name}</div>
+          </div>
+          <div className="text-[23px] sm:text-[32px]">{tier.title}</div>
+          <div className="text-[8px] text-[#A9A9A9] sm:text-[13px]">
+            {tier.description}
+          </div>
+        </div>
+        <div className="flex w-full justify-between sm:justify-around">
+          {info.map((infoItem, i) => (
+            <InfoItem key={i} {...infoItem} />
+          ))}
+        </div>
       </div>
-
-      <div className="grid w-full grid-cols-2 gap-[10px] sm:flex sm:justify-between sm:gap-0">
-        {info.map((infoItem, i) => (
-          <InfoItem key={i} {...infoItem} />
-        ))}
-      </div>
-    </>
+    </div>
   )
 }

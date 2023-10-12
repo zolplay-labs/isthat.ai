@@ -44,7 +44,7 @@ export default async function Share({ params }: { params: { id: string } }) {
       <GameLayout
         header={<span>~ Result ~</span>}
         headerRight={<BattleButton className="hidden sm:block" />}
-        className="flex h-full w-full flex-col items-center justify-center gap-[35px] px-[10px] sm:px-[30px]"
+        className="h-full w-full"
       >
         <ResultDisplay
           userScore={userScore}

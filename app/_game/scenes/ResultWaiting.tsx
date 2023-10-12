@@ -72,7 +72,7 @@ export function ResultWaiting() {
       header={<span>~ Result ~</span>}
       className="cursor-loading space-y-[32px] sm:flex sm:h-full sm:w-full sm:items-center sm:justify-center sm:gap-0"
     >
-      <div className="sm:w-1/2">
+      <div className="sm:ml-2 sm:w-1/2">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentLoadingImageIndex}

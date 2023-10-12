@@ -9,6 +9,7 @@ import { useSceneProps } from '~/stores/SceneProps.store'
 import { BorderWithoutCorner } from '../components/BorderWithoutCorner'
 import { GameLayout } from '../components/GameLayout'
 import { ResultDisplay } from '../components/ResultDisplay'
+import { getResultTier, type Tier } from '../helpers/getResultTier'
 import { useUser } from '../hooks/useUser'
 
 function ShareDialogButton({
@@ -31,12 +32,14 @@ function ShareDialogButton({
 
 interface ShareDialogProps {
   shareLink: string
+  tier: Tier
   onClose: () => void
   dragConstraintsRef: React.RefObject<HTMLDivElement>
 }
 
 function ShareDialog({
   shareLink,
+  tier,
   onClose,
   dragConstraintsRef,
 }: ShareDialogProps) {
@@ -54,6 +57,8 @@ function ShareDialog({
       }, 1000)
     }
   }, [isCopied])
+
+  const downloadImageRef = useRef<HTMLAnchorElement>(null)
 
   return (
     <motion.div
@@ -91,10 +96,15 @@ function ShareDialog({
           <ShareDialogButton onClick={handleCopy}>
             {isCopied ? 'Copied!' : 'Copy link'}
           </ShareDialogButton>
+          <a
+            ref={downloadImageRef}
+            href={tier.image}
+            download={tier.title + '.jpg'}
+            className="hidden"
+          />
           <ShareDialogButton
-            // TODO: Add save image action
             onClick={() => {
-              return
+              downloadImageRef.current?.click()
             }}
           >
             Save image
@@ -108,7 +118,7 @@ function ShareDialog({
 export function Result() {
   const { user } = useUser()
   const { sceneProps } = useSceneProps()
-  const { day, scoreId, ...userScore } = {
+  const { scoreId, ...userScore } = {
     ...sceneProps['RESULT'],
     time: sceneProps['RESULT_WAITING'].time,
     total: sceneProps['PLAY'].total,
@@ -116,6 +126,11 @@ export function Result() {
 
   const isPC = useIsPC()
   const [shareLinkForDialog, setShareLinkForDialog] = useState('')
+  const [tier, setTier] = useState<Tier>({
+    image: '',
+    title: '',
+    description: '',
+  })
   const [isCopyShareLinkDialogOpen, setIsShareDialogOpen] = useState(false)
   const dialogDragConstraintsRef = useRef<HTMLDivElement>(null)
 
@@ -132,10 +147,16 @@ export function Result() {
       navigator.share(shareData)
       return
     }
-    if (navigator.clipboard && isPC) {
+    if (navigator.clipboard) {
       const shareLink = window.location.origin + shareUrl
       if (isPC) {
         setShareLinkForDialog(shareLink)
+        const tier = getResultTier(
+          userScore.score,
+          userScore.total,
+          userScore.time
+        )
+        setTier(tier)
         setIsShareDialogOpen(true)
       } else {
         await navigator.clipboard.writeText(shareLink)
@@ -149,34 +170,35 @@ export function Result() {
   return (
     <GameLayout
       header={<span>~ Result ~</span>}
-      className="relative flex h-full w-full flex-col items-center justify-center gap-[35px] px-[10px] sm:px-[30px]"
-      ref={dialogDragConstraintsRef}
+      className="relative h-full w-full"
+      headerRight={
+        <button
+          className="block w-full cursor-click text-[12px] sm:flex sm:items-center sm:justify-end sm:gap-[8px]"
+          onClick={handleShare}
+        >
+          <Image
+            src="/images/result/share.svg"
+            alt="share"
+            width={24}
+            height={24}
+          />
+          <span className="hidden sm:block">Share</span>
+        </button>
+      }
     >
-      <button
-        className="absolute right-[10px] top-[10px] flex cursor-click items-center gap-[4px] sm:right-[30px] sm:top-[30px] sm:gap-[8px]"
-        onClick={handleShare}
-      >
-        <Image
-          src="/images/result/share.svg"
-          alt="share"
-          className="h-[16px] w-[16px] sm:h-[24px] sm:w-[24px]"
-          width={24}
-          height={24}
-        />
-        <div className="text-[10px] sm:text-[12px]">Share</div>
-      </button>
-      <ResultDisplay
-        userScore={userScore}
-        user={user!}
-        day={day}
-        date={new Date()}
-      />
+      <ResultDisplay userScore={userScore} user={user!} date={new Date()} />
       {isCopyShareLinkDialogOpen && (
-        <ShareDialog
-          onClose={() => setIsShareDialogOpen(false)}
-          shareLink={shareLinkForDialog}
-          dragConstraintsRef={dialogDragConstraintsRef}
-        />
+        <div
+          className="absolute left-[4px] top-[4px] flex h-[calc(100%-8px)] w-[calc(100%-8px)] flex-col items-center justify-center"
+          ref={dialogDragConstraintsRef}
+        >
+          <ShareDialog
+            onClose={() => setIsShareDialogOpen(false)}
+            shareLink={shareLinkForDialog}
+            tier={tier}
+            dragConstraintsRef={dialogDragConstraintsRef}
+          />
+        </div>
       )}
     </GameLayout>
   )

@@ -51,11 +51,9 @@ export const GameLayout = forwardRef(
                   <Image
                     src="/images/zolplay.png"
                     alt="zolplay logo"
-                    className="h-[24px] w-[24px]"
                     width={24}
                     height={24}
                   />
-
                   <span className="hidden sm:block">Zolplay</span>
                 </a>
               )}

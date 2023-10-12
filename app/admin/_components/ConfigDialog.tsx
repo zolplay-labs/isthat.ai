@@ -27,9 +27,16 @@ export function ConfigDialog({ config }: { config: Config }) {
     setIsChanged(
       releaseDate.getDate() !== config.releaseDate?.getDate() ||
         activeQuestionsLimit !== config.activeQuestionsLimit ||
-        questionsPerChallenge !== config.questionsPerChallenge
+        questionsPerChallenge !== config.questionsPerChallenge ||
+        refreshIntervalHours !== config.refreshIntervalHours
     )
-  }, [releaseDate, activeQuestionsLimit, questionsPerChallenge, config])
+  }, [
+    releaseDate,
+    activeQuestionsLimit,
+    questionsPerChallenge,
+    refreshIntervalHours,
+    config,
+  ])
 
   const [isLoading, setIsLoading] = useState(false)
   const handleSubmit = async () => {

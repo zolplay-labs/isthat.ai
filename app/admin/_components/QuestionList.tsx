@@ -19,8 +19,7 @@ import {
   updateQuestionAI,
 } from '~/app/admin/action'
 import { type questions } from '~/db/schema'
-import { env } from '~/env.mjs'
-import { dialog } from '~/lib/dialog'
+import { getGameImageUrlById } from '~/helpers/getGameImageUrlById'
 
 import { Switch } from './ui/Switch'
 
@@ -62,16 +61,10 @@ function Actions({
           variant="secondary"
           color="orange"
           disabled={isPending}
-          onClick={async () => {
-            const { isConfirmed } = await dialog.fire({
-              icon: 'info',
-              title: 'Are you sure?',
-              text: 'Reactivation will refresh the question id and expire the last active question',
-              confirmButtonText: 'Yes, reactivate it!',
-              showCancelButton: true,
-              confirmButtonColor: '#f97316',
-              focusCancel: true,
-            })
+          onClick={() => {
+            const isConfirmed = confirm(
+              'Are you sure? Reactivation will refresh the question id and expire the last active question'
+            )
             if (isConfirmed) {
               startTransition(() => reactivateQuestion({ id: question.id }))
             }
@@ -85,15 +78,8 @@ function Actions({
         variant="secondary"
         color="red"
         disabled={isPending}
-        onClick={async () => {
-          const { isConfirmed } = await dialog.fire({
-            icon: 'warning',
-            title: 'Are you sure to delete this question?',
-            confirmButtonText: 'Yes, delete it!',
-            showCancelButton: true,
-            confirmButtonColor: '#ef4444',
-            focusCancel: true,
-          })
+        onClick={() => {
+          const isConfirmed = confirm('Are you sure to delete this question?')
           if (isConfirmed) {
             startTransition(() =>
               deleteQuestion({ id: question.id, image: question.image })
@@ -130,7 +116,7 @@ export function QuestionList({
             <TableCell width="400px">
               {/* FIXME: Image with src "<url>" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio. */}
               <Image
-                src={`https://imagedelivery.net/${env.NEXT_PUBLIC_CLOUDFLARE_ACCOUNT_HASH}/${question.image}/public`}
+                src={getGameImageUrlById(question.image)}
                 alt={`question ${question.image}`}
                 width={200}
                 height={0}

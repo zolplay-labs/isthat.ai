@@ -3,7 +3,7 @@ import { AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
 import { useState } from 'react'
 
-import { env } from '~/env.mjs'
+import { getGameImageUrlById } from '~/helpers/getGameImageUrlById'
 import { useScene } from '~/stores/Scene.store'
 import { useSceneProps } from '~/stores/SceneProps.store'
 
@@ -68,7 +68,7 @@ export function Play() {
           >
             <Image
               key={image}
-              src={`https://imagedelivery.net/${env.NEXT_PUBLIC_CLOUDFLARE_ACCOUNT_HASH}/${image}/public`}
+              src={getGameImageUrlById(image)}
               alt={`question ${image}`}
               width={600}
               height={600}

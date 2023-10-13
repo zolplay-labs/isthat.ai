@@ -19,8 +19,18 @@ const fetchUser = async () => {
   }
 }
 
-const generateRandomArray = (length: number, max: number) => {
-  const seed = new Date().toISOString().slice(0, 10).replaceAll('-', '') // e.g. 20230830
+const getRandomSeed = (config: Config) => {
+  const now = new Date()
+  const year = now.getFullYear()
+  const month = String(now.getMonth() + 1).padStart(2, '0')
+  const day = String(now.getDate()).padStart(2, '0')
+  const refreshFlag = String(
+    Math.floor(now.getHours() / config.refreshIntervalHours)
+  ).padStart(2, '0')
+  return `${year}${month}${day}${refreshFlag}`
+}
+
+const generateRandomArray = (length: number, max: number, seed: string) => {
   const random = new Random(Number(seed))
   const randomArray: number[] = []
   const getRandomNumber = (): number => {
@@ -39,11 +49,16 @@ const generateRandomArray = (length: number, max: number) => {
   return randomArray
 }
 
-const fetchRandomQuestions = async (config: Config, isTrial: boolean) => {
+const fetchRandomQuestions = async (
+  config: Config,
+  isTrial: boolean,
+  seed: string
+) => {
   const questionCount = await fetchQuestionCount()
   const randomIndexes = generateRandomArray(
     isTrial ? 1 : config.questionsPerChallenge,
-    Math.min(config.activeQuestionsLimit, questionCount)
+    Math.min(config.activeQuestionsLimit, questionCount),
+    seed
   )
   const activeQuestionsIds = (
     await db
@@ -81,9 +96,10 @@ export default async function Home() {
   const config = await fetchConfig()
   const user = await fetchUser()
   const userScoreToday = user ? await fetchUserScoreToday(user.userId) : null
+  const randomSeed = getRandomSeed(config)
   const images = userScoreToday
     ? []
-    : await fetchRandomQuestions(config, user === null)
+    : await fetchRandomQuestions(config, user === null, randomSeed)
 
   return (
     <Game

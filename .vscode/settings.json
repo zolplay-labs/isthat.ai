@@ -3,5 +3,8 @@
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "editor.codeActionsOnSave": {
     "source.organizeImports": false
+  },
+  "path-intellisense.mappings": {
+    "/": "${workspaceFolder}/public"
   }
 }

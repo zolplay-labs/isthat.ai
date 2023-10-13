@@ -1,6 +1,7 @@
 import '~/app/globals.css'
 
 import { ClerkProvider } from '@clerk/nextjs'
+import { Analytics } from '@vercel/analytics/react'
 import { clsxm } from '@zolplay/utils'
 import { type Metadata } from 'next'
 import { Press_Start_2P } from 'next/font/google'
@@ -61,11 +62,14 @@ export default function RootLayout({
         lang="en"
         className={clsxm(
           pressStart2P.variable,
-          'cursor-default select-none bg-black text-white antialiased'
+          'bg-black text-white antialiased'
         )}
         suppressHydrationWarning
       >
-        <body>{children}</body>
+        <body>
+          {children}
+          <Analytics />
+        </body>
       </html>
     </ClerkProvider>
   )

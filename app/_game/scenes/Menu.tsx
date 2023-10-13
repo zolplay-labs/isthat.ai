@@ -4,6 +4,7 @@ import { useScene } from '~/stores/Scene.store'
 
 import { BorderWithoutCorner } from '../components/BorderWithoutCorner'
 import { MenuButton } from '../components/MenuButton'
+import { PreloadImages } from '../components/PreloadImages'
 import { useUser } from '../hooks/useUser'
 
 export function Menu() {
@@ -13,6 +14,7 @@ export function Menu() {
 
   return (
     <div className="relative flex h-[100dvh] items-center justify-center bg-[url('/images/menu/screen.svg')] bg-cover bg-center bg-no-repeat">
+      <PreloadImages />
       {isSignedIn && user?.avatar && (
         <div className="absolute right-[5%] top-[16%] sm:right-[20%]">
           <BorderWithoutCorner width={3} />
@@ -56,11 +58,11 @@ export function Menu() {
           )}
         </div>
       </div>
-      <div className="absolute bottom-0 w-[80%] bg-white py-[20px] text-center text-[12px] text-[#989898]">
+      <div className="absolute bottom-0 w-[80%] bg-white py-[10px] text-center text-[12px] text-[#989898] sm:py-[20px]">
         Craft by{' '}
         <a
           href="https://zolplay.com"
-          className="cursor-pointer text-[#626262] underline"
+          className="cursor-click text-[#626262] underline"
         >
           Zolplay
         </a>

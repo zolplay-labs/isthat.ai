@@ -1,58 +1,56 @@
 'use client'
 
-import { Button, DatePicker, NumberInput, Text } from '@tremor/react'
+import { Button, NumberInput, Text } from '@tremor/react'
 import { useEffect, useState } from 'react'
 
 import { changeConfig } from '~/app/admin/action'
 import { type Config } from '~/db/queries'
-import { dialog } from '~/lib/dialog'
 
 import { Dialog } from './ui/Dialog'
 
 export function ConfigDialog({ config }: { config: Config }) {
   const [isOpen, setIsOpen] = useState(false)
 
-  const [releaseDate, setReleaseDate] = useState(config.releaseDate)
   const [activeQuestionsLimit, setActiveQuestionsLimit] = useState(
     config.activeQuestionsLimit
   )
   const [questionsPerChallenge, setQuestionsPerChallenge] = useState(
     config.questionsPerChallenge
   )
+  const [refreshIntervalHours, setRefreshIntervalHours] = useState(
+    config.refreshIntervalHours
+  )
 
   const [isChanged, setIsChanged] = useState(false)
   useEffect(() => {
     setIsChanged(
-      releaseDate.getDate() !== config.releaseDate?.getDate() ||
-        activeQuestionsLimit !== config.activeQuestionsLimit ||
-        questionsPerChallenge !== config.questionsPerChallenge
+      activeQuestionsLimit !== config.activeQuestionsLimit ||
+        questionsPerChallenge !== config.questionsPerChallenge ||
+        refreshIntervalHours !== config.refreshIntervalHours
     )
-  }, [releaseDate, activeQuestionsLimit, questionsPerChallenge, config])
+  }, [
+    activeQuestionsLimit,
+    questionsPerChallenge,
+    refreshIntervalHours,
+    config,
+  ])
 
   const [isLoading, setIsLoading] = useState(false)
   const handleSubmit = async () => {
     setIsLoading(true)
     try {
       await changeConfig({
-        releaseDate,
         activeQuestionsLimit,
         questionsPerChallenge,
+        refreshIntervalHours,
       })
       setIsLoading(false)
       setIsOpen(false)
-      await dialog.fire({
-        title: 'Config is changed successfully!',
-        icon: 'success',
-        confirmButtonColor: '#3b82f6',
-      })
+      alert('Config is changed successfully!')
     } catch (error) {
       setIsLoading(false)
       setIsOpen(false)
-      await dialog.fire({
-        title: 'Config failed to be changed!',
-        icon: 'error',
-        confirmButtonColor: '#3b82f6',
-      })
+      alert('Config failed to be changed!')
     }
   }
 
@@ -66,49 +64,38 @@ export function ConfigDialog({ config }: { config: Config }) {
           setIsOpen(false)
         }}
       >
-        <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <Text>Release Date</Text>
-            <DatePicker
-              className="w-2/3"
-              maxDate={new Date()}
-              enableClear={false}
-              value={releaseDate}
-              onValueChange={(value) =>
-                setReleaseDate(value || new Date('2023-7-25'))
-              }
-            />
-          </div>
-          <div className="flex items-center justify-between">
-            <Text>Active Questions Limit</Text>
-            <NumberInput
-              className="w-2/5"
-              min={0}
-              value={activeQuestionsLimit}
-              onValueChange={(value) => setActiveQuestionsLimit(value)}
-            />
-          </div>
-          <div className="flex items-center justify-between">
-            <Text>Questions Per Challenge</Text>
-            <NumberInput
-              className="w-2/5"
-              min={0}
-              value={questionsPerChallenge}
-              onValueChange={(value) => setQuestionsPerChallenge(value)}
-            />
-          </div>
-          <div className="flex justify-end gap-2">
-            <Button
-              loading={isLoading}
-              onClick={handleSubmit}
-              disabled={!isChanged}
-            >
-              Save & Change
-            </Button>
-            <Button onClick={() => setIsOpen(false)} color="gray">
-              Cancel
-            </Button>
-          </div>
+        <div className="grid grid-cols-2 items-center gap-y-4">
+          <Text>Active Questions Limit</Text>
+          <NumberInput
+            min={0}
+            value={activeQuestionsLimit}
+            onValueChange={(value) => setActiveQuestionsLimit(value)}
+          />
+          <Text>Questions Per Challenge</Text>
+          <NumberInput
+            min={0}
+            value={questionsPerChallenge}
+            onValueChange={(value) => setQuestionsPerChallenge(value)}
+          />
+          <Text>Refresh Interval Hours</Text>
+          <NumberInput
+            min={1}
+            max={24}
+            value={refreshIntervalHours}
+            onValueChange={(value) => setRefreshIntervalHours(value)}
+          />
+        </div>
+        <div className="mt-4 flex justify-end gap-2">
+          <Button
+            loading={isLoading}
+            onClick={handleSubmit}
+            disabled={!isChanged}
+          >
+            Save & Change
+          </Button>
+          <Button onClick={() => setIsOpen(false)} color="gray">
+            Cancel
+          </Button>
         </div>
       </Dialog>
     </>

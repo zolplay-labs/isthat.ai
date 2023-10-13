@@ -17,7 +17,6 @@ const DEFAULT_SCENE_PROPS = {
   },
   RESULT: {
     scoreId: -1,
-    day: 0,
     challengeDays: 0,
     score: 0,
   },

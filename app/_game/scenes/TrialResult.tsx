@@ -6,6 +6,33 @@ import { BorderWithoutCorner } from '../components/BorderWithoutCorner'
 import { GameLayout } from '../components/GameLayout'
 import { useUser } from '../hooks/useUser'
 
+type TrialTier = {
+  image: string
+  title: string
+  description: string
+  button: string
+}
+const TRAIL_TIER: Map<boolean, TrialTier> = new Map([
+  [
+    true,
+    {
+      image: '/images/result-tiers/techie-trainee.jpg',
+      title: 'Nice!',
+      description: 'Think you can tell apart nature from neural net?',
+      button: "I'm ready",
+    },
+  ],
+  [
+    false,
+    {
+      image: '/images/result-tiers/blundering-botanist.jpg',
+      title: 'Ooops...',
+      description: 'AI tricked ya real good here.',
+      button: 'I can do this!',
+    },
+  ],
+])
+
 export function TrialResult() {
   const { sceneProps } = useSceneProps()
   const props = sceneProps['TRIAL_RESULT']
@@ -15,49 +42,32 @@ export function TrialResult() {
   return (
     <GameLayout
       header={<span>~ Result ~</span>}
-      className="flex flex-col items-center justify-center text-center"
+      className="relative flex h-full w-full flex-col items-center justify-center sm:flex-row"
     >
-      <Image
-        src={
-          props.isRight ? '/images/result/smile.svg' : '/images/result/sad.svg'
-        }
-        alt="grade"
-        className="h-[168px] w-[168px] sm:h-[268px] sm:w-[268px]"
-        width={268}
-        height={268}
-      />
-      <div className="mt-[12px] text-[10px] sm:mt-[8px] sm:text-[16px]">
-        <div className="hidden sm:block">
-          {props.isRight
-            ? '~ Congratulations! You got it right. ~'
-            : "~ I'm sorry. You got it wrong. ~"}
-        </div>
-        <div className="sm:hidden">
-          {props.isRight ? (
-            <>
-              <div>Congratulations!</div>
-              <div>You got it right.</div>
-            </>
-          ) : (
-            <>
-              <div>I&apos;m sorry.</div>
-              <div>You got it wrong.</div>
-            </>
-          )}
-        </div>
+      <div className="sm:ml-2 sm:h-full sm:w-1/2">
+        <Image
+          src={TRAIL_TIER.get(props.isRight)?.image || ''}
+          alt="tier"
+          className="h-[248px] w-[248px] object-contain sm:h-full sm:w-full"
+          width={1024}
+          height={1024}
+        />
       </div>
-      <div className="mb-[24px] mt-[44px] text-[8px] sm:mt-[58px] sm:text-[13px]">
-        {props.isRight
-          ? "Continuing the challenge won't be that easy..."
-          : "Do you want to tell me that you're not just capable of this much?"}
+      <div className="flex flex-col items-center justify-center text-center sm:w-1/2">
+        <div className="mb-[8px] mt-[16px] text-[16px] sm:my-0 sm:text-[28px]">
+          <div>{TRAIL_TIER.get(props.isRight)?.title}</div>
+        </div>
+        <div className="text-[8px] text-[#A9A9A9] sm:mb-[36px] sm:mt-[12px] sm:text-[13px]">
+          {TRAIL_TIER.get(props.isRight)?.description}
+        </div>
+        <button
+          onClick={signInWithGoogle}
+          className="absolute bottom-[20px] block w-[248px] cursor-click py-[6px] text-center text-[12px] sm:relative sm:bottom-auto sm:w-fit sm:p-[6px] sm:text-[16px]"
+        >
+          <BorderWithoutCorner width={4} />
+          {TRAIL_TIER.get(props.isRight)?.button}
+        </button>
       </div>
-      <button
-        onClick={signInWithGoogle}
-        className="relative block cursor-pointer py-[6px] text-[9px] leading-[24px] sm:p-[6px] sm:text-[14px]"
-      >
-        <BorderWithoutCorner width={4} />
-        Sign up and Battle with AI
-      </button>
     </GameLayout>
   )
 }

@@ -55,7 +55,7 @@ export function ResultDisplay({
           height={1024}
         />
       </div>
-      <div className="flex h-full flex-col items-center justify-between px-[10px] py-[20px] sm:w-1/2 sm:p-[24px]">
+      <div className="flex h-full flex-col items-center justify-between px-[10px] py-[20px] sm:w-1/2 sm:justify-center sm:gap-[48px] sm:p-[24px]">
         <div className="text-center">
           <div className="text-[16px] sm:text-[20px]">
             ~ {formatDate(date)} ~

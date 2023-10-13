@@ -191,7 +191,7 @@ export default async function Image({ params }: { params: { id: string } }) {
       ...size,
       fonts: [
         {
-          name: 'Inter',
+          name: 'Press Start 2P',
           data: fontData,
           style: 'normal',
           weight: 400,

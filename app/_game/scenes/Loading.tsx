@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { useEffect } from 'react'
 import { useMount } from 'react-use'
 
+import { getGameImageUrlById } from '~/helpers/getGameImageUrlById'
 import { useMotionProgress } from '~/hooks/useMotionProgress'
 import { useScene } from '~/stores/Scene.store'
 import { useSceneProps } from '~/stores/SceneProps.store'
@@ -34,7 +35,12 @@ export function Loading() {
   return (
     <div className="flex h-[100dvh] cursor-loading items-center justify-center">
       <PreloadImages
-        images={[...PIXELATED_RESULT_TIER_IMAGES, ...sceneProps['PLAY'].images]}
+        images={[
+          ...PIXELATED_RESULT_TIER_IMAGES,
+          ...sceneProps['PLAY'].images.map((image) =>
+            getGameImageUrlById(image)
+          ),
+        ]}
       />
       <div className="flex h-[400px] w-[335px] flex-col items-center bg-[url('/images/loading/computer.svg')] bg-contain bg-no-repeat pt-[54px] sm:h-[700px] sm:w-[643px] sm:pt-[104px]">
         <div className="inline-flex flex-col items-center">

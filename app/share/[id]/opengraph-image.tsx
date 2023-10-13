@@ -7,6 +7,7 @@ import { filterUser } from '~/app/_game/helpers/filterUser'
 import { getResultTier } from '~/app/_game/helpers/getResultTier'
 import { db } from '~/db'
 import { userScores } from '~/db/schema'
+import { env } from '~/env.mjs'
 import { sqids } from '~/lib/sqids'
 import { formatDate } from '~/utils/date'
 
@@ -31,7 +32,7 @@ export default async function Image({ params }: { params: { id: string } }) {
 
   const tier = getResultTier(userScore.score, userScore.total, userScore.time)
 
-  const hostname = process.env.NEXT_PUBLIC_HOST
+  const hostname = env.PAGE_HOST
 
   const [fontData] = await Promise.all([
     fetch(new URL(`${hostname}/fonts/PressStart2P.ttf`, import.meta.url)).then(

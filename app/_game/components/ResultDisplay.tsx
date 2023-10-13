@@ -95,7 +95,7 @@ export function ResultDisplay({
         {hasBattleButton ? (
           <Link
             href="/"
-            className="relative block w-[calc(100%-16px)] cursor-click py-[6px] text-center text-[12px] sm:w-fit sm:p-[16px] sm:text-[16px]"
+            className="relative block w-[248px] cursor-click py-[6px] text-center text-[12px] sm:w-fit sm:p-[16px] sm:text-[16px]"
           >
             <BorderWithoutCorner width={4} />
             Battle with AI

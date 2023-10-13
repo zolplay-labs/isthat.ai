@@ -95,10 +95,10 @@ export function ResultDisplay({
         {hasBattleButton ? (
           <Link
             href="/"
-            className="relative block w-fit cursor-click py-[6px] text-[9px] leading-[24px] sm:p-[16px] sm:text-[15px] sm:leading-normal"
+            className="relative block w-[calc(100%-16px)] cursor-click py-[6px] text-center text-[12px] sm:w-fit sm:p-[16px] sm:text-[16px]"
           >
             <BorderWithoutCorner width={4} />
-            Sign up and Battle with AI
+            Battle with AI
           </Link>
         ) : (
           <div className="flex w-full justify-between sm:justify-around">

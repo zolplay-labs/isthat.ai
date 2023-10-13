@@ -49,7 +49,7 @@ export function ResultDisplay({
       <div className="hidden sm:ml-2 sm:block sm:w-1/2">
         <Image
           src={tier.image}
-          alt="grade"
+          alt="tier"
           className="h-full w-full"
           width={1024}
           height={1024}

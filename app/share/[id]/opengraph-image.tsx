@@ -10,10 +10,6 @@ import { userScores } from '~/db/schema'
 import { sqids } from '~/lib/sqids'
 import { formatDate } from '~/utils/date'
 
-// Route segment config
-export const runtime = 'edge'
-
-// Image metadata
 export const alt = 'isthat.ai'
 export const size = { width: 1200, height: 675 }
 export const contentType = 'image/png'
@@ -35,13 +31,12 @@ export default async function Image({ params }: { params: { id: string } }) {
 
   const tier = getResultTier(userScore.score, userScore.total, userScore.time)
 
-  const [ogBg, fontData] = await Promise.all([
-    fetch(
-      new URL('./../../../public/images/social/bg.png', import.meta.url)
-    ).then((res) => res.arrayBuffer()),
-    fetch(
-      new URL('./../../../public/fonts/PressStart2P.ttf', import.meta.url)
-    ).then((res) => res.arrayBuffer()),
+  const hostname = process.env.NEXT_PUBLIC_HOST
+
+  const [fontData] = await Promise.all([
+    fetch(new URL(`${hostname}/fonts/PressStart2P.ttf`, import.meta.url)).then(
+      (res) => res.arrayBuffer()
+    ),
   ])
 
   return new ImageResponse(
@@ -57,10 +52,13 @@ export default async function Image({ params }: { params: { id: string } }) {
           color: '#fff',
         }}
       >
-        {/* @ts-expect-error Lack of typing from ImageResponse */}
-        <img src={ogBg} alt="og-bg" style={{ position: 'absolute' }} />
         <img
-          src={process.env.NEXT_PUBLIC_HOST + tier.image}
+          src={`${hostname}/images/social/bg.png`}
+          alt="og-bg"
+          style={{ position: 'absolute' }}
+        />
+        <img
+          src={hostname + tier.image}
           alt="og-result"
           width={539}
           height={539}
@@ -95,12 +93,7 @@ export default async function Image({ params }: { params: { id: string } }) {
                 display: 'flex',
               }}
             >
-              <img
-                src={
-                  process.env.NEXT_PUBLIC_HOST + '/images/default-avatar.png'
-                }
-                alt="og-bg"
-              />
+              <img src={hostname + '/images/default-avatar.png'} alt="og-bg" />
               <div
                 style={{
                   width: 2,

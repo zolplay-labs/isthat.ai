@@ -11,8 +11,19 @@ import { useScene } from '~/stores/Scene.store'
 import { useSceneProps } from '~/stores/SceneProps.store'
 
 import { GameLayout } from '../components/GameLayout'
-import { PIXELATED_RESULT_TIER_IMAGES } from '../components/PreloadResultWaitingImages'
 import { useUser } from '../hooks/useUser'
+
+export const PIXELATED_RESULT_TIER_IMAGES = [
+  '/images/result-tiers/pixel/ai-detective.png',
+  '/images/result-tiers/pixel/ai-spy.png',
+  '/images/result-tiers/pixel/algorithm-apprentice.png',
+  '/images/result-tiers/pixel/blundering-botanist.png',
+  '/images/result-tiers/pixel/clueless-coder.png',
+  '/images/result-tiers/pixel/code-curator.png',
+  '/images/result-tiers/pixel/digital-diplomat.png',
+  '/images/result-tiers/pixel/pixel-pro.png',
+  '/images/result-tiers/pixel/techie-trainee.png',
+]
 
 export type Answers = { image: string; AI: boolean }[]
 

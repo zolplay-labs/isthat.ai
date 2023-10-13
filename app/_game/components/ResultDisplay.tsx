@@ -46,11 +46,11 @@ export function ResultDisplay({
 
   return (
     <div className="h-full w-full sm:flex sm:items-center sm:justify-center sm:gap-0">
-      <div className="hidden sm:ml-2 sm:block sm:w-1/2">
+      <div className="hidden sm:ml-2 sm:block sm:h-full sm:w-1/2">
         <Image
           src={tier.image}
           alt="tier"
-          className="h-full w-full"
+          className="h-full w-full object-contain"
           width={1024}
           height={1024}
         />

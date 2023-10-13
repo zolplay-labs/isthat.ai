@@ -11,21 +11,10 @@ import { useScene } from '~/stores/Scene.store'
 import { useSceneProps } from '~/stores/SceneProps.store'
 
 import { GameLayout } from '../components/GameLayout'
+import { PIXELATED_RESULT_TIER_IMAGES } from '../components/PreloadResultWaitingImages'
 import { useUser } from '../hooks/useUser'
 
 export type Answers = { image: string; AI: boolean }[]
-
-const PIXELATED_RESULT_TIERS = [
-  '/images/result-tiers/pixel/ai-detective.png',
-  '/images/result-tiers/pixel/ai-spy.png',
-  '/images/result-tiers/pixel/algorithm-apprentice.png',
-  '/images/result-tiers/pixel/blundering-botanist.png',
-  '/images/result-tiers/pixel/clueless-coder.png',
-  '/images/result-tiers/pixel/code-curator.png',
-  '/images/result-tiers/pixel/digital-diplomat.png',
-  '/images/result-tiers/pixel/pixel-pro.png',
-  '/images/result-tiers/pixel/techie-trainee.png',
-]
 
 export function ResultWaiting() {
   const { switchScene } = useScene()
@@ -56,7 +45,7 @@ export function ResultWaiting() {
 
   useEffect(() => {
     if (isProgressEnd) {
-      switchScene(isSignedIn ? 'RESULT' : 'TRIAL_RESULT')
+      // switchScene(isSignedIn ? 'RESULT' : 'TRIAL_RESULT')
     }
   }, [isProgressEnd])
 
@@ -72,7 +61,7 @@ export function ResultWaiting() {
       header={<span>~ Result ~</span>}
       className="cursor-loading space-y-[32px] sm:flex sm:h-full sm:w-full sm:items-center sm:justify-center sm:gap-0"
     >
-      <div className="sm:ml-2 sm:w-1/2">
+      <div className="sm:ml-2 sm:flex sm:h-full sm:w-1/2 sm:justify-center">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentLoadingImageIndex}
@@ -81,12 +70,12 @@ export function ResultWaiting() {
             exit={{ opacity: 0 }}
           >
             <Image
-              src={PIXELATED_RESULT_TIERS[currentLoadingImageIndex] || ''}
+              src={PIXELATED_RESULT_TIER_IMAGES[currentLoadingImageIndex] || ''}
               alt="grade"
-              className="h-[248px] w-[248px] sm:h-full sm:w-full"
+              className="h-[248px] w-[248px] object-contain sm:h-full sm:w-full"
               width={248}
               height={248}
-              loading="eager"
+              priority
             />
           </motion.div>
         </AnimatePresence>

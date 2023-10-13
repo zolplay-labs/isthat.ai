@@ -44,11 +44,11 @@ export function TrialResult() {
       header={<span>~ Result ~</span>}
       className="relative flex h-full w-full flex-col items-center justify-center sm:flex-row"
     >
-      <div className="sm:ml-2 sm:w-1/2">
+      <div className="sm:ml-2 sm:h-full sm:w-1/2">
         <Image
           src={TRAIL_TIER.get(props.isRight)?.image || ''}
           alt="tier"
-          className="h-[248px] w-[248px] sm:h-full sm:w-full"
+          className="h-[248px] w-[248px] object-contain sm:h-full sm:w-full"
           width={1024}
           height={1024}
         />

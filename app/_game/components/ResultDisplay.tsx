@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
 import { useState } from 'react'
 
 import { type userScores } from '~/db/schema'
@@ -27,8 +28,14 @@ interface ResultDisplayProps {
   userScore: Omit<typeof userScores.$inferSelect, 'id' | 'userId' | 'createdAt'>
   user: User
   date: Date
+  hasBattleButton?: boolean
 }
-export function ResultDisplay({ userScore, user, date }: ResultDisplayProps) {
+export function ResultDisplay({
+  userScore,
+  user,
+  date,
+  hasBattleButton,
+}: ResultDisplayProps) {
   const tier = getResultTier(userScore.score, userScore.total, userScore.time)
   const info: InfoItemProps[] = [
     { name: 'Time', value: formatTime(userScore.time) },
@@ -85,11 +92,21 @@ export function ResultDisplay({ userScore, user, date }: ResultDisplayProps) {
             {tier.description}
           </div>
         </div>
-        <div className="flex w-full justify-between sm:justify-around">
-          {info.map((infoItem, i) => (
-            <InfoItem key={i} {...infoItem} />
-          ))}
-        </div>
+        {hasBattleButton ? (
+          <Link
+            href="/"
+            className="relative block w-fit cursor-click py-[6px] text-[9px] leading-[24px] sm:p-[16px] sm:text-[15px] sm:leading-normal"
+          >
+            <BorderWithoutCorner width={4} />
+            Sign up and Battle with AI
+          </Link>
+        ) : (
+          <div className="flex w-full justify-between sm:justify-around">
+            {info.map((infoItem, i) => (
+              <InfoItem key={i} {...infoItem} />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   )

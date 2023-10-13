@@ -4,22 +4,21 @@ import { notFound } from 'next/navigation'
 import { ImageResponse } from 'next/server'
 
 import { filterUser } from '~/app/_game/helpers/filterUser'
+import { getResultTier } from '~/app/_game/helpers/getResultTier'
 import { db } from '~/db'
 import { userScores } from '~/db/schema'
 import { sqids } from '~/lib/sqids'
 import { formatLocaleDate } from '~/utils/date'
+
+// Route segment config
+export const runtime = 'edge'
 
 // Image metadata
 export const alt = 'isthat.ai'
 export const size = { width: 1200, height: 675 }
 export const contentType = 'image/png'
 
-// Image generation
-export default async function Image({
-  params,
-}: {
-  params: { id: string; name: string }
-}) {
+export default async function Image({ params }: { params: { id: string } }) {
   const [id] = sqids.decode(params.id)
 
   if (!id) return notFound()
@@ -34,32 +33,37 @@ export default async function Image({
   const clerkUser = await clerkClient.users.getUser(userScore.userId)
   const user = filterUser(clerkUser)
 
-  const fontData = await fetch(
-    'http://localhost:3000/fonts/PressStart2P.ttf'
-  ).then((res) => res.arrayBuffer())
+  const tier = getResultTier(userScore.score, userScore.total, userScore.time)
+
+  const [ogBg, fontData] = await Promise.all([
+    fetch(
+      new URL('./../../../public/images/social/bg.png', import.meta.url)
+    ).then((res) => res.arrayBuffer()),
+    fetch(
+      new URL('./../../../public/fonts/PressStart2P.ttf', import.meta.url)
+    ).then((res) => res.arrayBuffer()),
+  ])
 
   return new ImageResponse(
     (
       <div
         style={{
-          background: 'white',
           width: '100%',
           height: '100%',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundImage: `url("http://localhost:3000/images/social/bg.png")`,
+          position: 'relative',
           color: '#fff',
         }}
       >
-        <div
-          style={{
-            width: 539,
-            height: 539,
-            backgroundImage:
-              'url("http://localhost:3000/images/social/result.png")',
-            backgroundSize: '539px 539px',
-          }}
+        {/* @ts-expect-error Lack of typing from ImageResponse */}
+        <img src={ogBg} alt="og-bg" style={{ position: 'absolute' }} />
+        <img
+          src={process.env.NEXT_PUBLIC_HOST + tier.image}
+          alt="og-result"
+          width={539}
+          height={539}
         />
         <div
           style={{
@@ -87,13 +91,16 @@ export default async function Image({
                 fontSize: 14,
                 borderWidth: 2,
                 borderColor: '#fff',
-                backgroundImage:
-                  'url("http://localhost:3000/images/default-avatar.png")',
-                backgroundSize: '100% 100%',
                 position: 'relative',
                 display: 'flex',
               }}
             >
+              <img
+                src={
+                  process.env.NEXT_PUBLIC_HOST + '/images/default-avatar.png'
+                }
+                alt="og-bg"
+              />
               <div
                 style={{
                   width: 2,
@@ -150,7 +157,7 @@ export default async function Image({
           <div
             style={{ fontSize: 44, textAlign: 'center', lineHeight: '64px' }}
           >
-            Algorithm Apprentice
+            {tier.title}
           </div>
           <div
             style={{

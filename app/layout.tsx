@@ -7,7 +7,7 @@ import { type Metadata } from 'next'
 import { Press_Start_2P } from 'next/font/google'
 
 const title = 'isthat.ai'
-const description = "Reality's art or AI's smart? Take the challenge."
+const description = 'A.I. or not? The image Turing test for humans'
 
 export const metadata: Metadata = {
   title,

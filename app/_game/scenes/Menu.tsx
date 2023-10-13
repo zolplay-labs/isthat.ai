@@ -1,32 +1,20 @@
 import Image from 'next/image'
 
-import { getGameImageUrlById } from '~/helpers/getGameImageUrlById'
 import { useScene } from '~/stores/Scene.store'
-import { useSceneProps } from '~/stores/SceneProps.store'
 
 import { BorderWithoutCorner } from '../components/BorderWithoutCorner'
 import { MenuButton } from '../components/MenuButton'
 import { PreloadImages } from '../components/PreloadImages'
 import { useUser } from '../hooks/useUser'
-import { PIXELATED_RESULT_TIER_IMAGES } from './ResultWaiting'
 
 export function Menu() {
   const { isSignedIn, logout, signInWithGoogle, user, setAvatarToDefault } =
     useUser()
   const { switchScene } = useScene()
 
-  const { sceneProps } = useSceneProps()
-
   return (
     <div className="relative flex h-[100dvh] items-center justify-center bg-[url('/images/menu/screen.svg')] bg-cover bg-center bg-no-repeat">
-      <PreloadImages
-        images={[
-          ...PIXELATED_RESULT_TIER_IMAGES,
-          ...sceneProps['PLAY'].images.map((image) =>
-            getGameImageUrlById(image)
-          ),
-        ]}
-      />
+      <PreloadImages />
       {isSignedIn && user?.avatar && (
         <div className="absolute right-[5%] top-[16%] sm:right-[20%]">
           <BorderWithoutCorner width={3} />

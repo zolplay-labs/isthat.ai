@@ -187,19 +187,19 @@ export function Result() {
       }
     >
       <ResultDisplay userScore={userScore} user={user!} date={new Date()} />
-      {isCopyShareLinkDialogOpen && (
-        <div
-          className="absolute left-[4px] top-[4px] flex h-[calc(100%-8px)] w-[calc(100%-8px)] flex-col items-center justify-center"
-          ref={dialogDragConstraintsRef}
-        >
+      <div
+        className="absolute left-[4px] top-[4px] flex h-[calc(100%-8px)] w-[calc(100%-8px)] flex-col items-center justify-center"
+        ref={dialogDragConstraintsRef}
+      >
+        {isCopyShareLinkDialogOpen && (
           <ShareDialog
             onClose={() => setIsShareDialogOpen(false)}
             shareLink={shareLinkForDialog}
             tier={tier}
             dragConstraintsRef={dialogDragConstraintsRef}
           />
-        </div>
-      )}
+        )}
+      </div>
     </GameLayout>
   )
 }

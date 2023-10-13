@@ -32,12 +32,10 @@ export default async function Image({ params }: { params: { id: string } }) {
 
   const tier = getResultTier(userScore.score, userScore.total, userScore.time)
 
-  const hostname = env.PAGE_HOST
-
   const [fontData] = await Promise.all([
-    fetch(new URL(`${hostname}/fonts/PressStart2P.ttf`, import.meta.url)).then(
-      (res) => res.arrayBuffer()
-    ),
+    fetch(
+      new URL(`${env.HOSTNAME}/fonts/PressStart2P.ttf`, import.meta.url)
+    ).then((res) => res.arrayBuffer()),
   ])
 
   return new ImageResponse(
@@ -54,12 +52,12 @@ export default async function Image({ params }: { params: { id: string } }) {
         }}
       >
         <img
-          src={`${hostname}/images/social/bg.png`}
+          src={`${env.HOSTNAME}/images/social/bg.png`}
           alt="og-bg"
           style={{ position: 'absolute' }}
         />
         <img
-          src={hostname + tier.image}
+          src={env.HOSTNAME + tier.image}
           alt="og-result"
           width={539}
           height={539}
@@ -94,7 +92,10 @@ export default async function Image({ params }: { params: { id: string } }) {
                 display: 'flex',
               }}
             >
-              <img src={hostname + '/images/default-avatar.png'} alt="og-bg" />
+              <img
+                src={env.HOSTNAME + '/images/default-avatar.png'}
+                alt="og-bg"
+              />
               <div
                 style={{
                   width: 2,

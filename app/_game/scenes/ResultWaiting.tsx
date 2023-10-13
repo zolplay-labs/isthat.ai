@@ -45,7 +45,7 @@ export function ResultWaiting() {
 
   useEffect(() => {
     if (isProgressEnd) {
-      // switchScene(isSignedIn ? 'RESULT' : 'TRIAL_RESULT')
+      switchScene(isSignedIn ? 'RESULT' : 'TRIAL_RESULT')
     }
   }, [isProgressEnd])
 
@@ -73,8 +73,8 @@ export function ResultWaiting() {
               src={PIXELATED_RESULT_TIER_IMAGES[currentLoadingImageIndex] || ''}
               alt="grade"
               className="h-[248px] w-[248px] object-contain sm:h-full sm:w-full"
-              width={248}
-              height={248}
+              width={1024}
+              height={1024}
               priority
             />
           </motion.div>

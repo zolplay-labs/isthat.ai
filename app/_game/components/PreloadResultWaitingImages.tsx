@@ -20,8 +20,8 @@ export function PreloadResultWaitingImages() {
           src={image}
           alt="grade"
           className="h-[248px] w-[248px] object-contain sm:h-full sm:w-full"
-          width={248}
-          height={248}
+          width={1024}
+          height={1024}
           key={i}
           priority
         />

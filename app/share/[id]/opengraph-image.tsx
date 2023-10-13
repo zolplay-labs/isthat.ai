@@ -8,7 +8,7 @@ import { getResultTier } from '~/app/_game/helpers/getResultTier'
 import { db } from '~/db'
 import { userScores } from '~/db/schema'
 import { sqids } from '~/lib/sqids'
-import { formatLocaleDate } from '~/utils/date'
+import { formatDate } from '~/utils/date'
 
 // Route segment config
 export const runtime = 'edge'
@@ -175,7 +175,7 @@ export default async function Image({ params }: { params: { id: string } }) {
               }}
             >
               <div>~</div>
-              <div>{formatLocaleDate(userScore.createdAt)}</div>
+              <div>{formatDate(userScore.createdAt)}</div>
               <div>~</div>
             </div>
             <div

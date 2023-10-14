@@ -19,10 +19,7 @@ pnpm i
 > If your database is not empty, just run `pnpm run db:generate` to generate types
 
 ```bash
-# Push database
 pnpm run db:push
-# Seed database
-pnpm run db:seed
 ```
 
 4. Run dev server

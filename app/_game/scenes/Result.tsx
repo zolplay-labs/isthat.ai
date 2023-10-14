@@ -126,11 +126,7 @@ export function Result() {
 
   const isPC = useIsPC()
   const [shareLinkForDialog, setShareLinkForDialog] = useState('')
-  const [tier, setTier] = useState<Tier>({
-    image: '',
-    title: '',
-    description: '',
-  })
+  const tier = getResultTier(userScore.score, userScore.total, userScore.time)
   const [isCopyShareLinkDialogOpen, setIsShareDialogOpen] = useState(false)
   const dialogDragConstraintsRef = useRef<HTMLDivElement>(null)
 
@@ -151,12 +147,6 @@ export function Result() {
       const shareLink = window.location.origin + shareUrl
       if (isPC) {
         setShareLinkForDialog(shareLink)
-        const tier = getResultTier(
-          userScore.score,
-          userScore.total,
-          userScore.time
-        )
-        setTier(tier)
         setIsShareDialogOpen(true)
       } else {
         await navigator.clipboard.writeText(shareLink)

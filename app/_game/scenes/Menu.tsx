@@ -44,27 +44,27 @@ export function Menu() {
           {isSignedIn ? (
             <>
               <MenuButton onClick={() => switchScene('WARM_UP')}>
-                Start challenge
+                Take Test
               </MenuButton>
               <MenuButton onClick={logout}>Logout</MenuButton>
             </>
           ) : (
             <>
-              <MenuButton onClick={signInWithGoogle}>Sign In</MenuButton>
               <MenuButton onClick={() => switchScene('WARM_UP')}>
-                Trial Play
+                Take a Sample Test
               </MenuButton>
+              <MenuButton onClick={signInWithGoogle}>Sign In</MenuButton>
             </>
           )}
         </div>
       </div>
       <div className="absolute bottom-0 w-[80%] bg-white py-[10px] text-center text-[12px] text-[#989898] sm:py-[20px]">
-        Craft by{' '}
+        crafted by{' '}
         <a
-          href="https://zolplay.com"
+          href="https://zolplay.com?utm_source=isthat.ai&utm_medium=referral&utm_campaign=isthat.ai"
           className="cursor-click text-[#626262] underline"
         >
-          Zolplay
+          zolplay
         </a>
       </div>
     </div>

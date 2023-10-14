@@ -1,6 +1,5 @@
 import { clsxm } from '@zolplay/utils'
 import { AnimatePresence, motion, useTime, useTransform } from 'framer-motion'
-import Image from 'next/image'
 import { useEffect } from 'react'
 import { useMount } from 'react-use'
 
@@ -11,19 +10,8 @@ import { useScene } from '~/stores/Scene.store'
 import { useSceneProps } from '~/stores/SceneProps.store'
 
 import { GameLayout } from '../components/GameLayout'
+import { TIERS } from '../helpers/getResultTier'
 import { useUser } from '../hooks/useUser'
-
-export const PIXELATED_RESULT_TIER_IMAGES = [
-  '/images/result-tiers/pixel/ai-detective.png',
-  '/images/result-tiers/pixel/ai-spy.png',
-  '/images/result-tiers/pixel/algorithm-apprentice.png',
-  '/images/result-tiers/pixel/blundering-botanist.png',
-  '/images/result-tiers/pixel/clueless-coder.png',
-  '/images/result-tiers/pixel/code-curator.png',
-  '/images/result-tiers/pixel/digital-diplomat.png',
-  '/images/result-tiers/pixel/pixel-pro.png',
-  '/images/result-tiers/pixel/techie-trainee.png',
-]
 
 export type Answers = { image: string; AI: boolean }[]
 
@@ -74,21 +62,22 @@ export function ResultWaiting() {
     >
       <div className="sm:ml-2 sm:flex sm:h-full sm:w-1/2 sm:justify-center">
         <AnimatePresence mode="wait">
+          {/* FIXME: Images abnormally shaking on PC */}
           <motion.div
             key={currentLoadingImageIndex}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-          >
-            <Image
-              src={PIXELATED_RESULT_TIER_IMAGES[currentLoadingImageIndex] || ''}
-              alt="grade"
-              className="h-[248px] w-[248px] object-contain sm:h-full sm:w-full"
-              width={1024}
-              height={1024}
-              priority
-            />
-          </motion.div>
+            style={{
+              backgroundImage: `url(data:image/jpeg;base64,${
+                TIERS.map(({ pixelatedImageBase64 }) => pixelatedImageBase64)[
+                  currentLoadingImageIndex
+                ]
+              })`,
+              imageRendering: 'pixelated',
+            }}
+            className="h-[248px] w-[248px] bg-contain bg-center bg-no-repeat sm:h-full sm:w-full"
+          />
         </AnimatePresence>
       </div>
       <div className="flex flex-col items-center justify-center gap-[12px] sm:w-1/2 sm:gap-[24px]">

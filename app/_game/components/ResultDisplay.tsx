@@ -46,11 +46,14 @@ export function ResultDisplay({
 
   return (
     <div className="h-full w-full sm:flex sm:items-center sm:justify-center sm:gap-0">
-      <div className="hidden sm:ml-2 sm:block sm:h-full sm:w-1/2">
+      <div className="hidden sm:ml-2 sm:flex sm:h-full sm:w-1/2">
         <Image
+          placeholder={`data:image/jpeg;base64,${tier.pixelatedImageBase64}`}
           src={tier.image}
           alt="tier"
-          className="h-full w-full object-contain"
+          className="h-full w-full"
+          // To enable `object-contain` for placeholder, it must be in `style`
+          style={{ imageRendering: 'pixelated', objectFit: 'contain' }}
           width={1024}
           height={1024}
         />
@@ -68,6 +71,8 @@ export function ResultDisplay({
           src={tier.image}
           alt="grade"
           className="block sm:hidden"
+          style={{ imageRendering: 'pixelated' }}
+          placeholder={`data:image/jpeg;base64,${tier.pixelatedImageBase64}`}
           width={248}
           height={248}
         />

@@ -37,7 +37,7 @@ export function Dialog({
             <div className="flex min-h-full items-center justify-center text-center">
               <HLDialog.Panel
                 as={Card}
-                className="w-full max-w-md overflow-visible p-6"
+                className="mx-2 w-fit overflow-visible p-6"
               >
                 <HLDialog.Title as={Title}>{title}</HLDialog.Title>
                 <div className={clsxm('mt-4', className)}>{children}</div>

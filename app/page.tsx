@@ -2,8 +2,9 @@ import { currentUser } from '@clerk/nextjs'
 import { desc, eq, inArray } from 'drizzle-orm'
 
 import { db } from '~/db'
-import { type Config, fetchConfig, fetchQuestionCount } from '~/db/queries'
+import { fetchQuestionCount } from '~/db/queries'
 import { questions, userScores } from '~/db/schema'
+import { env } from '~/env.mjs'
 import { Random } from '~/lib/random'
 import { checkToday } from '~/utils/date'
 
@@ -19,13 +20,13 @@ const fetchUser = async () => {
   }
 }
 
-const getRandomSeed = (config: Config) => {
+const getRandomSeed = () => {
   const now = new Date()
   const year = now.getFullYear()
   const month = String(now.getMonth() + 1).padStart(2, '0')
   const day = String(now.getDate()).padStart(2, '0')
   const refreshFlag = String(
-    Math.floor(now.getHours() / config.refreshIntervalHours)
+    Math.floor(now.getHours() / env.NEXT_PUBLIC_REFRESH_INTERVAL_HOURS)
   ).padStart(2, '0')
   return `${year}${month}${day}${refreshFlag}`
 }
@@ -49,15 +50,11 @@ const generateRandomArray = (length: number, max: number, seed: string) => {
   return randomArray
 }
 
-const fetchRandomQuestions = async (
-  config: Config,
-  isTrial: boolean,
-  seed: string
-) => {
+const fetchRandomQuestions = async (isTrial: boolean, seed: string) => {
   const questionCount = await fetchQuestionCount()
   const randomIndexes = generateRandomArray(
-    isTrial ? 1 : config.questionsPerChallenge,
-    Math.min(config.activeQuestionsLimit, questionCount),
+    isTrial ? 1 : env.NEXT_PUBLIC_QUESTIONS_PER_CHALLENGE,
+    Math.min(env.NEXT_PUBLIC_ACTIVE_QUESTIONS_LIMIT, questionCount),
     seed
   )
   const activeQuestionsIds = (
@@ -65,7 +62,7 @@ const fetchRandomQuestions = async (
       .select({ id: questions.id })
       .from(questions)
       .orderBy(desc(questions.id))
-      .limit(config.activeQuestionsLimit - 1)
+      .limit(env.NEXT_PUBLIC_ACTIVE_QUESTIONS_LIMIT - 1)
   ).map(({ id }) => id)
   const randomIds = randomIndexes.map(
     (index) => activeQuestionsIds[index] || -1
@@ -93,20 +90,12 @@ const fetchUserScoreToday = async (userId: string) => {
 }
 
 export default async function Home() {
-  const config = await fetchConfig()
   const user = await fetchUser()
   const userScoreToday = user ? await fetchUserScoreToday(user.userId) : null
-  const randomSeed = getRandomSeed(config)
+  const randomSeed = getRandomSeed()
   const images = userScoreToday
     ? []
-    : await fetchRandomQuestions(config, user === null, randomSeed)
+    : await fetchRandomQuestions(user === null, randomSeed)
 
-  return (
-    <Game
-      user={user}
-      images={images}
-      config={config}
-      userScoreToday={userScoreToday}
-    />
-  )
+  return <Game user={user} images={images} userScoreToday={userScoreToday} />
 }

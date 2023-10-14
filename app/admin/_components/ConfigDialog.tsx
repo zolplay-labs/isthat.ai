@@ -1,58 +1,46 @@
 'use client'
 
-import { Button, NumberInput, Text } from '@tremor/react'
-import { useEffect, useState } from 'react'
+import { Bold, Button, Text } from '@tremor/react'
+import { useState } from 'react'
 
-import { changeConfig } from '~/app/admin/action'
-import { type Config } from '~/db/queries'
+import { env } from '~/env.mjs'
 
 import { Dialog } from './ui/Dialog'
 
-export function ConfigDialog({ config }: { config: Config }) {
+interface ConfigFieldProps {
+  name: string
+  value: string | number
+}
+function ConfigField({ name, value }: ConfigFieldProps) {
+  return (
+    <div className="flex items-baseline justify-between gap-4 text-black">
+      <Bold>{name}:</Bold>
+      <Text>{value}</Text>
+    </div>
+  )
+}
+
+export function ConfigDialog() {
   const [isOpen, setIsOpen] = useState(false)
 
-  const [activeQuestionsLimit, setActiveQuestionsLimit] = useState(
-    config.activeQuestionsLimit
-  )
-  const [questionsPerChallenge, setQuestionsPerChallenge] = useState(
-    config.questionsPerChallenge
-  )
-  const [refreshIntervalHours, setRefreshIntervalHours] = useState(
-    config.refreshIntervalHours
-  )
-
-  const [isChanged, setIsChanged] = useState(false)
-  useEffect(() => {
-    setIsChanged(
-      activeQuestionsLimit !== config.activeQuestionsLimit ||
-        questionsPerChallenge !== config.questionsPerChallenge ||
-        refreshIntervalHours !== config.refreshIntervalHours
-    )
-  }, [
-    activeQuestionsLimit,
-    questionsPerChallenge,
-    refreshIntervalHours,
-    config,
-  ])
-
-  const [isLoading, setIsLoading] = useState(false)
-  const handleSubmit = async () => {
-    setIsLoading(true)
-    try {
-      await changeConfig({
-        activeQuestionsLimit,
-        questionsPerChallenge,
-        refreshIntervalHours,
-      })
-      setIsLoading(false)
-      setIsOpen(false)
-      alert('Config is changed successfully!')
-    } catch (error) {
-      setIsLoading(false)
-      setIsOpen(false)
-      alert('Config failed to be changed!')
-    }
-  }
+  const config: ConfigFieldProps[] = [
+    {
+      name: 'Active Questions Limit',
+      value: env.NEXT_PUBLIC_ACTIVE_QUESTIONS_LIMIT,
+    },
+    {
+      name: 'Questions Per Challenge',
+      value: env.NEXT_PUBLIC_QUESTIONS_PER_CHALLENGE,
+    },
+    {
+      name: 'Refresh Interval Hours',
+      value: env.NEXT_PUBLIC_REFRESH_INTERVAL_HOURS,
+    },
+    {
+      name: 'Release Date',
+      value: env.NEXT_PUBLIC_RELEASE_DATE,
+    },
+  ]
 
   return (
     <>
@@ -63,38 +51,15 @@ export function ConfigDialog({ config }: { config: Config }) {
         onClose={() => {
           setIsOpen(false)
         }}
+        className="space-y-2"
       >
-        <div className="grid grid-cols-2 items-center gap-y-4">
-          <Text>Active Questions Limit</Text>
-          <NumberInput
-            min={0}
-            value={activeQuestionsLimit}
-            onValueChange={(value) => setActiveQuestionsLimit(value)}
-          />
-          <Text>Questions Per Challenge</Text>
-          <NumberInput
-            min={0}
-            value={questionsPerChallenge}
-            onValueChange={(value) => setQuestionsPerChallenge(value)}
-          />
-          <Text>Refresh Interval Hours</Text>
-          <NumberInput
-            min={1}
-            max={24}
-            value={refreshIntervalHours}
-            onValueChange={(value) => setRefreshIntervalHours(value)}
-          />
-        </div>
-        <div className="mt-4 flex justify-end gap-2">
-          <Button
-            loading={isLoading}
-            onClick={handleSubmit}
-            disabled={!isChanged}
-          >
-            Save & Change
-          </Button>
+        {config.map((field, i) => (
+          <ConfigField key={i} {...field} />
+        ))}
+        <div className="flex items-center justify-between gap-4">
+          <Text>TIP: Config can be changed in ENV</Text>
           <Button onClick={() => setIsOpen(false)} color="gray">
-            Cancel
+            Close
           </Button>
         </div>
       </Dialog>

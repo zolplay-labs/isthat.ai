@@ -1,7 +1,6 @@
 import {
   boolean,
   int,
-  mysqlEnum,
   mysqlTable,
   serial,
   timestamp,
@@ -23,11 +22,4 @@ export const userScores = mysqlTable('userScores', {
   challengeDays: int('challenge_days').notNull(),
   time: int('time').notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
-})
-
-export const config = mysqlTable('config', {
-  id: mysqlEnum('id', ['single']).default('single').primaryKey(),
-  activeQuestionsLimit: int('active_questions_limit').default(100).notNull(),
-  questionsPerChallenge: int('questions_per_challenge').default(8).notNull(),
-  refreshIntervalHours: int('refresh_interval_hours').default(12).notNull(),
 })

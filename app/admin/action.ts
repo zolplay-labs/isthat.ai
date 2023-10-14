@@ -4,8 +4,7 @@ import { desc, eq } from 'drizzle-orm'
 import { revalidatePath } from 'next/cache'
 
 import { db } from '~/db'
-import { type Config } from '~/db/queries'
-import { config, questions } from '~/db/schema'
+import { questions } from '~/db/schema'
 import { env } from '~/env.mjs'
 
 export async function updateQuestionAI({
@@ -51,11 +50,6 @@ export async function reactivateQuestion({ id }: { id: number }) {
     .update(questions)
     .set({ id: (maxIdRow[0]?.id || 0) + 1 })
     .where(eq(questions.id, id))
-  revalidatePath('/admin')
-}
-
-export async function changeConfig(configData: Config) {
-  await db.update(config).set(configData).where(eq(config.id, 'single'))
   revalidatePath('/admin')
 }
 

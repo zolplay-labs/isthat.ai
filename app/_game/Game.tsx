@@ -3,8 +3,8 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { useMount } from 'react-use'
 
-import { type Config } from '~/db/queries'
 import { type userScores } from '~/db/schema'
+import { env } from '~/env.mjs'
 import { type Scene, useScene } from '~/stores/Scene.store'
 import { useSceneProps } from '~/stores/SceneProps.store'
 import { type User } from '~/stores/User.store'
@@ -33,11 +33,10 @@ const Scenes = {
 interface GameProps {
   user: User | null
   images: string[]
-  config: Config
   userScoreToday: typeof userScores.$inferSelect | null
 }
 
-export function Game({ user, images, config, userScoreToday }: GameProps) {
+export function Game({ user, images, userScoreToday }: GameProps) {
   const { scene } = useScene()
   const { setUser } = useUser()
   const { setSceneProps } = useSceneProps()
@@ -59,7 +58,10 @@ export function Game({ user, images, config, userScoreToday }: GameProps) {
       setSceneProps('PLAY', { total: userScoreToday.total })
       return
     }
-    setSceneProps('PLAY', { images, total: config.questionsPerChallenge })
+    setSceneProps('PLAY', {
+      images,
+      total: env.NEXT_PUBLIC_QUESTIONS_PER_CHALLENGE,
+    })
   })
 
   return (

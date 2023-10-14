@@ -35,7 +35,7 @@ export function WarmUp() {
     <GameLayout header={<Header />} className="relative h-full w-full">
       <h1>Warm up...</h1>
       <button
-        className="absolute right-[20px] top-[20px] block h-fit w-fit p-[6px] text-[14px] sm:bottom-[77px] sm:right-[40px] sm:top-auto"
+        className="absolute right-[20px] top-[20px] block h-fit w-fit cursor-click p-[6px] text-[14px] sm:bottom-[77px] sm:right-[40px] sm:top-auto"
         onClick={skipWarmUp}
       >
         <BorderWithoutCorner width={4} />

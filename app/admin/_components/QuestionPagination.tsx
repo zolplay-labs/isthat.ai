@@ -2,25 +2,27 @@
 
 import { useRouter } from 'next/navigation'
 
-import { PAGE_SIZE } from '~/app/admin/constants'
-
 import { Pagination } from './ui/Pagination'
+
+interface QuestionPaginationProps {
+  currentPage: number
+  questionCount: number
+  pageSize: number
+}
 
 export function QuestionPagination({
   currentPage,
   questionCount,
-}: {
-  currentPage: number
-  questionCount: number
-}) {
+  pageSize,
+}: QuestionPaginationProps) {
   const router = useRouter()
 
   return (
     <Pagination
       current={currentPage}
-      total={Math.ceil(questionCount / PAGE_SIZE)}
+      total={Math.ceil(questionCount / pageSize)}
       // TODO: Add loading when changing page
-      onChange={(page) => router.push('/admin?page=' + page)}
+      onChange={(page) => router.push(`/admin?page=${page}&size=${pageSize}`)}
     />
   )
 }

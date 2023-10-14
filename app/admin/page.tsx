@@ -12,7 +12,6 @@ import { ConfigDialog } from './_components/ConfigDialog'
 import { QuestionList } from './_components/QuestionList'
 import { QuestionPagination } from './_components/QuestionPagination'
 import { UploadQuestionsDialog } from './_components/UploadQuestionsDialog'
-import { PAGE_SIZE } from './constants'
 
 export const metadata: Metadata = {
   title: 'Admin Panel - isthat.ai',
@@ -22,16 +21,17 @@ export const metadata: Metadata = {
 export default async function Admin({
   searchParams,
 }: {
-  searchParams: { page: string }
+  searchParams: { page: string; size: string }
 }) {
-  const currentPage = Number(searchParams?.page) || 1
+  const currentPage = Number(searchParams.page) || 1
+  const pageSize = Number(searchParams.size) || 100
 
   const questionsData = await db
     .select()
     .from(questions)
     .orderBy(desc(questions.id))
-    .limit(PAGE_SIZE)
-    .offset((currentPage - 1) * PAGE_SIZE)
+    .limit(pageSize)
+    .offset((currentPage - 1) * pageSize)
   const questionCount = await fetchQuestionCount()
 
   const activeQuestionLimitIdRow = await db
@@ -70,6 +70,7 @@ export default async function Admin({
       <QuestionPagination
         currentPage={currentPage}
         questionCount={questionCount}
+        pageSize={pageSize}
       />
     </main>
   )

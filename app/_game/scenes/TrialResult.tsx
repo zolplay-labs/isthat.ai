@@ -4,7 +4,7 @@ import { useSceneProps } from '~/stores/SceneProps.store'
 
 import { BorderWithoutCorner } from '../components/BorderWithoutCorner'
 import { GameLayout } from '../components/GameLayout'
-import { TIERS } from '../helpers/getResultTier'
+import { type Tier, TIERS } from '../helpers/getResultTier'
 import { useUser } from '../hooks/useUser'
 
 const techieTraineeTier = TIERS.find(({ title }) => title === 'Techie Trainee')!
@@ -12,13 +12,7 @@ const blunderingBotanistTier = TIERS.find(
   ({ title }) => title === 'Blundering Botanist'
 )!
 
-type TrialTier = {
-  image: string
-  title: string
-  description: string
-  button: string
-  pixelatedImageBase64: string
-}
+type TrialTier = Tier & { button: string }
 const TRAIL_TIER: Map<boolean, TrialTier> = new Map([
   [
     true,

@@ -14,7 +14,7 @@ import { useUser } from '../hooks/useUser'
 export function Result() {
   const { user } = useUser()
   const { sceneProps } = useSceneProps()
-  const { scoreId, ...userScore } = {
+  const { scoreId, createdAt, ...userScore } = {
     ...sceneProps['RESULT'],
     time: sceneProps['RESULT_WAITING'].time,
     total: sceneProps['PLAY'].total,
@@ -72,7 +72,7 @@ export function Result() {
         </button>
       }
     >
-      <ResultDisplay userScore={userScore} user={user!} date={new Date()} />
+      <ResultDisplay userScore={userScore} user={user!} date={createdAt} />
       <div
         className="absolute left-[4px] top-[4px] flex h-[calc(100%-8px)] w-[calc(100%-8px)] flex-col items-center justify-center"
         ref={dialogDragConstraintsRef}

@@ -19,6 +19,7 @@ const DEFAULT_SCENE_PROPS = {
     scoreId: -1,
     challengeDays: 0,
     score: 0,
+    createdAt: new Date(),
   },
   TRIAL_RESULT: {
     isRight: false,

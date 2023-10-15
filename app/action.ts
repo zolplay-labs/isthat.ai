@@ -39,11 +39,12 @@ export async function saveScore(score: number, time: number, total: number) {
     .insert(userScores)
     .values({ score, userId, challengeDays, time, total })
   const [scoreIdRow] = await db
-    .select({ scoreId: userScores.id })
+    .select()
     .from(userScores)
     .where(eq(userScores.userId, userId))
     .orderBy(desc(userScores.createdAt))
     .limit(1)
-  const scoreId = scoreIdRow?.scoreId || -1
-  return { challengeDays, scoreId }
+  const scoreId = scoreIdRow?.id || -1
+  const createdAt = scoreIdRow?.createdAt || new Date()
+  return { challengeDays, scoreId, createdAt }
 }

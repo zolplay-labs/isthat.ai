@@ -30,11 +30,9 @@ export default async function Image({ params }: { params: { id: string } }) {
 
   const tier = getResultTier(userScore.score, userScore.total, userScore.time)
 
-  const [fontData] = await Promise.all([
-    fetch(
-      new URL(`${env.HOSTNAME}/fonts/PressStart2P.ttf`, import.meta.url)
-    ).then((res) => res.arrayBuffer()),
-  ])
+  const fontData = await fetch(
+    new URL(`${env.HOSTNAME}/fonts/PressStart2P.ttf`, import.meta.url)
+  ).then((res) => res.arrayBuffer())
 
   return new ImageResponse(
     (
@@ -79,7 +77,9 @@ export default async function Image({ params }: { params: { id: string } }) {
               {user.name}
             </div>
           </div>
-          <div tw="text-[44px] text-center leading-[64px]">{tier.title}</div>
+          <div tw="text-[44px] leading-[64px] text-center flex justify-center">
+            {tier.title}
+          </div>
           <div tw="flex flex-col" style={{ gap: 4 }}>
             <div tw="flex justify-center text-[24px]" style={{ gap: 36 }}>
               <div>~</div>

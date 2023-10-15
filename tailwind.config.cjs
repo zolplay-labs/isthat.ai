@@ -12,10 +12,7 @@ const config = {
   ],
   theme: {
     fontFamily: {
-      'press-start-2p': [
-        'var(--font-press-start-2p)',
-        ...defaultTheme.fontFamily.mono,
-      ],
+      'press-start-2p': ['var(--font-press-start-2p)'],
     },
     cursor: {
       normal: 'url(/cursors/default.svg), default',

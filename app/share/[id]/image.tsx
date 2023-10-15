@@ -34,6 +34,14 @@ export default async function Image({ params }: { params: { id: string } }) {
     new URL(`${env.HOSTNAME}/fonts/PressStart2P.ttf`, import.meta.url)
   ).then((res) => res.arrayBuffer())
 
+  const defaultAvatar = await fetch(
+    `${env.HOSTNAME}/images/default-avatar.png`
+  ).then((res) => res.arrayBuffer())
+
+  const fetchAvatar = await fetch(user.avatar).then((res) =>
+    res.status === 200 ? res.arrayBuffer() : defaultAvatar
+  )
+
   return new ImageResponse(
     (
       <div
@@ -61,10 +69,8 @@ export default async function Image({ params }: { params: { id: string } }) {
         <div tw="flex w-[525px] h-[539px] flex-col justify-between pt-[44px] pb-[46px]">
           <div tw="flex items-center justify-center" style={{ gap: 16 }}>
             <div tw="flex w-9 h-9 text-sm border-2 border-white relative">
-              <img
-                src={`${env.HOSTNAME}/images/default-avatar.png`}
-                alt="og-bg"
-              />
+              {/* @ts-expect-error Lack of typing from ImageResponse */}
+              <img src={fetchAvatar} alt="og-bg" width={32} height={32} />
               <div tw="w-0.5 h-0.5 bg-[#090909] absolute -left-0.5 -top-0.5" />
               <div tw="w-0.5 h-0.5 bg-[#090909] absolute -left-0.5 -bottom-0.5" />
               <div tw="w-0.5 h-0.5 bg-[#090909] absolute -right-0.5 -top-0.5" />

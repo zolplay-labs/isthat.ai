@@ -1,5 +1,4 @@
-import { useState } from 'react'
-import { useMount } from 'react-use'
+import { useEffect, useState } from 'react'
 
 import { useScene } from '~/stores/Scene.store'
 
@@ -10,7 +9,7 @@ export function Ready() {
 
   const [countdown, setCountdown] = useState<number | string>(3)
 
-  useMount(() => {
+  useEffect(() => {
     let currentCountdown = 3
     const countdownInterval = setInterval(() => {
       currentCountdown--
@@ -26,7 +25,7 @@ export function Ready() {
     }, 1000)
 
     return () => clearInterval(countdownInterval)
-  })
+  }, [])
 
   return (
     <GameLayout

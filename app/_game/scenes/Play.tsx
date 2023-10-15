@@ -1,11 +1,12 @@
 import { clsxm } from '@zolplay/utils'
 import { AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { getGameImageUrlById } from '~/helpers/getGameImageUrlById'
 import { useScene } from '~/stores/Scene.store'
 import { useSceneProps } from '~/stores/SceneProps.store'
+import { formatTime } from '~/utils/date'
 
 import { GameLayout } from '../components/GameLayout'
 import { type SwipeSide, TinderCard } from '../components/TinderCard'
@@ -36,6 +37,14 @@ export function Play() {
     setSwipingSide('none')
   }
 
+  const [timerSeconds, setTimerSeconds] = useState(0)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimerSeconds((prevTimerSeconds) => prevTimerSeconds + 1)
+    }, 1000)
+    return () => clearInterval(interval)
+  }, [])
+
   return (
     <GameLayout
       header={
@@ -49,6 +58,18 @@ export function Play() {
         swipingSide === 'left' && 'bg-[#FECDD366] sm:bg-transparent'
       )}
     >
+      <div className="absolute top-[24px] flex items-center justify-center gap-[8px] sm:top-[20px]">
+        <Image
+          src="/images/play/clock.svg"
+          alt="timer"
+          className="h-[16px] w-[16px] sm:h-[24px] sm:w-[24px]"
+          width={24}
+          height={24}
+        />
+        <div className="text-[12px] sm:text-[16px]">
+          {formatTime(timerSeconds)}
+        </div>
+      </div>
       <div
         className={clsxm(
           'absolute z-0 hidden h-full w-1/2 sm:block',

@@ -15,19 +15,28 @@ export function Menu() {
   return (
     <div className="relative flex h-[100dvh] items-center justify-center bg-[url('/images/menu/screen.svg')] bg-cover bg-center bg-no-repeat">
       <PreloadImages />
-      {isSignedIn && user?.avatar && (
-        <div className="absolute right-[5%] top-[16%] sm:right-[20%]">
-          <BorderWithoutCorner width={3} />
-          <Image
-            src={user.avatar}
-            alt="avatar"
-            height={42}
-            width={42}
-            onError={setAvatarToDefault}
-            priority
-          />
-        </div>
-      )}
+      <div className="absolute top-[16%] flex w-[80%] items-center justify-between sm:w-[60%]">
+        <a
+          className="flex cursor-click items-baseline gap-[8px] sm:gap-[12px]"
+          href="https://x.com/isthatai"
+        >
+          <div className="text-[12px] sm:text-[14px]">Follow on</div>
+          <div className="text-[20px] sm:text-[30px]">𝕏</div>
+        </a>
+        {isSignedIn && user?.avatar && (
+          <div className="relative">
+            <BorderWithoutCorner width={3} />
+            <Image
+              src={user.avatar}
+              alt="avatar"
+              height={42}
+              width={42}
+              onError={setAvatarToDefault}
+              priority
+            />
+          </div>
+        )}
+      </div>
       <div className="flex flex-col items-center">
         <Image
           src="/images/logo.svg"
@@ -46,7 +55,9 @@ export function Menu() {
               <MenuButton onClick={() => switchScene('WARM_UP')}>
                 Take Test
               </MenuButton>
-              <MenuButton onClick={logout}>Logout</MenuButton>
+              <MenuButton onClick={logout} hoverTextColor="red">
+                Logout
+              </MenuButton>
             </>
           ) : (
             <>

@@ -29,11 +29,10 @@ export function Result() {
   const handleShare = async () => {
     const shareId = sqids.encode([scoreId])
     const shareUrl = `/share/${shareId}`
-    // TODO: Change contents
     const shareData: ShareData = {
       url: shareUrl,
-      title: 'isthat.ai',
-      text: 'Come and battle with AI at isthat.ai!',
+      title: 'isthat.ai?',
+      text: 'The image Turing test for humans. Test your AI detection skills!',
     }
     if (navigator.share && navigator.canShare(shareData)) {
       navigator.share(shareData)
@@ -46,11 +45,11 @@ export function Result() {
         setIsShareDialogOpen(true)
       } else {
         await navigator.clipboard.writeText(shareLink)
-        alert('Share link is copied!')
+        alert('Share link copied!')
       }
       return
     }
-    alert('Unable to share!')
+    alert('Share failed! Check your browser and try again.')
   }
 
   return (

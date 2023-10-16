@@ -1,17 +1,17 @@
 import { clsxm } from '@zolplay/utils'
 import { AnimatePresence, motion, useTime, useTransform } from 'framer-motion'
 import { useEffect } from 'react'
-import { useMount } from 'react-use'
 
 import { checkAnswers, saveScore } from '~/app/action'
 import { useMotionProgress } from '~/hooks/useMotionProgress'
 import { useMotionValueState } from '~/hooks/useMotionValueState'
+import { useMount } from '~/hooks/useMount'
 import { useScene } from '~/stores/Scene.store'
 import { useSceneProps } from '~/stores/SceneProps.store'
 
+import { useUser } from '../../../hooks/useUser'
 import { GameLayout } from '../components/GameLayout'
 import { TIERS } from '../helpers/getResultTier'
-import { useUser } from '../hooks/useUser'
 
 export type Answers = { image: string; AI: boolean }[]
 

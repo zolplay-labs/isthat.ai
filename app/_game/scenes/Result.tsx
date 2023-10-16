@@ -5,11 +5,11 @@ import { useIsPC } from '~/hooks/useIsPC'
 import { sqids } from '~/lib/sqids'
 import { useSceneProps } from '~/stores/SceneProps.store'
 
+import { useUser } from '../../../hooks/useUser'
 import { GameLayout } from '../components/GameLayout'
 import { ResultDisplay } from '../components/ResultDisplay'
 import { ShareDialog } from '../components/ShareDialog'
 import { getResultTier } from '../helpers/getResultTier'
-import { useUser } from '../hooks/useUser'
 
 export function Result() {
   const { user } = useUser()

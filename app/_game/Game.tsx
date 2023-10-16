@@ -1,15 +1,15 @@
 'use client'
 
 import { AnimatePresence, motion } from 'framer-motion'
-import { useMount } from 'react-use'
 
 import { type userScores } from '~/db/schema'
 import { env } from '~/env.mjs'
+import { useMount } from '~/hooks/useMount'
 import { type Scene, useScene } from '~/stores/Scene.store'
 import { useSceneProps } from '~/stores/SceneProps.store'
 import { type User } from '~/stores/User.store'
 
-import { useUser } from './hooks/useUser'
+import { useUser } from '../../hooks/useUser'
 import { Loading } from './scenes/Loading'
 import { Menu } from './scenes/Menu'
 import { Play } from './scenes/Play'

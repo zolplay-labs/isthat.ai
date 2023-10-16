@@ -2,9 +2,9 @@ import { clsxm } from '@zolplay/utils'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { useEffect } from 'react'
-import { useMount } from 'react-use'
 
 import { useMotionProgress } from '~/hooks/useMotionProgress'
+import { useMount } from '~/hooks/useMount'
 import { useScene } from '~/stores/Scene.store'
 import { useSceneProps } from '~/stores/SceneProps.store'
 

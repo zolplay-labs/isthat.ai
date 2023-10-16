@@ -5,7 +5,7 @@ import { useScene } from '~/stores/Scene.store'
 import { BorderWithoutCorner } from '../components/BorderWithoutCorner'
 import { MenuButton } from '../components/MenuButton'
 import { PreloadImages } from '../components/PreloadImages'
-import { useUser } from '../hooks/useUser'
+import { useUser } from '../../../hooks/useUser'
 
 export function Menu() {
   const { isSignedIn, logout, signInWithGoogle, user, setAvatarToDefault } =

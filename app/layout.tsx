@@ -6,6 +6,8 @@ import { clsxm } from '@zolplay/utils'
 import { type Metadata } from 'next'
 import { Press_Start_2P } from 'next/font/google'
 
+import { EventProvider } from './providers'
+
 const title = 'isthat.ai'
 const description = 'A.I. or not? The image Turing test for humans'
 
@@ -67,6 +69,7 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <body>
+          <EventProvider />
           {children}
           <Analytics />
         </body>

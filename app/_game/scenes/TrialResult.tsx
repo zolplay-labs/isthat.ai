@@ -2,10 +2,10 @@ import Image from 'next/image'
 
 import { useSceneProps } from '~/stores/SceneProps.store'
 
+import { useUser } from '../../../hooks/useUser'
 import { BorderWithoutCorner } from '../components/BorderWithoutCorner'
 import { GameLayout } from '../components/GameLayout'
 import { type Tier, TIERS } from '../helpers/getResultTier'
-import { useUser } from '../hooks/useUser'
 
 const techieTraineeTier = TIERS.find(({ title }) => title === 'Techie Trainee')!
 const blunderingBotanistTier = TIERS.find(

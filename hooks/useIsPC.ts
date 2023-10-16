@@ -1,6 +1,7 @@
-import { useMedia } from 'react-use'
+import { useCallback } from 'react'
+
+import { useViewport } from '~/stores/Viewport.store'
 
 export const useIsPC = () => {
-  const isPC = useMedia('(min-width: 640px)')
-  return isPC
+  return useViewport(useCallback((state) => state.pc, []))
 }

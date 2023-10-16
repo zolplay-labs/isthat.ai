@@ -2,7 +2,6 @@ import { motion, useDragControls } from 'framer-motion'
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 
-import { type Tier } from '../helpers/getResultTier'
 import { BorderWithoutCorner } from './BorderWithoutCorner'
 
 function ShareDialogButton({
@@ -25,14 +24,12 @@ function ShareDialogButton({
 
 interface ShareDialogProps {
   shareLink: string
-  tier: Tier
   onClose: () => void
   dragConstraintsRef: React.RefObject<HTMLDivElement>
 }
 
 export function ShareDialog({
   shareLink,
-  tier,
   onClose,
   dragConstraintsRef,
 }: ShareDialogProps) {
@@ -91,8 +88,9 @@ export function ShareDialog({
           </ShareDialogButton>
           <a
             ref={downloadImageRef}
-            href={tier.image}
-            download={tier.title + '.jpg'}
+            href={shareLink + '/opengraph-image'}
+            // TODO: Change image file name
+            download="isthat.ai_share_image.png"
             className="hidden"
           />
           <ShareDialogButton

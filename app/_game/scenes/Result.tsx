@@ -81,7 +81,6 @@ export function Result() {
           <ShareDialog
             onClose={() => setIsShareDialogOpen(false)}
             shareLink={shareLinkForDialog}
-            tier={tier}
             dragConstraintsRef={dialogDragConstraintsRef}
           />
         )}

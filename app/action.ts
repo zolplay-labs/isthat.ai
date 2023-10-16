@@ -29,15 +29,18 @@ export async function saveScore(score: number, time: number, total: number) {
   if (!userId) {
     throw new Error('Unauthorized')
   }
+
   const [prevChallengeDayRow] = await db
     .select({ challengeDay: sql<number>`max(${userScores.challengeDays})` })
     .from(userScores)
     .where(eq(userScores.userId, userId))
   const prevChallengeDay = prevChallengeDayRow?.challengeDay || 0
   const challengeDays = prevChallengeDay + 1
+
   await db
     .insert(userScores)
     .values({ score, userId, challengeDays, time, total })
+
   const [scoreIdRow] = await db
     .select()
     .from(userScores)
@@ -46,5 +49,6 @@ export async function saveScore(score: number, time: number, total: number) {
     .limit(1)
   const scoreId = scoreIdRow?.id || -1
   const createdAt = scoreIdRow?.createdAt || new Date()
+
   return { challengeDays, scoreId, createdAt }
 }

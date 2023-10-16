@@ -1,5 +1,4 @@
-import { useMount } from 'react-use'
-
+import { useMount } from '~/hooks/useMount'
 import { useScene } from '~/stores/Scene.store'
 
 import { BorderWithoutCorner } from '../components/BorderWithoutCorner'

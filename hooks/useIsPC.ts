@@ -1,6 +1,6 @@
-import { useMedia } from 'react-use'
+import { useMediaQuery } from 'usehooks-ts'
 
 export const useIsPC = () => {
-  const isPC = useMedia('(min-width: 640px)')
+  const isPC = useMediaQuery('(min-width: 640px)')
   return isPC
 }

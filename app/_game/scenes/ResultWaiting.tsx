@@ -1,11 +1,11 @@
 import { clsxm } from '@zolplay/utils'
 import { AnimatePresence, motion, useTime, useTransform } from 'framer-motion'
 import { useEffect } from 'react'
-import { useMount } from 'react-use'
 
 import { checkAnswers, saveScore } from '~/app/action'
 import { useMotionProgress } from '~/hooks/useMotionProgress'
 import { useMotionValueState } from '~/hooks/useMotionValueState'
+import { useMount } from '~/hooks/useMount'
 import { useScene } from '~/stores/Scene.store'
 import { useSceneProps } from '~/stores/SceneProps.store'
 
@@ -27,19 +27,22 @@ export function ResultWaiting() {
     duration: 5,
   })
 
-  useMount(async () => {
-    const { score } = await checkAnswers(props.answers)
-    if (isSignedIn) {
-      const { challengeDays, scoreId, createdAt } = await saveScore(
-        score,
-        props.time,
-        sceneProps['PLAY'].total
-      )
-      setSceneProps('RESULT', { score, challengeDays, scoreId, createdAt })
-    } else {
-      setSceneProps('TRIAL_RESULT', { isRight: score === 1 })
-    }
-    await startProgress()
+  useMount(() => {
+    // eslint-disable-next-line @typescript-eslint/no-extra-semi
+    ;(async () => {
+      const { score } = await checkAnswers(props.answers)
+      if (isSignedIn) {
+        const { challengeDays, scoreId, createdAt } = await saveScore(
+          score,
+          props.time,
+          sceneProps['PLAY'].total
+        )
+        setSceneProps('RESULT', { score, challengeDays, scoreId, createdAt })
+      } else {
+        setSceneProps('TRIAL_RESULT', { isRight: score === 1 })
+      }
+      await startProgress()
+    })()
   })
 
   useEffect(() => {

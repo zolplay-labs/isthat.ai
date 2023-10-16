@@ -1,9 +1,12 @@
 import { clsxm } from '@zolplay/utils'
 import { AnimatePresence } from 'framer-motion'
+import { produce } from 'immer'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
+import { useCountdown } from 'usehooks-ts'
 
 import { getGameImageUrlById } from '~/helpers/getGameImageUrlById'
+import { useMount } from '~/hooks/useMount'
 import { useScene } from '~/stores/Scene.store'
 import { useSceneProps } from '~/stores/SceneProps.store'
 import { formatTime } from '~/utils/date'
@@ -12,8 +15,7 @@ import { GameLayout } from '../components/GameLayout'
 import { type SwipeSide, TinderCard } from '../components/TinderCard'
 import { type Answers } from './ResultWaiting'
 
-const startTime = new Date()
-const answers: Answers = []
+const SECONDS_IN_10_MINUTES = 600
 
 export function Play() {
   const { switchScene } = useScene()
@@ -23,27 +25,40 @@ export function Play() {
   const [swipingSide, setSwipingSide] = useState<SwipeSide>('none')
   const [imageIndex, setImageIndex] = useState(0)
 
+  const [startTime] = useState(new Date())
+  const [answers, setAnswers] = useState<Answers>([])
   const handleAnswer = (AI: boolean) => {
-    answers.push({ image: props.images[imageIndex] || '', AI })
+    setAnswers(
+      produce((draftAnswers) => {
+        draftAnswers.push({ image: props.images[imageIndex] || '', AI })
+      })
+    )
+    if (imageIndex !== props.total - 1) {
+      setImageIndex(imageIndex + 1)
+    }
+    setSwipingSide('none')
+  }
+  useEffect(() => {
     if (answers.length === props.total) {
       const time = Math.floor(
         (new Date().getTime() - startTime.getTime()) / 1000
       )
       setSceneProps('RESULT_WAITING', { answers, time })
       switchScene('RESULT_WAITING')
-      return
     }
-    setImageIndex(imageIndex + 1)
-    setSwipingSide('none')
-  }
+  }, [answers])
 
-  const [timerSeconds, setTimerSeconds] = useState(0)
+  const [remainingSeconds, { startCountdown }] = useCountdown({
+    countStart: SECONDS_IN_10_MINUTES,
+  })
+  useMount(() => {
+    startCountdown()
+  })
   useEffect(() => {
-    const interval = setInterval(() => {
-      setTimerSeconds((prevTimerSeconds) => prevTimerSeconds + 1)
-    }, 1000)
-    return () => clearInterval(interval)
-  }, [])
+    if (remainingSeconds === 0) {
+      switchScene('MENU')
+    }
+  }, [remainingSeconds])
 
   return (
     <GameLayout
@@ -67,7 +82,7 @@ export function Play() {
           height={24}
         />
         <div className="text-[12px] sm:text-[16px]">
-          {formatTime(timerSeconds)}
+          {formatTime(remainingSeconds)}
         </div>
       </div>
       <div

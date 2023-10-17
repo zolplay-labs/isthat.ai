@@ -1,0 +1,32 @@
+<svg
+  width="104"
+  height="24"
+  viewBox="0 0 104 24"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <rect
+    x="0.0588379"
+    y="12"
+    width="16"
+    height="16"
+    transform="rotate(-45 0.0588379 12)"
+    fill="#929292"
+  />
+  <rect
+    x="40.6863"
+    y="12"
+    width="16"
+    height="16"
+    transform="rotate(-45 40.6863 12)"
+    fill="white"
+  />
+  <rect
+    x="81.3137"
+    y="12"
+    width="16"
+    height="16"
+    transform="rotate(-45 81.3137 12)"
+    fill="#929292"
+  />
+</svg>

@@ -27,7 +27,7 @@ export function Loading() {
 
   useEffect(() => {
     if (isProgressEnd) {
-      switchScene(sceneProps['LOADING'].hasUserScoreToday ? 'RESULT' : 'MENU')
+      switchScene('MENU')
     }
   }, [sceneProps, isProgressEnd])
 

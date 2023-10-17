@@ -4,8 +4,9 @@ import { immer } from 'zustand/middleware/immer'
 import { type Scene } from './Scene.store'
 
 const DEFAULT_SCENE_PROPS = {
-  LOADING: {
-    hasUserScoreToday: false,
+  MENU: {
+    testId: -1,
+    hasUserScoreInCurrentTest: false,
   },
   PLAY: {
     images: [''],
@@ -17,14 +18,12 @@ const DEFAULT_SCENE_PROPS = {
   },
   RESULT: {
     scoreId: -1,
-    challengeDays: 0,
     score: 0,
-    createdAt: new Date(),
   },
   TRIAL_RESULT: {
     isRight: false,
   },
-} satisfies Partial<Record<Scene, any>>
+} satisfies Partial<Record<Scene, unknown>>
 
 type SceneProps = typeof DEFAULT_SCENE_PROPS
 type SceneHasProps = keyof SceneProps

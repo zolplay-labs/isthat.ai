@@ -19,7 +19,6 @@ export const userScores = mysqlTable('userScores', {
   userId: varchar('user_id', { length: 191 }).notNull(),
   score: int('score').notNull(),
   total: int('total').notNull(),
-  challengeDays: int('challenge_days').notNull(),
   time: int('time').notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 })

@@ -32,12 +32,12 @@ export function ResultWaiting() {
     ;(async () => {
       const { score } = await checkAnswers(props.answers)
       if (isSignedIn) {
-        const { challengeDays, scoreId, createdAt } = await saveScore(
+        const { scoreId } = await saveScore(
           score,
           props.time,
           sceneProps['PLAY'].total
         )
-        setSceneProps('RESULT', { score, challengeDays, scoreId, createdAt })
+        setSceneProps('RESULT', { score, scoreId })
       } else {
         setSceneProps('TRIAL_RESULT', { isRight: score === 1 })
       }

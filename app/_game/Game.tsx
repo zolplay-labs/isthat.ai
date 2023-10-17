@@ -33,10 +33,16 @@ const Scenes = {
 interface GameProps {
   user: User | null
   images: string[]
-  userScoreToday: typeof userScores.$inferSelect | null
+  userScoreInCurrentTest: typeof userScores.$inferSelect | null
+  testId: number
 }
 
-export function Game({ user, images, userScoreToday }: GameProps) {
+export function Game({
+  user,
+  images,
+  userScoreInCurrentTest,
+  testId,
+}: GameProps) {
   const { scene } = useScene()
   const { setUser } = useUser()
   const { setSceneProps } = useSceneProps()
@@ -47,15 +53,15 @@ export function Game({ user, images, userScoreToday }: GameProps) {
       return
     }
     setUser(user)
-    if (userScoreToday) {
-      setSceneProps('LOADING', { hasUserScoreToday: true })
+    setSceneProps('MENU', { testId })
+    if (userScoreInCurrentTest) {
+      setSceneProps('MENU', { hasUserScoreInCurrentTest: true })
       setSceneProps('RESULT', {
-        scoreId: userScoreToday.id,
-        challengeDays: userScoreToday.challengeDays,
-        score: userScoreToday.score,
+        scoreId: userScoreInCurrentTest.id,
+        score: userScoreInCurrentTest.score,
       })
-      setSceneProps('RESULT_WAITING', { time: userScoreToday.time })
-      setSceneProps('PLAY', { total: userScoreToday.total })
+      setSceneProps('RESULT_WAITING', { time: userScoreInCurrentTest.time })
+      setSceneProps('PLAY', { total: userScoreInCurrentTest.total })
       return
     }
     setSceneProps('PLAY', {

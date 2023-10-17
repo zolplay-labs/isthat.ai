@@ -5,11 +5,12 @@ import { db } from '~/db'
 import { fetchQuestionCount } from '~/db/queries'
 import { questions, userScores } from '~/db/schema'
 import { env } from '~/env.mjs'
+import dayjs from '~/lib/dayjs'
 import { Random } from '~/lib/random'
-import { checkToday } from '~/utils/date'
 
 import { Game } from './_game/Game'
 import { filterUser } from './_game/helpers/filterUser'
+import { getTestId } from './_game/helpers/getTestId'
 
 const fetchUser = async () => {
   const user = await currentUser()
@@ -20,15 +21,13 @@ const fetchUser = async () => {
   }
 }
 
-const getRandomSeed = () => {
-  const now = new Date()
-  const year = now.getFullYear()
-  const month = String(now.getMonth() + 1).padStart(2, '0')
-  const day = String(now.getDate()).padStart(2, '0')
-  const refreshFlag = String(
-    Math.floor(now.getHours() / env.NEXT_PUBLIC_REFRESH_INTERVAL_HOURS)
+const getTestSeed = (now: Date) => {
+  const nowDayjs = dayjs(now)
+  const dateString = nowDayjs.format('YYYYMMDD')
+  const idFlag = String(
+    Math.floor(nowDayjs.hour() / env.NEXT_PUBLIC_REFRESH_INTERVAL_HOURS)
   ).padStart(2, '0')
-  return `${year}${month}${day}${refreshFlag}`
+  return dateString + idFlag
 }
 
 const generateRandomArray = (length: number, max: number, seed: string) => {
@@ -76,7 +75,7 @@ const fetchRandomQuestions = async (isTrial: boolean, seed: string) => {
   return images
 }
 
-const fetchUserScoreToday = async (userId: string) => {
+const fetchUserScoreInCurrentTest = async (userId: string, now: Date) => {
   const [latestUserScoreRow] = await db
     .select()
     .from(userScores)
@@ -84,18 +83,33 @@ const fetchUserScoreToday = async (userId: string) => {
     .orderBy(desc(userScores.createdAt))
     .limit(1)
   if (!latestUserScoreRow) return null
-  const isScoreToday = checkToday(latestUserScoreRow.createdAt)
-  if (!isScoreToday) return null
+  const isScoreInCurrentTest =
+    getTestId(latestUserScoreRow.createdAt) === getTestId(now)
+  if (!isScoreInCurrentTest) return null
   return latestUserScoreRow
 }
 
 export default async function Home() {
-  const user = await fetchUser()
-  const userScoreToday = user ? await fetchUserScoreToday(user.userId) : null
-  const randomSeed = getRandomSeed()
-  const images = userScoreToday
-    ? []
-    : await fetchRandomQuestions(user === null, randomSeed)
+  const now = new Date()
 
-  return <Game user={user} images={images} userScoreToday={userScoreToday} />
+  const user = await fetchUser()
+  const userScoreInCurrentTest = user
+    ? await fetchUserScoreInCurrentTest(user.userId, now)
+    : null
+
+  const testSeed = getTestSeed(now)
+  const testId = getTestId(now)
+
+  const images = userScoreInCurrentTest
+    ? []
+    : await fetchRandomQuestions(user === null, testSeed)
+
+  return (
+    <Game
+      user={user}
+      images={images}
+      userScoreInCurrentTest={userScoreInCurrentTest}
+      testId={testId}
+    />
+  )
 }

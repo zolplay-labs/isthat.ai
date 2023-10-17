@@ -8,16 +8,19 @@ export function PreloadImages() {
 
   return (
     <div className="hidden">
-      {sceneProps['PLAY'].images.map((id, i) => (
-        <Image
-          src={getGameImageUrlById(id)}
-          alt={`game ${i}`}
-          width={600}
-          height={600}
-          key={i}
-          priority
-        />
-      ))}
+      {sceneProps['PLAY'].images.map(
+        (id, i) =>
+          id === '' && (
+            <Image
+              src={getGameImageUrlById(id)}
+              alt={`game ${i}`}
+              width={600}
+              height={600}
+              key={i}
+              priority
+            />
+          )
+      )}
     </div>
   )
 }

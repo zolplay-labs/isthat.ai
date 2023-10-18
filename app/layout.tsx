@@ -31,8 +31,8 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title,
     description,
-    site: '@zolplay',
-    creator: '@zolplay',
+    site: '@isthatai',
+    creator: '@isthatai',
     images: ['/images/social/og.png'],
   },
   viewport: {
@@ -43,6 +43,9 @@ export const metadata: Metadata = {
     maximumScale: 1,
     userScalable: false,
   },
+  // alternates: {
+  //   preload: '/cursors/default.svg',
+  // },
 }
 
 const pressStart2P = Press_Start_2P({
@@ -66,6 +69,12 @@ export default function RootLayout({
         )}
         suppressHydrationWarning
       >
+        <head>
+          <link rel="preload" as="image" href="/cursors/default.svg" />
+          <link rel="preload" as="image" href="/cursors/pointer.svg" />
+          <link rel="preload" as="image" href="/cursors/grab.svg" />
+          <link rel="preload" as="image" href="/cursors/loading.svg" />
+        </head>
         <body>
           {children}
           <Analytics />

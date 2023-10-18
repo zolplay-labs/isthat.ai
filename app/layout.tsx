@@ -70,8 +70,9 @@ export default function RootLayout({
         <head>
           <link rel="preload" as="image" href="/cursors/default.svg" />
           <link rel="preload" as="image" href="/cursors/pointer.svg" />
-          <link rel="preload" as="image" href="/cursors/grab.svg" />
           <link rel="preload" as="image" href="/cursors/loading.svg" />
+          <link rel="preload" as="image" href="/cursors/grab.svg" />
+          <link rel="preload" as="image" href="/cursors/grabbing.svg" />
         </head>
         <body>
           {children}

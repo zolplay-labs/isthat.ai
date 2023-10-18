@@ -6,41 +6,23 @@ import { useState } from 'react'
 
 import { type userScores } from '~/db/schema'
 import { type User } from '~/stores/User.store'
-import { formatDate, formatTime } from '~/utils/date'
 
 import { getResultTier } from '../helpers/getResultTier'
 import { BorderWithoutCorner } from './BorderWithoutCorner'
 
-interface InfoItemProps {
-  name: string
-  value: string
-}
-function InfoItem({ name, value }: InfoItemProps) {
-  return (
-    <div className="space-y-[4px] sm:space-y-[8px]">
-      <div className="text-[8px] sm:text-[12px] sm:text-[#a9a9a9]">{name}</div>
-      <div className="text-[12px] sm:text-[16px]">{value}</div>
-    </div>
-  )
-}
-
 interface ResultDisplayProps {
   userScore: Omit<typeof userScores.$inferSelect, 'id' | 'userId' | 'createdAt'>
   user: User
-  date: Date
+  testId: number
   hasBattleButton?: boolean
 }
 export function ResultDisplay({
   userScore,
   user,
-  date,
+  testId,
   hasBattleButton,
 }: ResultDisplayProps) {
   const tier = getResultTier(userScore.score, userScore.total, userScore.time)
-  const info: InfoItemProps[] = [
-    { name: 'Time', value: formatTime(userScore.time) },
-    { name: 'Challenge Days', value: String(userScore.challengeDays) },
-  ]
 
   const [avatar, setAvatar] = useState(user.avatar!)
 
@@ -60,9 +42,7 @@ export function ResultDisplay({
       </div>
       <div className="flex h-full flex-col items-center justify-between px-[10px] py-[20px] sm:w-1/2 sm:justify-center sm:gap-[48px] sm:p-[24px]">
         <div className="text-center">
-          <div className="text-[16px] sm:text-[20px]">
-            ~ {formatDate(date)} ~
-          </div>
+          <div className="text-[16px] sm:text-[20px]">~ Test #{testId} ~</div>
           <div className="text-[13px] sm:text-[16px] sm:text-[#A9A9A9]">
             @isthat.ai
           </div>
@@ -106,11 +86,7 @@ export function ResultDisplay({
             Battle with AI
           </Link>
         ) : (
-          <div className="flex w-full justify-between sm:justify-around">
-            {info.map((infoItem, i) => (
-              <InfoItem key={i} {...infoItem} />
-            ))}
-          </div>
+          <div className="flex w-full justify-between sm:justify-around"></div>
         )}
       </div>
     </div>

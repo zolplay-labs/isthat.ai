@@ -1,7 +1,7 @@
 'use server'
 
 import { auth } from '@clerk/nextjs'
-import { desc, eq, sql } from 'drizzle-orm'
+import { desc, eq } from 'drizzle-orm'
 
 import { db } from '~/db'
 import { questions, userScores } from '~/db/schema'
@@ -30,16 +30,7 @@ export async function saveScore(score: number, time: number, total: number) {
     throw new Error('Unauthorized')
   }
 
-  const [prevChallengeDayRow] = await db
-    .select({ challengeDay: sql<number>`max(${userScores.challengeDays})` })
-    .from(userScores)
-    .where(eq(userScores.userId, userId))
-  const prevChallengeDay = prevChallengeDayRow?.challengeDay || 0
-  const challengeDays = prevChallengeDay + 1
-
-  await db
-    .insert(userScores)
-    .values({ score, userId, challengeDays, time, total })
+  await db.insert(userScores).values({ score, userId, time, total })
 
   const [scoreIdRow] = await db
     .select()
@@ -48,7 +39,6 @@ export async function saveScore(score: number, time: number, total: number) {
     .orderBy(desc(userScores.createdAt))
     .limit(1)
   const scoreId = scoreIdRow?.id || -1
-  const createdAt = scoreIdRow?.createdAt || new Date()
 
-  return { challengeDays, scoreId, createdAt }
+  return { scoreId }
 }

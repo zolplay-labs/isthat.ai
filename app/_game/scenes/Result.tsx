@@ -8,21 +8,20 @@ import { useSceneProps } from '~/stores/SceneProps.store'
 import { GameLayout } from '../components/GameLayout'
 import { ResultDisplay } from '../components/ResultDisplay'
 import { ShareDialog } from '../components/ShareDialog'
-import { getResultTier } from '../helpers/getResultTier'
 import { useUser } from '../hooks/useUser'
 
 export function Result() {
   const { user } = useUser()
   const { sceneProps } = useSceneProps()
-  const { scoreId, createdAt, ...userScore } = {
+  const { scoreId, testId, ...userScore } = {
     ...sceneProps['RESULT'],
     time: sceneProps['RESULT_WAITING'].time,
     total: sceneProps['PLAY'].total,
+    testId: sceneProps['MENU'].testId,
   }
 
   const isPC = useIsPC()
   const [shareLinkForDialog, setShareLinkForDialog] = useState('')
-  const tier = getResultTier(userScore.score, userScore.total, userScore.time)
   const [isCopyShareLinkDialogOpen, setIsShareDialogOpen] = useState(false)
   const dialogDragConstraintsRef = useRef<HTMLDivElement>(null)
 
@@ -71,7 +70,7 @@ export function Result() {
         </button>
       }
     >
-      <ResultDisplay userScore={userScore} user={user!} date={createdAt} />
+      <ResultDisplay userScore={userScore} user={user!} testId={testId} />
       <div
         className="absolute left-[4px] top-[4px] flex h-[calc(100%-8px)] w-[calc(100%-8px)] flex-col items-center justify-center"
         ref={dialogDragConstraintsRef}

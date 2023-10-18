@@ -5,11 +5,11 @@ import { ImageResponse } from 'next/server'
 
 import { filterUser } from '~/app/_game/helpers/filterUser'
 import { getResultTier } from '~/app/_game/helpers/getResultTier'
+import { getTestId } from '~/app/_game/helpers/getTestId'
 import { db } from '~/db'
 import { userScores } from '~/db/schema'
 import { env } from '~/env.mjs'
 import { sqids } from '~/lib/sqids'
-import { formatDate } from '~/utils/date'
 
 export const size = { width: 1200, height: 675 }
 
@@ -27,6 +27,8 @@ export default async function Image({ params }: { params: { id: string } }) {
 
   const clerkUser = await clerkClient.users.getUser(userScore.userId)
   const user = filterUser(clerkUser)
+
+  const testId = getTestId(userScore.createdAt)
 
   const tier = getResultTier(userScore.score, userScore.total, userScore.time)
 
@@ -87,9 +89,13 @@ export default async function Image({ params }: { params: { id: string } }) {
             {tier.title}
           </div>
           <div tw="flex flex-col" style={{ gap: 4 }}>
-            <div tw="flex justify-center text-[24px]" style={{ gap: 36 }}>
+            <div tw="flex justify-center text-[24px]" style={{ gap: 26 }}>
               <div>~</div>
-              <div>{formatDate(userScore.createdAt)}</div>
+              <div>Test</div>
+              <div tw="flex">
+                <div>#</div>
+                <div>{String(testId)}</div>
+              </div>
               <div>~</div>
             </div>
             <div tw="flex justify-center text-[20px] text-[#FFFFFFB2]">

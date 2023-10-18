@@ -7,9 +7,9 @@ import { useCountdown } from 'usehooks-ts'
 
 import { getGameImageUrlById } from '~/helpers/getGameImageUrlById'
 import { useMount } from '~/hooks/useMount'
+import dayjs from '~/lib/dayjs'
 import { useScene } from '~/stores/Scene.store'
 import { useSceneProps } from '~/stores/SceneProps.store'
-import { formatTime } from '~/utils/date'
 
 import { GameLayout } from '../components/GameLayout'
 import { type SwipeSide, TinderCard } from '../components/TinderCard'
@@ -40,9 +40,7 @@ export function Play() {
   }
   useEffect(() => {
     if (answers.length === props.total) {
-      const time = Math.floor(
-        (new Date().getTime() - startTime.getTime()) / 1000
-      )
+      const time = dayjs().diff(startTime, 'seconds')
       setSceneProps('RESULT_WAITING', { answers, time })
       switchScene('RESULT_WAITING')
     }
@@ -82,7 +80,7 @@ export function Play() {
           height={24}
         />
         <div className="text-[12px] sm:text-[16px]">
-          {formatTime(remainingSeconds)}
+          {dayjs.duration(remainingSeconds, 'seconds').format('mm:ss')}
         </div>
       </div>
       <div

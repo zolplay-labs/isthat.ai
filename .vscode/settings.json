@@ -6,5 +6,6 @@
   },
   "path-intellisense.mappings": {
     "/": "${workspaceFolder}/public"
-  }
+  },
+  "tailwindCSS.classAttributes": ["class", "className", "tw"]
 }

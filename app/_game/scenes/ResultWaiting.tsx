@@ -32,12 +32,12 @@ export function ResultWaiting() {
     ;(async () => {
       const { score } = await checkAnswers(props.answers)
       if (isSignedIn) {
-        const { challengeDays, scoreId, createdAt } = await saveScore(
+        const { scoreId } = await saveScore(
           score,
           props.time,
           sceneProps['PLAY'].total
         )
-        setSceneProps('RESULT', { score, challengeDays, scoreId, createdAt })
+        setSceneProps('RESULT', { score, scoreId })
       } else {
         setSceneProps('TRIAL_RESULT', { isRight: score === 1 })
       }
@@ -84,7 +84,7 @@ export function ResultWaiting() {
         </AnimatePresence>
       </div>
       <div className="flex flex-col items-center justify-center gap-[12px] sm:w-1/2 sm:gap-[24px]">
-        <div className="text-[16px] sm:text-[32px]">~ Waiting ~</div>
+        <div className="text-[16px] sm:text-[32px]">~ Analyzing ~</div>
         <div className="relative w-fit border-[2px] border-[#D9D9D9] p-[8px] sm:border-[4px]">
           <div className="absolute left-[-2px] top-[-2px] h-[2px] w-[2px] bg-black sm:left-[-4px] sm:top-[-4px] sm:h-[4px] sm:w-[4px]" />
           <div className="absolute right-[-2px] top-[-2px] h-[2px] w-[2px] bg-black sm:right-[-4px] sm:top-[-4px] sm:h-[4px] sm:w-[4px]" />

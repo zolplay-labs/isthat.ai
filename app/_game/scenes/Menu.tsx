@@ -1,6 +1,7 @@
 import Image from 'next/image'
 
 import { useScene } from '~/stores/Scene.store'
+import { useSceneProps } from '~/stores/SceneProps.store'
 
 import { BorderWithoutCorner } from '../components/BorderWithoutCorner'
 import { MenuButton } from '../components/MenuButton'
@@ -11,6 +12,8 @@ export function Menu() {
   const { isSignedIn, logout, signInWithGoogle, user, setAvatarToDefault } =
     useUser()
   const { switchScene } = useScene()
+  const { sceneProps } = useSceneProps()
+  const props = sceneProps['MENU']
 
   return (
     <div className="relative flex h-[100dvh] items-center justify-center bg-[url('/images/menu/screen.svg')] bg-cover bg-center bg-no-repeat">
@@ -52,8 +55,16 @@ export function Menu() {
         <div className="flex flex-col items-center gap-[24px] sm:gap-[44px]">
           {isSignedIn ? (
             <>
-              <MenuButton onClick={() => switchScene('WARM_UP')}>
-                Take Test
+              <MenuButton
+                onClick={() =>
+                  switchScene(
+                    props.hasUserScoreInCurrentTest ? 'RESULT' : 'WARM_UP'
+                  )
+                }
+              >
+                {props.hasUserScoreInCurrentTest
+                  ? `View #${props.testId} Result`
+                  : `Take Test #${props.testId}`}
               </MenuButton>
               <MenuButton onClick={logout} hoverTextColor="red">
                 Logout

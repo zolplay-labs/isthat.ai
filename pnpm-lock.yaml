@@ -33,8 +33,8 @@ dependencies:
     specifier: ^0.5.3
     version: 0.5.3(typescript@5.1.6)
   dayjs:
-    specifier: ^1.11.9
-    version: 1.11.9
+    specifier: ^1.11.10
+    version: 1.11.10
   drizzle-orm:
     specifier: ^0.28.6
     version: 0.28.6(@planetscale/database@1.10.0)
@@ -2031,7 +2031,7 @@ packages:
       '@types/lodash': 4.14.196
       axios: 1.4.0
       clsx: 1.2.1
-      dayjs: 1.11.9
+      dayjs: 1.11.10
       lodash: 4.17.21
       tailwind-merge: 1.14.0
     transitivePeerDependencies:
@@ -2585,8 +2585,8 @@ packages:
       '@babel/runtime': 7.22.6
     dev: false
 
-  /dayjs@1.11.9:
-    resolution: {integrity: sha512-QvzAURSbQ0pKdIye2txOzNaHmxtUBXerpY0FJsFXUMKbIZeFm5ht1LS/jFsrncjnmtv8HsG0W2g6c0zUjZWmpA==}
+  /dayjs@1.11.10:
+    resolution: {integrity: sha512-vjAczensTgRcqDERK0SR2XMwsF/tSvnvlv6VcF2GIhg6Sx4yOIt/irsr1RDJsKiIyBzJDpCoXiWWq28MqH2cnQ==}
     dev: false
 
   /debug@3.2.7:

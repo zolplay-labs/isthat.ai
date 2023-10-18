@@ -60,11 +60,7 @@ export function Play() {
 
   return (
     <GameLayout
-      header={
-        <span>
-          ({imageIndex + 1}/{props.total})
-        </span>
-      }
+      title={`(${imageIndex + 1}/${props.total})`}
       className={clsxm(
         'relative flex h-full w-full items-center justify-center transition-colors',
         swipingSide === 'right' && 'bg-[#CCFBF166] sm:bg-transparent',

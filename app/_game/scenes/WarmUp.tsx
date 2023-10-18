@@ -6,10 +6,6 @@ import { useScene } from '~/stores/Scene.store'
 
 import { GameLayout } from '../components/GameLayout'
 
-function Header() {
-  return <span>TUTORIAL</span>
-}
-
 function Handler({
   step,
   onClick,
@@ -166,7 +162,7 @@ export function WarmUp() {
 
   return (
     <GameLayout
-      header={<Header />}
+      title="~ TUTORIAL ~"
       className="relative h-full w-full overflow-x-hidden"
     >
       <AnimatePresence mode="wait">

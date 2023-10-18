@@ -46,7 +46,7 @@ export function TrialResult() {
 
   return (
     <GameLayout
-      header={<span>MY RESULT</span>}
+      header={<span>~ MY RESULT ~</span>}
       className="relative flex h-full w-full flex-col items-center justify-center sm:flex-row"
     >
       <div className="sm:ml-2 sm:h-full sm:w-1/2">

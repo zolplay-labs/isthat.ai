@@ -162,7 +162,7 @@ export function WarmUp() {
 
   return (
     <GameLayout
-      header={<span>TUTORIAL</span>}
+      header={<span>~ TUTORIAL ~</span>}
       className="relative h-full w-full overflow-x-hidden"
     >
       <AnimatePresence mode="wait">

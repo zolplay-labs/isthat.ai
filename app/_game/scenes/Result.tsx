@@ -53,7 +53,7 @@ export function Result() {
 
   return (
     <GameLayout
-      header={<span>MY RESULT</span>}
+      header={<span>~ MY RESULT ~</span>}
       className="relative h-full w-full"
       headerRight={
         <button

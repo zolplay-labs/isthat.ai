@@ -38,5 +38,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
 
+      - name: Base64 decode from env
+        run: echo ${{ secrets.TEST_ENV }} | base64 --decode > .env.test
+
       - name: Run tests
         run: pnpm run test:ci

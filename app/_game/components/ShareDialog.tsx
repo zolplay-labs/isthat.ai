@@ -1,5 +1,6 @@
 import { motion, useDragControls } from 'framer-motion'
 import Image from 'next/image'
+import { usePostHog } from 'posthog-js/react'
 import { useEffect, useRef, useState } from 'react'
 
 import { BorderWithoutCorner } from './BorderWithoutCorner'
@@ -34,9 +35,11 @@ export function ShareDialog({
   dragConstraintsRef,
 }: ShareDialogProps) {
   const dragControls = useDragControls()
+  const postHog = usePostHog()
 
   const [isCopied, setIsCopied] = useState(false)
   const handleCopy = async () => {
+    postHog?.capture('click_copy_share_link')
     await navigator.clipboard.writeText(shareLink)
     setIsCopied(true)
   }
@@ -95,6 +98,7 @@ export function ShareDialog({
           />
           <ShareDialogButton
             onClick={() => {
+              postHog?.capture('click_download_share_image')
               downloadImageRef.current?.click()
             }}
           >

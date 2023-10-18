@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import { usePostHog } from 'posthog-js/react'
 import { useRef, useState } from 'react'
 
 import { useIsPC } from '~/hooks/useIsPC'
@@ -13,6 +14,7 @@ import { useUser } from '../hooks/useUser'
 export function Result() {
   const { user } = useUser()
   const { sceneProps } = useSceneProps()
+  const postHog = usePostHog()
   const { scoreId, testId, ...userScore } = {
     ...sceneProps['RESULT'],
     time: sceneProps['RESULT_WAITING'].time,
@@ -28,6 +30,9 @@ export function Result() {
   const handleShare = async () => {
     const shareId = sqids.encode([scoreId])
     const shareUrl = `/share/${shareId}`
+
+    postHog?.capture('click_share', { shareId })
+
     const shareData: ShareData = {
       url: shareUrl,
       title: 'isthat.ai?',

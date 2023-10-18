@@ -1,6 +1,7 @@
 import { clsxm } from '@zolplay/utils'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
+import { usePostHog } from 'posthog-js/react'
 import { useEffect } from 'react'
 
 import { useMotionProgress } from '~/hooks/useMotionProgress'
@@ -11,6 +12,7 @@ import { useSceneProps } from '~/stores/SceneProps.store'
 export function Loading() {
   const { switchScene } = useScene()
   const { sceneProps } = useSceneProps()
+  const postHog = usePostHog()
 
   const { progress, startProgress, isProgressEnd, progressState } =
     useMotionProgress({
@@ -28,6 +30,7 @@ export function Loading() {
   useEffect(() => {
     if (isProgressEnd) {
       switchScene('MENU')
+      postHog?.capture('loading_end')
     }
   }, [sceneProps, isProgressEnd])
 

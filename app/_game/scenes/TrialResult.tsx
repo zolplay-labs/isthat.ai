@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import { usePostHog } from 'posthog-js/react'
 
 import { useSceneProps } from '~/stores/SceneProps.store'
 
@@ -13,7 +14,7 @@ const blunderingBotanistTier = TIERS.find(
 )!
 
 type TrialTier = Tier & { button: string }
-const TRAIL_TIER: Map<boolean, TrialTier> = new Map([
+const TRIAL_TIER: Map<boolean, TrialTier> = new Map([
   [
     true,
     {
@@ -40,9 +41,10 @@ export function TrialResult() {
   const { sceneProps } = useSceneProps()
   const props = sceneProps['TRIAL_RESULT']
 
+  const postHog = usePostHog()
   const { signInWithGoogle } = useUser()
 
-  const tier = TRAIL_TIER.get(props.isRight)!
+  const tier = TRIAL_TIER.get(props.isRight)!
 
   return (
     <GameLayout
@@ -68,7 +70,10 @@ export function TrialResult() {
           {tier.description}
         </div>
         <button
-          onClick={signInWithGoogle}
+          onClick={() => {
+            postHog?.capture('click_trial_result_sign_in')
+            signInWithGoogle()
+          }}
           className="absolute bottom-[20px] block w-[248px] cursor-click py-[6px] text-center text-[12px] sm:relative sm:bottom-auto sm:w-fit sm:p-[6px] sm:text-[16px]"
         >
           <BorderWithoutCorner width={4} />

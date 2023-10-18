@@ -1,4 +1,4 @@
-import { clerkClient } from '@clerk/nextjs'
+import { clerkClient, currentUser } from '@clerk/nextjs'
 import { eq } from 'drizzle-orm'
 import { notFound } from 'next/navigation'
 
@@ -19,6 +19,7 @@ export default async function Share({ params }: { params: { id: string } }) {
     .where(eq(userScores.id, id))
   if (!userScore) return notFound()
 
+  const viewingUser = await currentUser()
   const clerkUser = await clerkClient.users.getUser(userScore.userId)
   const user = filterUser(clerkUser)
 
@@ -26,7 +27,12 @@ export default async function Share({ params }: { params: { id: string } }) {
 
   return (
     <div className="cursor-normal font-press-start-2p">
-      <GameLayout title="~ THEIR RESULT ~" className="h-full w-full">
+      <GameLayout
+        title={`~ ${
+          userScore.userId === viewingUser?.id ? 'MY' : 'THEIR'
+        } RESULT ~`}
+        className="h-full w-full"
+      >
         <ResultDisplay
           userScore={userScore}
           user={user}

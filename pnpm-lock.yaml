@@ -20,9 +20,6 @@ dependencies:
   '@tremor/react':
     specifier: ^3.6.0
     version: 3.6.0(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0)(tailwindcss@3.3.3)
-  '@vercel/analytics':
-    specifier: ^1.1.0
-    version: 1.1.0
   '@zolplay/react':
     specifier: ^0.5.1
     version: 0.5.1(@types/react-dom@18.2.7)(@types/react@18.2.18)(next@13.5.3)(react-dom@18.2.0)(react@18.2.0)
@@ -50,6 +47,9 @@ dependencies:
   next:
     specifier: 13.5.3
     version: 13.5.3(@babel/core@7.23.2)(react-dom@18.2.0)(react@18.2.0)
+  posthog-js:
+    specifier: ^1.83.3
+    version: 1.83.3
   random-seedable:
     specifier: ^1.0.8
     version: 1.0.8
@@ -2701,12 +2701,6 @@ packages:
       '@typescript-eslint/types': 5.62.0
       eslint-visitor-keys: 3.4.2
 
-  /@vercel/analytics@1.1.0:
-    resolution: {integrity: sha512-k5ePYZPxitxxD1eJenPUUuH3qK+EtaA9OVD3oO0BRbyT/LarmZF0qdkptRSidip1arQxsTEIWvHbTuj1oksl+Q==}
-    dependencies:
-      server-only: 0.0.1
-    dev: false
-
   /@zolplay/config@0.2.0(next@13.5.3)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-LRnir3acBzXP7gxKEypTEDkLp/DEEdPYtQKbXu2nFiYQmObvKTFLuqyWZhGbDNIvJPJ6kzKdlYFykxq0H9awgA==}
     peerDependencies:
@@ -4612,6 +4606,10 @@ packages:
       bser: 2.1.1
     dev: true
 
+  /fflate@0.4.8:
+    resolution: {integrity: sha512-FJqqoDBR00Mdj9ppamLa/Y7vxm+PRmNWA67N846RvsoYVMKB4q3y/de5PA7gUmRMYK/8CMz2GDZQmCRN1wBcWA==}
+    dev: false
+
   /file-entry-cache@6.0.1:
     resolution: {integrity: sha512-7Gps/XWymbLk2QLYK4NzpMOrYjMhdIxXuIvy2QBsLE6ljuodKvdkWs/cpyJJ3CVIVpH0Oi1Hvg1ovbMzLdFBBg==}
     engines: {node: ^10.12.0 || >=12.0.0}
@@ -6479,6 +6477,12 @@ packages:
       picocolors: 1.0.0
       source-map-js: 1.0.2
 
+  /posthog-js@1.83.3:
+    resolution: {integrity: sha512-8MQbt0zyLAW3DfAiz9QQz5m849Xsnp/uRJHxYeC7lOBmG9Yp4KLpXGKj9cdZl0jdinWohPQHsX7iG7U5jBpPAQ==}
+    dependencies:
+      fflate: 0.4.8
+    dev: false
+
   /prebuild-install@7.1.1:
     resolution: {integrity: sha512-jAXscXWMcCK8GgCoHOfIr0ODh5ai8mj63L2nWrjuAgXE6tDyYGnx4/8o/rCgU+B4JSyZBKbeZqzhtwtC3ovxjw==}
     engines: {node: '>=10'}
@@ -7024,10 +7028,6 @@ packages:
     hasBin: true
     dependencies:
       lru-cache: 6.0.0
-
-  /server-only@0.0.1:
-    resolution: {integrity: sha512-qepMx2JxAa5jjfzxG79yPPq+8BuFToHd1hm7kI+Z4zAq1ftQiP7HcxMhDDItrbtwVeLg/cY2JnKnrcFkmiswNA==}
-    dev: false
 
   /sharp@0.32.6:
     resolution: {integrity: sha512-KyLTWwgcR9Oe4d9HwCwNM2l7+J0dUQwn/yf7S0EnTtb0eVS4RxO0eUSvxPtzT4F3SY+C4K6fqdv/DO27sJ/v/w==}

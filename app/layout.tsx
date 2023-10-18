@@ -1,10 +1,15 @@
 import '~/app/globals.css'
 
 import { ClerkProvider } from '@clerk/nextjs'
-import { Analytics } from '@vercel/analytics/react'
 import { clsxm } from '@zolplay/utils'
 import { type Metadata } from 'next'
 import { Press_Start_2P } from 'next/font/google'
+import { Suspense } from 'react'
+
+import {
+  PostHogPageview,
+  Provider as PostHogProvider,
+} from '~/providers/PostHogProvider'
 
 const title = 'IsThat.AI?'
 const description =
@@ -74,10 +79,12 @@ export default function RootLayout({
           <link rel="preload" as="image" href="/cursors/grab.svg" />
           <link rel="preload" as="image" href="/cursors/grabbing.svg" />
         </head>
-        <body>
-          {children}
-          <Analytics />
-        </body>
+        <Suspense>
+          <PostHogPageview />
+        </Suspense>
+        <PostHogProvider>
+          <body>{children}</body>
+        </PostHogProvider>
       </html>
     </ClerkProvider>
   )

@@ -23,6 +23,8 @@ export const env = createEnv({
     NEXT_PUBLIC_QUESTIONS_PER_CHALLENGE: z.coerce.number().min(1),
     NEXT_PUBLIC_REFRESH_INTERVAL_HOURS: z.coerce.number().min(1).max(24),
     NEXT_PUBLIC_RELEASE_DATE: z.string().length(8),
+    NEXT_PUBLIC_POSTHOG_KEY: z.string().optional(),
+    NEXT_PUBLIC_POSTHOG_HOST: z.string().optional(),
   },
   experimental__runtimeEnv: {
     NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY:
@@ -39,5 +41,7 @@ export const env = createEnv({
     NEXT_PUBLIC_REFRESH_INTERVAL_HOURS:
       process.env.NEXT_PUBLIC_REFRESH_INTERVAL_HOURS,
     NEXT_PUBLIC_RELEASE_DATE: process.env.NEXT_PUBLIC_RELEASE_DATE,
+    NEXT_PUBLIC_POSTHOG_KEY: process.env.NEXT_PUBLIC_POSTHOG_KEY,
+    NEXT_PUBLIC_POSTHOG_HOST: process.env.NEXT_PUBLIC_POSTHOG_HOST,
   },
 })

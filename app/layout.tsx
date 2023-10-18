@@ -6,8 +6,9 @@ import { clsxm } from '@zolplay/utils'
 import { type Metadata } from 'next'
 import { Press_Start_2P } from 'next/font/google'
 
-const title = 'isthat.ai'
-const description = 'A.I. or not? The image Turing test for humans'
+const title = 'IsThat.AI?'
+const description =
+  'The image Turing test for humans. Test your A.I. detection skills!'
 
 export const metadata: Metadata = {
   title,
@@ -43,9 +44,6 @@ export const metadata: Metadata = {
     maximumScale: 1,
     userScalable: false,
   },
-  // alternates: {
-  //   preload: '/cursors/default.svg',
-  // },
 }
 
 const pressStart2P = Press_Start_2P({

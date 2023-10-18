@@ -59,5 +59,14 @@ describe('utils', () => {
         })
       ).toEqual(new Date('2023-10-19T00:00:00.000Z'))
     })
+    it('should provide correct time when refresh interval hours cannot be divided evenly by 24', () => {
+      expect(
+        getNextTestStartTime({
+          now: new Date('2023-10-18T23:15:00.000Z'),
+          nextTestId: 11,
+          refreshIntervalInHours: 5,
+        })
+      ).toEqual(new Date('2023-10-19T00:00:00.000Z'))
+    })
   })
 })

@@ -9,7 +9,7 @@ import { Suspense } from 'react'
 import {
   PostHogPageview,
   Provider as PostHogProvider,
-} from './providers/PostHogProvider'
+} from '~/providers/PostHogProvider'
 
 const title = 'IsThat.AI?'
 const description =

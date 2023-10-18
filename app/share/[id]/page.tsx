@@ -26,7 +26,7 @@ export default async function Share({ params }: { params: { id: string } }) {
 
   return (
     <div className="cursor-normal font-press-start-2p">
-      <GameLayout header={<span>~ Result ~</span>} className="h-full w-full">
+      <GameLayout header={<span>THEIR RESULT</span>} className="h-full w-full">
         <ResultDisplay
           userScore={userScore}
           user={user}

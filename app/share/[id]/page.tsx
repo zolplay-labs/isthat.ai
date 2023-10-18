@@ -22,7 +22,7 @@ export default async function Share({ params }: { params: { id: string } }) {
   const clerkUser = await clerkClient.users.getUser(userScore.userId)
   const user = filterUser(clerkUser)
 
-  const testId = getTestId(userScore.createdAt)
+  const testId = getTestId({ date: userScore.createdAt })
 
   return (
     <div className="cursor-normal font-press-start-2p">

@@ -65,7 +65,7 @@ export function ShareDialog({
         <div className="mb-[12px] flex justify-between selection:items-center">
           <div className="text-[16px]">Share</div>
           <div
-            className="flex-1 cursor-move"
+            className="flex-1 cursor-move active:cursor-moving"
             onPointerDown={(e) => {
               dragControls.start(e)
             }}

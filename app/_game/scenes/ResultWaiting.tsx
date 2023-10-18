@@ -60,7 +60,7 @@ export function ResultWaiting() {
 
   return (
     <GameLayout
-      header={<span>~ WAITING RESULT ~</span>}
+      title="~ WAITING RESULT ~"
       className="cursor-loading space-y-[32px] sm:flex sm:h-full sm:w-full sm:items-center sm:justify-center sm:gap-0"
     >
       <div className="sm:ml-2 sm:flex sm:h-full sm:w-1/2 sm:justify-center">

@@ -26,7 +26,7 @@ export function Ready() {
 
   return (
     <GameLayout
-      header={<span>Ready to show A.I. who&apos;s boss?</span>}
+      title="Ready to show A.I. who's boss?"
       className="text-[120px] sm:text-[240px]"
     >
       {countdown === 0 ? 'GO' : countdown}

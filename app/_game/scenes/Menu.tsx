@@ -1,5 +1,10 @@
+import { clsxm } from '@zolplay/utils'
 import Image from 'next/image'
+import { useEffect } from 'react'
+import { useCountdown } from 'usehooks-ts'
 
+import { useMount } from '~/hooks/useMount'
+import dayjs from '~/lib/dayjs'
 import { useScene } from '~/stores/Scene.store'
 import { useSceneProps } from '~/stores/SceneProps.store'
 
@@ -8,12 +13,34 @@ import { MenuButton } from '../components/MenuButton'
 import { PreloadImages } from '../components/PreloadImages'
 import { useUser } from '../hooks/useUser'
 
+const formatTime = (seconds: number) => {
+  const SECONDS_IN_1_HOUR = 3600
+  const duration = dayjs.duration(seconds, 'seconds')
+  if (seconds >= SECONDS_IN_1_HOUR) {
+    return duration.format('HH:mm:ss')
+  } else {
+    return duration.format('mm:ss')
+  }
+}
+
 export function Menu() {
   const { isSignedIn, logout, signInWithGoogle, user, setAvatarToDefault } =
     useUser()
   const { switchScene } = useScene()
   const { sceneProps } = useSceneProps()
   const props = sceneProps['MENU']
+
+  const [nextTestRemainingSeconds, { startCountdown }] = useCountdown({
+    countStart: dayjs(props.nextTestStartTime).diff(dayjs(), 'seconds'),
+  })
+  useMount(() => {
+    startCountdown()
+  })
+  useEffect(() => {
+    if (nextTestRemainingSeconds === 0) {
+      location.reload()
+    }
+  }, [nextTestRemainingSeconds])
 
   return (
     <div className="relative flex h-[100dvh] items-center justify-center bg-[url('/images/menu/screen.svg')] bg-cover bg-center bg-no-repeat">
@@ -40,32 +67,47 @@ export function Menu() {
           </div>
         )}
       </div>
-      <div className="flex flex-col items-center">
-        <Image
-          src="/images/logo.svg"
-          alt="logo"
-          className="h-[168px] w-[168px] sm:h-[200px] sm:w-[200px]"
-          width={200}
-          height={200}
-          priority
-        />
-        <div className="mb-[50px] text-[14px] leading-[normal] sm:mb-[100px] sm:text-[24px]">
-          isthat.ai
+      <div>
+        <div
+          className={clsxm(
+            'flex flex-col items-center justify-center text-center sm:text-[24px]',
+            props.hasUserScoreInCurrentTest
+              ? 'mb-[33px] sm:mb-[48px]'
+              : 'mb-[50px] sm:mb-[100px]'
+          )}
+        >
+          <Image
+            src="/images/logo.svg"
+            alt="logo"
+            className="h-[168px] w-[168px] sm:h-[200px] sm:w-[200px]"
+            width={200}
+            height={200}
+            priority
+          />
+          <div className="text-[14px] sm:text-[24px]">isthat.ai</div>
+          {props.hasUserScoreInCurrentTest && (
+            <div className="mt-[12px] text-[#929292] sm:mt-[24px]">
+              <div className="text-[16px] sm:text-[24px]">
+                Take Test #{props.testId + 1}
+              </div>
+              <div className="text-[10px] sm:text-[16px]">
+                in {formatTime(nextTestRemainingSeconds)}
+              </div>
+            </div>
+          )}
         </div>
         <div className="flex flex-col items-center gap-[24px] sm:gap-[44px]">
           {isSignedIn ? (
             <>
-              <MenuButton
-                onClick={() =>
-                  switchScene(
-                    props.hasUserScoreInCurrentTest ? 'RESULT' : 'WARM_UP'
-                  )
-                }
-              >
-                {props.hasUserScoreInCurrentTest
-                  ? `View #${props.testId} Result`
-                  : `Take Test #${props.testId}`}
-              </MenuButton>
+              {props.hasUserScoreInCurrentTest ? (
+                <MenuButton onClick={() => switchScene('RESULT')}>
+                  {`View #${props.testId} Result`}
+                </MenuButton>
+              ) : (
+                <MenuButton onClick={() => switchScene('WARM_UP')}>
+                  {`Take Test #${props.testId}`}
+                </MenuButton>
+              )}
               <MenuButton onClick={logout} hoverTextColor="red">
                 Logout
               </MenuButton>

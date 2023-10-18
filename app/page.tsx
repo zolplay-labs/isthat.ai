@@ -10,6 +10,7 @@ import { Random } from '~/lib/random'
 
 import { Game } from './_game/Game'
 import { filterUser } from './_game/helpers/filterUser'
+import { getNextTestStartTime } from './_game/helpers/getNextTestStartTime'
 import { getTestId } from './_game/helpers/getTestId'
 
 const fetchUser = async () => {
@@ -75,7 +76,7 @@ const fetchRandomQuestions = async (isTrial: boolean, seed: string) => {
   return images
 }
 
-const fetchUserScoreInCurrentTest = async (userId: string, now: Date) => {
+const fetchUserScoreInCurrentTest = async (userId: string, testId: number) => {
   const [latestUserScoreRow] = await db
     .select()
     .from(userScores)
@@ -84,7 +85,7 @@ const fetchUserScoreInCurrentTest = async (userId: string, now: Date) => {
     .limit(1)
   if (!latestUserScoreRow) return null
   const isScoreInCurrentTest =
-    getTestId(latestUserScoreRow.createdAt) === getTestId(now)
+    getTestId({ date: latestUserScoreRow.createdAt }) === testId
   if (!isScoreInCurrentTest) return null
   return latestUserScoreRow
 }
@@ -92,13 +93,17 @@ const fetchUserScoreInCurrentTest = async (userId: string, now: Date) => {
 export default async function Home() {
   const now = new Date()
 
+  const testSeed = getTestSeed(now)
+  const testId = getTestId({ date: now })
+  const nextTestStartTime = getNextTestStartTime({
+    now,
+    nextTestId: testId + 1,
+  })
+
   const user = await fetchUser()
   const userScoreInCurrentTest = user
-    ? await fetchUserScoreInCurrentTest(user.userId, now)
+    ? await fetchUserScoreInCurrentTest(user.userId, testId)
     : null
-
-  const testSeed = getTestSeed(now)
-  const testId = getTestId(now)
 
   const images = userScoreInCurrentTest
     ? []
@@ -110,6 +115,7 @@ export default async function Home() {
       images={images}
       userScoreInCurrentTest={userScoreInCurrentTest}
       testId={testId}
+      nextTestStartTime={nextTestStartTime}
     />
   )
 }

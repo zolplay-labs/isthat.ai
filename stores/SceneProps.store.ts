@@ -7,6 +7,7 @@ const DEFAULT_SCENE_PROPS = {
   MENU: {
     testId: -1,
     hasUserScoreInCurrentTest: false,
+    nextTestStartTime: new Date(),
   },
   PLAY: {
     images: [''],

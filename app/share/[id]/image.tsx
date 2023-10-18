@@ -28,7 +28,7 @@ export default async function Image({ params }: { params: { id: string } }) {
   const clerkUser = await clerkClient.users.getUser(userScore.userId)
   const user = filterUser(clerkUser)
 
-  const testId = getTestId(userScore.createdAt)
+  const testId = getTestId({ date: userScore.createdAt })
 
   const tier = getResultTier(userScore.score, userScore.total, userScore.time)
 

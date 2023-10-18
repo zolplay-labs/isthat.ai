@@ -35,6 +35,7 @@ interface GameProps {
   images: string[]
   userScoreInCurrentTest: typeof userScores.$inferSelect | null
   testId: number
+  nextTestStartTime: Date
 }
 
 export function Game({
@@ -42,6 +43,7 @@ export function Game({
   images,
   userScoreInCurrentTest,
   testId,
+  nextTestStartTime,
 }: GameProps) {
   const { scene } = useScene()
   const { setUser } = useUser()
@@ -55,7 +57,10 @@ export function Game({
     setUser(user)
     setSceneProps('MENU', { testId })
     if (userScoreInCurrentTest) {
-      setSceneProps('MENU', { hasUserScoreInCurrentTest: true })
+      setSceneProps('MENU', {
+        hasUserScoreInCurrentTest: true,
+        nextTestStartTime,
+      })
       setSceneProps('RESULT', {
         scoreId: userScoreInCurrentTest.id,
         score: userScoreInCurrentTest.score,

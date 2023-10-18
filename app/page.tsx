@@ -10,7 +10,7 @@ import { Random } from '~/lib/random'
 
 import { Game } from './_game/Game'
 import { filterUser } from './_game/helpers/filterUser'
-import { getTestId } from './_game/helpers/getTestId'
+import { getTestId, refreshesPerDay } from './_game/helpers/getTestId'
 
 const fetchUser = async () => {
   const user = await currentUser()
@@ -89,6 +89,20 @@ const fetchUserScoreInCurrentTest = async (userId: string, now: Date) => {
   return latestUserScoreRow
 }
 
+const getNextTestStartTime = (nextTestId: number, now: Date) => {
+  const today = dayjs(now).startOf('day')
+  const idRemainder = nextTestId % refreshesPerDay
+  const processedRefreshes = idRemainder === 0 ? refreshesPerDay : idRemainder
+  const processedHours =
+    (processedRefreshes - 1) * env.NEXT_PUBLIC_REFRESH_INTERVAL_HOURS
+  const result = (
+    processedHours === 0
+      ? today.add(1, 'day')
+      : today.set('hour', processedHours)
+  ).add(1, 'second')
+  return result.toDate()
+}
+
 export default async function Home() {
   const now = new Date()
 
@@ -99,6 +113,7 @@ export default async function Home() {
 
   const testSeed = getTestSeed(now)
   const testId = getTestId(now)
+  const nextTestStartTime = getNextTestStartTime(testId + 1, now)
 
   const images = userScoreInCurrentTest
     ? []
@@ -110,6 +125,7 @@ export default async function Home() {
       images={images}
       userScoreInCurrentTest={userScoreInCurrentTest}
       testId={testId}
+      nextTestStartTime={nextTestStartTime}
     />
   )
 }

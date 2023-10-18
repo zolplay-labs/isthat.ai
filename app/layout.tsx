@@ -6,7 +6,10 @@ import { type Metadata } from 'next'
 import { Press_Start_2P } from 'next/font/google'
 import { Suspense } from 'react'
 
-import { PostHogPageview, Provider as PostHogProvider } from './PostHogProvider'
+import {
+  PostHogPageview,
+  Provider as PostHogProvider,
+} from './providers/PostHogProvider'
 
 const title = 'IsThat.AI?'
 const description =

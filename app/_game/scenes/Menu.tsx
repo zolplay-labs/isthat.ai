@@ -1,5 +1,6 @@
 import { clsxm } from '@zolplay/utils'
 import Image from 'next/image'
+import { usePostHog } from 'posthog-js/react'
 import { useEffect } from 'react'
 import { useCountdown } from 'usehooks-ts'
 
@@ -30,6 +31,7 @@ export function Menu() {
   const { sceneProps } = useSceneProps()
   const props = sceneProps['MENU']
 
+  const postHog = usePostHog()
   const [nextTestRemainingSeconds, { startCountdown }] = useCountdown({
     countStart: dayjs(props.nextTestStartTime).diff(dayjs(), 'seconds'),
   })
@@ -38,6 +40,7 @@ export function Menu() {
   })
   useEffect(() => {
     if (nextTestRemainingSeconds === 0) {
+      postHog?.capture('idle_timeout')
       location.reload()
     }
   }, [nextTestRemainingSeconds])
@@ -49,12 +52,20 @@ export function Menu() {
         <a
           className="flex cursor-click items-baseline gap-[8px] sm:gap-[12px]"
           href="https://x.com/isthatai"
+          target="_blank"
+          rel="noreferrer"
+          onClick={() => {
+            postHog?.capture('click_follow_on_x')
+          }}
         >
           <div className="text-[12px] sm:text-[14px]">Follow on</div>
           <div className="text-[20px] sm:text-[30px]">𝕏</div>
         </a>
         {isSignedIn && user?.avatar && (
-          <div className="relative">
+          <div
+            className="relative"
+            onClick={() => postHog?.capture('click_profile_image')}
+          >
             <BorderWithoutCorner width={3} />
             <Image
               src={user.avatar}
@@ -100,24 +111,56 @@ export function Menu() {
           {isSignedIn ? (
             <>
               {props.hasUserScoreInCurrentTest ? (
-                <MenuButton onClick={() => switchScene('RESULT')}>
+                <MenuButton
+                  onClick={() => {
+                    postHog?.capture('click_view_result', {
+                      test_id: props.testId,
+                    })
+                    switchScene('RESULT')
+                  }}
+                >
                   {`View #${props.testId} Result`}
                 </MenuButton>
               ) : (
-                <MenuButton onClick={() => switchScene('WARM_UP')}>
+                <MenuButton
+                  onClick={() => {
+                    postHog?.capture('click_take_test', {
+                      test_id: props.testId,
+                    })
+                    switchScene('WARM_UP')
+                  }}
+                >
                   {`Take Test #${props.testId}`}
                 </MenuButton>
               )}
-              <MenuButton onClick={logout} hoverTextColor="red">
+              <MenuButton
+                onClick={() => {
+                  postHog?.capture('click_logout')
+                  logout()
+                }}
+                hoverTextColor="red"
+              >
                 Logout
               </MenuButton>
             </>
           ) : (
             <>
-              <MenuButton onClick={() => switchScene('WARM_UP')}>
+              <MenuButton
+                onClick={() => {
+                  postHog?.capture('click_ftue')
+                  switchScene('WARM_UP')
+                }}
+              >
                 Take a Sample Test
               </MenuButton>
-              <MenuButton onClick={signInWithGoogle}>Sign In</MenuButton>
+              <MenuButton
+                onClick={() => {
+                  postHog?.capture('click_sign_in')
+                  signInWithGoogle()
+                }}
+              >
+                Sign In
+              </MenuButton>
             </>
           )}
         </div>
@@ -127,6 +170,11 @@ export function Menu() {
         <a
           href="https://zolplay.com?utm_source=isthat.ai&utm_medium=referral&utm_campaign=isthat.ai"
           className="cursor-click text-[#626262] underline"
+          target="_blank"
+          rel="noreferrer"
+          onClick={() => {
+            postHog?.capture('click_zolplay')
+          }}
         >
           zolplay
         </a>

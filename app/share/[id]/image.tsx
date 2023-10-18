@@ -99,7 +99,7 @@ export default async function Image({ params }: { params: { id: string } }) {
               <div>~</div>
             </div>
             <div tw="flex justify-center text-[20px] text-[#FFFFFFB2]">
-              @isthat.ai
+              isthat.ai
             </div>
           </div>
         </div>

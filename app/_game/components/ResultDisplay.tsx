@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
+import { usePostHog } from 'posthog-js/react'
 import { useState } from 'react'
 
 import { type userScores } from '~/db/schema'
@@ -22,6 +23,7 @@ export function ResultDisplay({
   testId,
   hasBattleButton,
 }: ResultDisplayProps) {
+  const postHog = usePostHog()
   const tier = getResultTier(userScore.score, userScore.total, userScore.time)
 
   const [avatar, setAvatar] = useState(user.avatar!)
@@ -44,7 +46,7 @@ export function ResultDisplay({
         <div className="text-center">
           <div className="text-[16px] sm:text-[20px]">~ Test #{testId} ~</div>
           <div className="text-[13px] sm:text-[16px] sm:text-[#A9A9A9]">
-            @isthat.ai
+            isthat.ai
           </div>
         </div>
         <Image
@@ -81,6 +83,9 @@ export function ResultDisplay({
           <Link
             href="/"
             className="relative block w-[248px] cursor-click py-[6px] text-center text-[12px] sm:w-fit sm:p-[16px] sm:text-[16px]"
+            onClick={() => {
+              postHog?.capture('click_battle_with_ai')
+            }}
           >
             <BorderWithoutCorner width={4} />
             Battle with AI

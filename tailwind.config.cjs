@@ -18,6 +18,7 @@ const config = {
       normal: 'url(/cursors/default.svg), default',
       click: 'url(/cursors/pointer.svg), pointer',
       move: 'url(/cursors/grab.svg), grab',
+      moving: 'url(/cursors/grabbing.svg), grabbing',
       loading: 'url(/cursors/loading.svg), wait',
     },
     transparent: 'transparent',

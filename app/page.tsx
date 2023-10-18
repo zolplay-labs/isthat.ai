@@ -7,6 +7,7 @@ import { questions, userScores } from '~/db/schema'
 import { env } from '~/env.mjs'
 import dayjs from '~/lib/dayjs'
 import { Random } from '~/lib/random'
+import { getNextTestStartTime } from '~/lib/utils'
 
 import { Game } from './_game/Game'
 import { filterUser } from './_game/helpers/filterUser'
@@ -89,20 +90,6 @@ const fetchUserScoreInCurrentTest = async (userId: string, now: Date) => {
   return latestUserScoreRow
 }
 
-const getNextTestStartTime = (nextTestId: number, now: Date) => {
-  const today = dayjs(now).startOf('day')
-  const idRemainder = nextTestId % refreshesPerDay
-  const processedRefreshes = idRemainder === 0 ? refreshesPerDay : idRemainder
-  const processedHours =
-    (processedRefreshes - 1) * env.NEXT_PUBLIC_REFRESH_INTERVAL_HOURS
-  const result = (
-    processedHours === 0
-      ? today.add(1, 'day')
-      : today.set('hour', processedHours)
-  ).add(1, 'second')
-  return result.toDate()
-}
-
 export default async function Home() {
   const now = new Date()
 
@@ -113,7 +100,12 @@ export default async function Home() {
 
   const testSeed = getTestSeed(now)
   const testId = getTestId(now)
-  const nextTestStartTime = getNextTestStartTime(testId + 1, now)
+  const nextTestStartTime = getNextTestStartTime({
+    nextTestId: testId + 1,
+    now,
+    refreshesPerDay,
+    refreshIntervalInHours: env.NEXT_PUBLIC_REFRESH_INTERVAL_HOURS,
+  })
 
   const images = userScoreInCurrentTest
     ? []

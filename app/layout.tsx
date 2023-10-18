@@ -6,8 +6,9 @@ import { clsxm } from '@zolplay/utils'
 import { type Metadata } from 'next'
 import { Press_Start_2P } from 'next/font/google'
 
-const title = 'isthat.ai'
-const description = 'A.I. or not? The image Turing test for humans'
+const title = 'IsThat.AI?'
+const description =
+  'The image Turing test for humans. Test your A.I. detection skills!'
 
 export const metadata: Metadata = {
   title,
@@ -31,8 +32,8 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title,
     description,
-    site: '@zolplay',
-    creator: '@zolplay',
+    site: '@isthatai',
+    creator: '@isthatai',
     images: ['/images/social/og.png'],
   },
   viewport: {
@@ -66,6 +67,12 @@ export default function RootLayout({
         )}
         suppressHydrationWarning
       >
+        <head>
+          <link rel="preload" as="image" href="/cursors/default.svg" />
+          <link rel="preload" as="image" href="/cursors/pointer.svg" />
+          <link rel="preload" as="image" href="/cursors/grab.svg" />
+          <link rel="preload" as="image" href="/cursors/loading.svg" />
+        </head>
         <body>
           {children}
           <Analytics />

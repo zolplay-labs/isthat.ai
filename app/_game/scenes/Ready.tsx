@@ -7,15 +7,7 @@ import { useScene } from '~/stores/Scene.store'
 import { GameLayout } from '../components/GameLayout'
 
 function Header() {
-  return (
-    <span>
-      <span>Ready to show </span>
-      <span className="bg-[linear-gradient(180deg,#E3FFB5_0%,#9E95FF_60.09%,#0E7FA3_100%,#712E91_100%,#D57DFF_100%)] bg-clip-text text-transparent">
-        AI
-      </span>
-      <span> who&apos;s the boss?</span>
-    </span>
-  )
+  return <span>Ready to show A.I. who&apos;s boss?</span>
 }
 
 export function Ready() {

@@ -15,6 +15,8 @@ const title = 'IsThat.AI?'
 const description =
   'The image Turing test for humans. Test your A.I. detection skills!'
 
+export const runtime = 'edge'
+
 export const metadata: Metadata = {
   title,
   description,

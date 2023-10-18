@@ -10,8 +10,6 @@ import { db } from '~/db'
 import { userScores } from '~/db/schema'
 import { sqids } from '~/lib/sqids'
 
-export const runtime = 'edge'
-
 export default async function Share({ params }: { params: { id: string } }) {
   const [id] = sqids.decode(params.id)
   if (!id) return notFound()

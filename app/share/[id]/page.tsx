@@ -1,5 +1,5 @@
 import { clerkClient, currentUser } from '@clerk/nextjs'
-import { eq } from 'drizzle-orm'
+import { desc, eq } from 'drizzle-orm'
 import { notFound } from 'next/navigation'
 
 import { GameLayout } from '~/app/_game/components/GameLayout'
@@ -10,6 +10,8 @@ import { db } from '~/db'
 import { userScores } from '~/db/schema'
 import { sqids } from '~/lib/sqids'
 
+import { Actions } from './_components/Actions'
+
 export default async function Share({ params }: { params: { id: string } }) {
   const [id] = sqids.decode(params.id)
   if (!id) return notFound()
@@ -19,11 +21,26 @@ export default async function Share({ params }: { params: { id: string } }) {
     .where(eq(userScores.id, id))
   if (!userScore) return notFound()
 
-  const viewingUser = await currentUser()
   const clerkUser = await clerkClient.users.getUser(userScore.userId)
   const user = filterUser(clerkUser)
 
   const testId = getTestId({ date: userScore.createdAt })
+
+  const viewingUser = await currentUser()
+  let viewingUserFinishedCurrentTest = false
+  if (viewingUser?.id) {
+    const [viewingUserScore] = await db
+      .select()
+      .from(userScores)
+      .where(eq(userScores.userId, viewingUser.id))
+      .orderBy(desc(userScores.createdAt))
+      .limit(1)
+    if (viewingUserScore?.createdAt) {
+      viewingUserFinishedCurrentTest =
+        getTestId({ date: viewingUserScore.createdAt }) ===
+        getTestId({ date: new Date() })
+    }
+  }
 
   return (
     <div className="cursor-normal font-press-start-2p">
@@ -37,7 +54,11 @@ export default async function Share({ params }: { params: { id: string } }) {
           userScore={userScore}
           user={user}
           testId={testId}
-          hasBattleButton
+          actions={
+            <Actions
+              viewingUserFinishedCurrentTest={viewingUserFinishedCurrentTest}
+            />
+          }
         />
       </GameLayout>
     </div>

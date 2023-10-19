@@ -4,6 +4,9 @@ import { usePostHog } from 'posthog-js/react'
 import { useEffect, useRef, useState } from 'react'
 import { useOnClickOutside } from 'usehooks-ts'
 
+import { useSceneProps } from '~/stores/SceneProps.store'
+
+import { useUser } from '../hooks/useUser'
 import { BorderWithoutCorner } from './BorderWithoutCorner'
 
 function ShareDialogButton({
@@ -57,6 +60,9 @@ export function ShareDialog({
   const dialogRef = useRef<HTMLDivElement>(null)
   useOnClickOutside(dialogRef, onClose)
 
+  const { user } = useUser()
+  const { sceneProps } = useSceneProps()
+
   return (
     <motion.div
       className="fixed"
@@ -97,8 +103,7 @@ export function ShareDialog({
           <a
             ref={downloadImageRef}
             href={shareLink + '/opengraph-image'}
-            // TODO: Change image file name
-            download="isthat.ai_share_image.png"
+            download={`${user?.name} Test #${sceneProps['MENU'].testId} Result.png`}
             className="hidden"
           />
           <ShareDialogButton

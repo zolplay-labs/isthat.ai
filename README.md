@@ -15,9 +15,6 @@ pnpm i
 
 3. Initialize database
 
-> **Note**  
-> If your database is not empty, just run `pnpm run db:generate` to generate types
-
 ```bash
 pnpm run db:push
 ```

@@ -10,6 +10,8 @@ export const env = createEnv({
     CLERK_SECRET_KEY: z.string().min(1),
     CLOUDFLARE_API_TOKEN: z.string().min(1),
     HOSTNAME: z.string().min(1),
+    UPSTASH_URL: z.string().optional(),
+    UPSTASH_TOKEN: z.string().optional(),
   },
   client: {
     NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: z.string().min(1),

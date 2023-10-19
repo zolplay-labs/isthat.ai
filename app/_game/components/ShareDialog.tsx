@@ -2,6 +2,7 @@ import { motion, useDragControls } from 'framer-motion'
 import Image from 'next/image'
 import { usePostHog } from 'posthog-js/react'
 import { useEffect, useRef, useState } from 'react'
+import { useOnClickOutside } from 'usehooks-ts'
 
 import { BorderWithoutCorner } from './BorderWithoutCorner'
 
@@ -53,6 +54,9 @@ export function ShareDialog({
 
   const downloadImageRef = useRef<HTMLAnchorElement>(null)
 
+  const dialogRef = useRef<HTMLDivElement>(null)
+  useOnClickOutside(dialogRef, onClose)
+
   return (
     <motion.div
       className="fixed"
@@ -62,6 +66,7 @@ export function ShareDialog({
       dragMomentum={false}
       dragElastic={false}
       dragListener={false}
+      ref={dialogRef}
     >
       <div className="relative bg-[#5A5A5A] p-[12px]">
         <BorderWithoutCorner width={4} />

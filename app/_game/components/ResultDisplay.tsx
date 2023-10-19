@@ -1,8 +1,6 @@
 'use client'
 
 import Image from 'next/image'
-import Link from 'next/link'
-import { usePostHog } from 'posthog-js/react'
 import { useState } from 'react'
 
 import { type userScores } from '~/db/schema'
@@ -15,15 +13,14 @@ interface ResultDisplayProps {
   userScore: Omit<typeof userScores.$inferSelect, 'id' | 'userId' | 'createdAt'>
   user: User
   testId: number
-  hasBattleButton?: boolean
+  actions?: React.ReactNode
 }
 export function ResultDisplay({
   userScore,
   user,
   testId,
-  hasBattleButton,
+  actions,
 }: ResultDisplayProps) {
-  const postHog = usePostHog()
   const tier = getResultTier(userScore.score, userScore.total, userScore.time)
 
   const [avatar, setAvatar] = useState(user.avatar!)
@@ -79,20 +76,7 @@ export function ResultDisplay({
             {tier.description}
           </div>
         </div>
-        {hasBattleButton ? (
-          <Link
-            href="/"
-            className="relative block w-[248px] cursor-click py-[6px] text-center text-[12px] sm:w-fit sm:p-[16px] sm:text-[16px]"
-            onClick={() => {
-              postHog?.capture('click_battle_with_ai')
-            }}
-          >
-            <BorderWithoutCorner width={4} />
-            Battle with AI
-          </Link>
-        ) : (
-          <div className="flex w-full justify-between sm:justify-around"></div>
-        )}
+        <div className="w-[248px] sm:w-fit">{actions}</div>
       </div>
     </div>
   )

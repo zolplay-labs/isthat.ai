@@ -11,6 +11,10 @@ import { userScores } from '~/db/schema'
 import { env } from '~/env.mjs'
 import { sqids } from '~/lib/sqids'
 
+export const runtime = 'edge'
+
+export const alt = 'isthat.ai'
+export const contentType = 'image/png'
 export const size = { width: 1200, height: 675 }
 
 export default async function Image({ params }: { params: { id: string } }) {

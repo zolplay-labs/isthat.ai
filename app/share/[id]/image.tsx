@@ -1,15 +1,12 @@
 import { clerkClient } from '@clerk/nextjs'
-import { eq } from 'drizzle-orm'
 import { notFound } from 'next/navigation'
 import { ImageResponse } from 'next/server'
 
 import { filterUser } from '~/app/_game/helpers/filterUser'
+import { getResultById } from '~/app/_game/helpers/getResultById'
 import { getResultTier } from '~/app/_game/helpers/getResultTier'
 import { getTestId } from '~/app/_game/helpers/getTestId'
-import { db } from '~/db'
-import { userScores } from '~/db/schema'
 import { env } from '~/env.mjs'
-import { sqids } from '~/lib/sqids'
 
 export const runtime = 'edge'
 
@@ -18,23 +15,24 @@ export const contentType = 'image/png'
 export const size = { width: 1200, height: 675 }
 
 export default async function Image({ params }: { params: { id: string } }) {
-  const [id] = sqids.decode(params.id)
+  let result
+  try {
+    result = await getResultById(params.id)
+  } catch (error) {
+    console.error(error)
+    return notFound()
+  }
 
-  if (!id) return notFound()
-
-  const [userScore] = await db
-    .select()
-    .from(userScores)
-    .where(eq(userScores.id, id))
-
-  if (!userScore) return notFound()
-
-  const clerkUser = await clerkClient.users.getUser(userScore.userId)
+  const clerkUser = await clerkClient.users.getUser(result.score.userId)
   const user = filterUser(clerkUser)
 
-  const testId = getTestId({ date: userScore.createdAt })
+  const testId = getTestId({ date: result.score.createdAt })
 
-  const tier = getResultTier(userScore.score, userScore.total, userScore.time)
+  const tier = getResultTier(
+    result.score.score,
+    result.score.total,
+    result.score.time
+  )
 
   const fontData = await fetch(
     new URL(`${env.HOSTNAME}/fonts/PressStart2P.ttf`, import.meta.url)

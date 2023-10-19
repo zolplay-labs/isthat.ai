@@ -31,10 +31,16 @@ export async function generateMetadata({
   const user = filterUser(clerkUser)
   const testId = getTestId({ date: userScore.createdAt })
   const tier = getResultTier(userScore.score, userScore.total, userScore.time)
+  const title = user.name ? `${user.name} on isthat.ai` : undefined
+  const description = `I scored ${tier.title} on Test #${testId} 🕵️`
 
   return {
-    title: user.name ? `${user.name} on isthat.ai` : undefined,
-    description: `I scored ${tier.title} on Test #${testId} 🕵️`,
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+    },
   } satisfies Metadata
 }
 

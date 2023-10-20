@@ -8,15 +8,13 @@
 pnpm i
 ```
 
-2. Add `.env` file
+2. Pull `.env` file from vercel
 
-   1. Copy `.env.example` and rename it to `.env`
-   2. Edit `.env`.
+```bash
+vercel env pull .env
+```
 
-3. Initialize database
-
-> **Note**  
-> If your database is not empty, just run `pnpm run db:generate` to generate types
+3. (Optional) Initialize database
 
 ```bash
 pnpm run db:push

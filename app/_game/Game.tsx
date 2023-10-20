@@ -55,11 +55,10 @@ export function Game({
       return
     }
     setUser(user)
-    setSceneProps('MENU', { testId })
+    setSceneProps('MENU', { testId, nextTestStartTime })
     if (userScoreInCurrentTest) {
       setSceneProps('MENU', {
         hasUserScoreInCurrentTest: true,
-        nextTestStartTime,
       })
       setSceneProps('RESULT', {
         scoreId: userScoreInCurrentTest.id,

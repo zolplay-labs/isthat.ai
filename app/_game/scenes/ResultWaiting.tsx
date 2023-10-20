@@ -38,6 +38,7 @@ export function ResultWaiting() {
           sceneProps['PLAY'].total
         )
         setSceneProps('RESULT', { score, scoreId })
+        setSceneProps('MENU', { hasUserScoreInCurrentTest: true })
       } else {
         setSceneProps('TRIAL_RESULT', { isRight: score === 1 })
       }

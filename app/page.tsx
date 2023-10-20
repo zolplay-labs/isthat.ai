@@ -50,17 +50,16 @@ export default async function Home() {
   })
 
   const user = await fetchUser()
+  const isTrial = user === null
   const userScoreInCurrentTest = user
     ? await fetchUserScoreInCurrentTest({ userId: user.userId, testId })
     : null
 
-  const images = userScoreInCurrentTest
-    ? []
-    : await getQuestions({
-        length: user === null ? 1 : env.NEXT_PUBLIC_QUESTIONS_PER_CHALLENGE,
-        testId,
-        now,
-      })
+  const images = await getQuestions({
+    length: isTrial ? 1 : env.NEXT_PUBLIC_QUESTIONS_PER_CHALLENGE,
+    testId,
+    now,
+  })
 
   return (
     <Game

@@ -73,9 +73,7 @@ const generateRandomQuestions = async ({
     .insert(tests)
     .values({ id: testId })
     .onDuplicateKeyUpdate({ set: { id: testId } })
-  await db
-    .delete(questionsToTests)
-    .where(inArray(questionsToTests.questionId, randomIds))
+  await db.delete(questionsToTests).where(eq(questionsToTests.testId, testId))
   await db
     .insert(questionsToTests)
     .values(randomIds.map((questionId) => ({ questionId, testId })))

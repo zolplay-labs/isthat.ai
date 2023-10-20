@@ -10,7 +10,7 @@ export function PreloadImages() {
     <div className="hidden">
       {sceneProps['PLAY'].images.map(
         (id, i) =>
-          id === '' && (
+          id !== '' && (
             <Image
               src={getGameImageUrlById(id)}
               alt={`game ${i}`}

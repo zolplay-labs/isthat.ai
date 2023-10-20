@@ -8,8 +8,6 @@ import { getResultTier } from '~/app/_game/helpers/getResultTier'
 import { getTestId } from '~/app/_game/helpers/getTestId'
 import { env } from '~/env.mjs'
 
-export const runtime = 'edge'
-
 export const alt = 'isthat.ai'
 export const contentType = 'image/png'
 export const size = { width: 1200, height: 675 }

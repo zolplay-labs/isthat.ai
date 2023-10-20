@@ -16,7 +16,7 @@
   "dependencies": {
     "@clerk/nextjs": "^4.25.3",
     "@headlessui/react": "^1.7.16",
-    "@planetscale/database": "^1.10.0",
+    "@planetscale/database": "^1.11.0",
     "@t3-oss/env-nextjs": "^0.6.0",
     "@tremor/react": "^3.6.0",
     "@zolplay/react": "^0.5.1",

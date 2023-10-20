@@ -21,7 +21,11 @@ export function ResultDisplay({
   testId,
   actions,
 }: ResultDisplayProps) {
-  const tier = getResultTier(userScore.score, userScore.total, userScore.time)
+  const tier = getResultTier({
+    score: userScore.score,
+    total: userScore.total,
+    time: userScore.time,
+  })
 
   const [avatar, setAvatar] = useState(user.avatar!)
 

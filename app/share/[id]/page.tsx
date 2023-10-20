@@ -32,11 +32,11 @@ export async function generateMetadata({
   const clerkUser = await clerkClient.users.getUser(result.score.userId)
   const user = filterUser(clerkUser)
   const testId = getTestId({ date: result.score.createdAt })
-  const tier = getResultTier(
-    result.score.score,
-    result.score.total,
-    result.score.time
-  )
+  const tier = getResultTier({
+    score: result.score.score,
+    total: result.score.total,
+    time: result.score.time,
+  })
   const title = user.name ? `${user.name} on isthat.ai` : undefined
   const description = `I scored ${tier.title} on Test #${testId} 🕵️`
 

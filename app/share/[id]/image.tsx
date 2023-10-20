@@ -28,11 +28,11 @@ export default async function Image({ params }: { params: { id: string } }) {
 
   const testId = getTestId({ date: result.score.createdAt })
 
-  const tier = getResultTier(
-    result.score.score,
-    result.score.total,
-    result.score.time
-  )
+  const tier = getResultTier({
+    score: result.score.score,
+    total: result.score.total,
+    time: result.score.time,
+  })
 
   const fontData = await fetch(
     new URL(`${env.HOSTNAME}/fonts/PressStart2P.ttf`, import.meta.url)

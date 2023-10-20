@@ -135,6 +135,14 @@ export function Menu() {
               )}
               <MenuButton
                 onClick={() => {
+                  postHog?.capture('click_feedback')
+                  window.open('https://isthatai.canny.io/', '_blank')
+                }}
+              >
+                Send Feedback
+              </MenuButton>
+              <MenuButton
+                onClick={() => {
                   postHog?.capture('click_logout')
                   logout()
                 }}

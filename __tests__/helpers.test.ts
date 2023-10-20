@@ -1,7 +1,8 @@
 import { getNextTestStartTime } from '~/app/_game/helpers/getNextTestStartTime'
+import { calcResultScore } from '~/app/_game/helpers/getResultTier'
 import { getTestId } from '~/app/_game/helpers/getTestId'
 
-describe('utils', () => {
+describe('helpers', () => {
   describe('getTestId', () => {
     it('should provide correct id', () => {
       expect(
@@ -67,6 +68,17 @@ describe('utils', () => {
           refreshIntervalInHours: 5,
         })
       ).toEqual(new Date('2023-10-19T00:00:00.000Z'))
+    })
+  })
+  describe('calcResultScore', () => {
+    it('should provide correct score', () => {
+      expect(calcResultScore({ score: 5, total: 10, time: 75 })).toBe(30)
+    })
+    it('should provide full score', () => {
+      expect(calcResultScore({ score: 10, total: 10, time: 10 })).toBe(100)
+    })
+    it('should provide zero score', () => {
+      expect(calcResultScore({ score: 10, total: 10, time: 999 })).toBe(0)
     })
   })
 })

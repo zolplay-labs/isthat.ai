@@ -5,7 +5,7 @@ export type Tier = {
   pixelatedImageBase64: string
 }
 
-export const TIERS = [
+export const TIERS: readonly Tier[] = [
   {
     image: '/images/result-tiers/ai-spy.jpg',
     title: 'AI Spy',
@@ -70,15 +70,69 @@ export const TIERS = [
     pixelatedImageBase64:
       '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',
   },
-] as const
+]
 
-export const getResultTier = (
-  score: number,
-  total: number,
+type GetResultParams = {
+  score: number
+  total: number
   time: number
-): Tier => {
-  // TODO: Tier calculating algorithm
-  const percentage = (score / total) * 100
-  const index = Math.min(Math.floor(percentage / 12.5), 8)
+}
+
+export const calcResultScore = ({ score, total, time }: GetResultParams) => {
+  const timePercentageSecondsPerQuesion = [
+    { secondsPerQuesion: 2, percentage: 100 },
+    { secondsPerQuesion: 4, percentage: 90 },
+    { secondsPerQuesion: 6, percentage: 80 },
+    { secondsPerQuesion: 7, percentage: 70 },
+    { secondsPerQuesion: 8, percentage: 60 },
+    { secondsPerQuesion: 9, percentage: 50 },
+    { secondsPerQuesion: 10, percentage: 40 },
+    { secondsPerQuesion: 11, percentage: 30 },
+    { secondsPerQuesion: 12, percentage: 20 },
+    { secondsPerQuesion: 14, percentage: 10 },
+  ]
+  let timePercentage = 0
+  for (let i = 0; i < timePercentageSecondsPerQuesion.length; i++) {
+    const lastSecondsPerQuesion =
+      timePercentageSecondsPerQuesion[i - 1]?.secondsPerQuesion || 0
+    const currentSecondPerQuestion =
+      timePercentageSecondsPerQuesion[i]!.secondsPerQuesion
+    if (
+      lastSecondsPerQuesion * total < time &&
+      time <= currentSecondPerQuestion * total
+    ) {
+      timePercentage = timePercentageSecondsPerQuesion[i]!.percentage
+    }
+  }
+  const scorePercentage = (score / total) * 100
+  const finalScore = (scorePercentage / 100) * (timePercentage / 100) * 100
+  return finalScore
+}
+
+export const calcResultTierIndex = (score: number) => {
+  if (90 <= score && score <= 100) {
+    return 0
+  } else if (80 <= score && score < 90) {
+    return 1
+  } else if (70 <= score && score < 80) {
+    return 2
+  } else if (60 <= score && score < 70) {
+    return 3
+  } else if (50 <= score && score < 60) {
+    return 4
+  } else if (40 <= score && score < 50) {
+    return 5
+  } else if (30 <= score && score < 40) {
+    return 6
+  } else if (20 <= score && score < 30) {
+    return 7
+  } else {
+    return 8
+  }
+}
+
+export const getResultTier = (params: GetResultParams): Tier => {
+  const score = calcResultScore(params)
+  const index = calcResultTierIndex(score)
   return TIERS[index]!
 }

@@ -17,6 +17,7 @@ export const useUser = () => {
       total: 1,
       images: [sceneProps['PLAY'].images[0] || ''],
     })
+    setSceneProps('MENU', { hasUserScoreInCurrentTest: false })
   }
 
   const signInWithGoogle = async () => {

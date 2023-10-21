@@ -50,12 +50,12 @@ export function Game({
   const { setSceneProps } = useSceneProps()
 
   useMount(() => {
+    setSceneProps('MENU', { testId, nextTestStartTime })
     if (!user) {
       setSceneProps('PLAY', { images, total: 1 })
       return
     }
     setUser(user)
-    setSceneProps('MENU', { testId, nextTestStartTime })
     if (userScoreInCurrentTest) {
       setSceneProps('MENU', {
         hasUserScoreInCurrentTest: true,

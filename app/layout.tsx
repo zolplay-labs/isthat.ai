@@ -6,6 +6,7 @@ import { type Metadata } from 'next'
 import { Press_Start_2P } from 'next/font/google'
 import { Suspense } from 'react'
 
+import { url } from '~/lib/url'
 import {
   PostHogPageview,
   Provider as PostHogProvider,
@@ -64,6 +65,9 @@ export const metadata: Metadata = {
       index: isProduction,
       follow: isProduction,
     },
+  },
+  alternates: {
+    canonical: url('/'),
   },
 }
 

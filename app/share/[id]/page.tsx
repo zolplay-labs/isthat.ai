@@ -11,10 +11,12 @@ import { getResultTier } from '~/app/_game/helpers/getResultTier'
 import { getTestId } from '~/app/_game/helpers/getTestId'
 import { db } from '~/db'
 import { userScores } from '~/db/schema'
+import { url } from '~/lib/url'
 
 import { Actions } from './_components/Actions'
 
 export const runtime = 'edge'
+export const revalidate = 3600 // 1 hour
 
 export async function generateMetadata({
   params,
@@ -46,6 +48,9 @@ export async function generateMetadata({
     openGraph: {
       title,
       description,
+    },
+    alternates: {
+      canonical: url(`/share/${params.id}`),
     },
   } satisfies Metadata
 }

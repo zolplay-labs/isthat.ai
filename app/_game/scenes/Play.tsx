@@ -14,7 +14,7 @@ import { GameLayout } from '../components/GameLayout'
 import { type SwipeSide, TinderCard } from '../components/TinderCard'
 import { type Answers } from './ResultWaiting'
 
-const SECONDS_IN_10_MINUTES = 15
+const SECONDS_IN_10_MINUTES = 600
 
 export function Play() {
   const { switchScene } = useScene()

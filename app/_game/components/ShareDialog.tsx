@@ -103,7 +103,7 @@ export function ShareDialog({
           <a
             ref={downloadImageRef}
             href={shareLink + '/opengraph-image'}
-            download={`${user?.name} Test #${sceneProps['MENU'].testId} Result.png`}
+            download={`isthat.ai - ${user?.name} Test #${sceneProps['MENU'].testId} Result.png`}
             className="hidden"
           />
           <ShareDialogButton

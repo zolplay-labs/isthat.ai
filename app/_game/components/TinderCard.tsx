@@ -110,7 +110,6 @@ export function TinderCard({
           className={clsxm(
             card({ rotate: idx === 0 ? 'right' : 'left' }),
             'transform-gpu',
-            // 'blur-[4px]',
             className
           )}
           style={{ zIndex: 999 - idx, filter: 'blur(4px)' }}

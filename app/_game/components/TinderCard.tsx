@@ -17,7 +17,7 @@ interface TinderCardProps {
 
 const card = cva(
   [
-    'absolute h-[500px] w-[600px] will-change-transform flex rounded-2xl flex-col justify-center items-center cursor-move active:cursor-moving',
+    'absolute w-[clamp(200px,75vh,70vw)] h-[clamp(200px,75vh,70vw)] sm:w-[clamp(42vmin,70vw,66vh)] sm:h-[clamp(42vmin,70vw,66vh)] will-change-transform flex flex-col justify-center items-center cursor-move active:cursor-moving',
   ],
   {
     variants: {
@@ -101,21 +101,21 @@ export function TinderCard({
             transition: { duration: 0.2 },
           }}
           className={clsxm(card(), className)}
-          style={{ zIndex: 9999 }}
+          style={{ zIndex: 9999, filter: 'blur(0px)' }}
         >
           {children}
         </motion.div>
       ) : (
-        <div
+        <motion.div
           className={clsxm(
             card({ rotate: idx === 0 ? 'right' : 'left' }),
             'transform-gpu',
             className
           )}
-          style={{ zIndex: 999 - idx }}
+          style={{ zIndex: 999 - idx, filter: 'blur(4px)' }}
         >
           {children}
-        </div>
+        </motion.div>
       )}
     </>
   )

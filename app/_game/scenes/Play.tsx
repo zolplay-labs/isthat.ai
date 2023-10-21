@@ -61,18 +61,6 @@ export function Play() {
         swipingSide === 'left' && 'bg-[#FECDD366] sm:bg-transparent'
       )}
     >
-      <div className="absolute top-[24px] flex items-center justify-center gap-[8px] sm:top-[20px]">
-        <Image
-          src="/images/play/clock.svg"
-          alt="timer"
-          className="h-[16px] w-[16px] sm:h-[24px] sm:w-[24px]"
-          width={24}
-          height={24}
-        />
-        <div className="text-[12px] sm:text-[16px]">
-          {dayjs.duration(remainingSeconds, 'seconds').format('mm:ss')}
-        </div>
-      </div>
       <div
         className={clsxm(
           'absolute z-0 hidden h-full w-1/2 sm:block',
@@ -88,7 +76,7 @@ export function Play() {
             active={imageIndex === index}
             onSwiped={(swipe) => handleAnswer(swipe === 'right')}
             onSwiping={(swipe) => setSwipingSide(swipe)}
-            className={clsxm(index < imageIndex && 'hidden')}
+            className={clsxm(index < imageIndex && 'hidden', 'object-cover')}
           >
             <Image
               key={image}
@@ -96,11 +84,23 @@ export function Play() {
               alt={`question ${image}`}
               width={600}
               height={600}
-              className="pointer-events-none max-h-[200px] max-w-[200px] border-[4px] border-white shadow-xl sm:max-h-[600px] sm:max-w-[600px]"
+              className="pointer-events-none border-[4px] border-white shadow-xl"
             />
           </TinderCard>
         ))}
       </AnimatePresence>
+      <div className="absolute top-[24px] z-[99999] flex items-center justify-center gap-[8px] mix-blend-difference sm:top-[20px]">
+        <Image
+          src="/images/play/clock.svg"
+          alt="timer"
+          className="h-[16px] w-[16px] sm:h-[24px] sm:w-[24px]"
+          width={24}
+          height={24}
+        />
+        <div className="text-[12px] sm:text-[16px]">
+          {dayjs.duration(remainingSeconds, 'seconds').format('mm:ss')}
+        </div>
+      </div>
       <div className="absolute bottom-[16px] left-[16px] space-y-[18px] sm:bottom-auto sm:left-[50px]">
         <Image
           src="/images/play/arrow-left.svg"

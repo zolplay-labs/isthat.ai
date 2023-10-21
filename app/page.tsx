@@ -1,11 +1,9 @@
 import { currentUser } from '@clerk/nextjs'
-import { desc, eq } from 'drizzle-orm'
 
-import { db } from '~/db'
-import { userScores } from '~/db/schema'
 import { env } from '~/env.mjs'
 
 import { Game } from './_game/Game'
+import { fetchUserScoreInCurrentTest } from './_game/helpers/fetchUserScoreInCurrentTest'
 import { filterUser } from './_game/helpers/filterUser'
 import { getNextTestStartTime } from './_game/helpers/getNextTestStartTime'
 import { getQuestions } from './_game/helpers/getQuestions'
@@ -18,26 +16,6 @@ const fetchUser = async () => {
     ...filterUser(user),
     userId: user.id,
   }
-}
-
-const fetchUserScoreInCurrentTest = async ({
-  userId,
-  testId,
-}: {
-  userId: string
-  testId: number
-}) => {
-  const [latestUserScoreRow] = await db
-    .select()
-    .from(userScores)
-    .where(eq(userScores.userId, userId))
-    .orderBy(desc(userScores.createdAt))
-    .limit(1)
-  if (!latestUserScoreRow) return null
-  const isScoreInCurrentTest =
-    getTestId({ date: latestUserScoreRow.createdAt }) === testId
-  if (!isScoreInCurrentTest) return null
-  return latestUserScoreRow
 }
 
 export default async function Home() {

@@ -4,6 +4,7 @@ import { usePostHog } from 'posthog-js/react'
 import { useEffect } from 'react'
 import { useCountdown } from 'usehooks-ts'
 
+import { checkUserHasScoreInCurrentTest } from '~/app/action'
 import { useMount } from '~/hooks/useMount'
 import dayjs from '~/lib/dayjs'
 import { useScene } from '~/stores/Scene.store'
@@ -123,10 +124,18 @@ export function Menu() {
                 </MenuButton>
               ) : (
                 <MenuButton
-                  onClick={() => {
+                  onClick={async () => {
                     postHog?.capture('click_take_test', {
                       test_id: props.testId,
                     })
+                    const hasScoreInCurrentTest =
+                      await checkUserHasScoreInCurrentTest({
+                        testId: props.testId,
+                      })
+                    if (hasScoreInCurrentTest) {
+                      location.reload()
+                      return
+                    }
                     switchScene('WARM_UP')
                   }}
                 >

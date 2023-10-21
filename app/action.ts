@@ -6,6 +6,7 @@ import { desc, eq } from 'drizzle-orm'
 import { db } from '~/db'
 import { questions, userScores } from '~/db/schema'
 
+import { fetchUserScoreInCurrentTest } from './_game/helpers/fetchUserScoreInCurrentTest'
 import { type Answers } from './_game/scenes/ResultWaiting'
 
 export async function checkAnswers(answers: Answers) {
@@ -24,13 +25,17 @@ export async function checkAnswers(answers: Answers) {
   return { score }
 }
 
-export async function saveScore(score: number, time: number, total: number) {
+export async function saveScore(payload: {
+  score: number
+  time: number
+  total: number
+}) {
   const { userId } = auth()
   if (!userId) {
     throw new Error('Unauthorized')
   }
 
-  await db.insert(userScores).values({ score, userId, time, total })
+  await db.insert(userScores).values({ userId, ...payload })
 
   const [scoreIdRow] = await db
     .select()
@@ -41,4 +46,16 @@ export async function saveScore(score: number, time: number, total: number) {
   const scoreId = scoreIdRow?.id || -1
 
   return { scoreId }
+}
+
+export async function checkUserHasScoreInCurrentTest({
+  testId,
+}: {
+  testId: number
+}) {
+  const { userId } = auth()
+  if (!userId) {
+    throw new Error('Unauthorized')
+  }
+  return Boolean(await fetchUserScoreInCurrentTest({ userId, testId }))
 }

@@ -1,4 +1,4 @@
-import { desc, eq, inArray, sql } from 'drizzle-orm'
+import { desc, eq, inArray } from 'drizzle-orm'
 
 import { db } from '~/db'
 import { fetchQuestionCount } from '~/db/queries'
@@ -73,15 +73,7 @@ const generateRandomQuestions = async ({
     .insert(tests)
     .values({ id: testId })
     .onDuplicateKeyUpdate({ set: { id: testId } })
-  const testQuestionCount = (
-    await db
-      .select({ count: sql<number>`count(*)` })
-      .from(questionsToTests)
-      .where(eq(questionsToTests.testId, testId))
-  )[0]?.count
-  if (testQuestionCount && testQuestionCount > 0) {
-    await db.delete(questionsToTests).where(eq(questionsToTests.testId, testId))
-  }
+  await db.delete(questionsToTests).where(eq(questionsToTests.testId, testId))
   await db
     .insert(questionsToTests)
     .values(randomIds.map((questionId) => ({ questionId, testId })))

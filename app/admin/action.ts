@@ -4,7 +4,7 @@ import { desc, eq } from 'drizzle-orm'
 import { revalidatePath } from 'next/cache'
 
 import { db } from '~/db'
-import { questions } from '~/db/schema'
+import { questions, questionsToTests } from '~/db/schema'
 import { env } from '~/env.mjs'
 
 export async function updateQuestionAI({
@@ -36,6 +36,7 @@ export async function deleteQuestion({
   if (!res.success) {
     throw new Error('Cloudflare Error')
   }
+  await db.delete(questionsToTests).where(eq(questionsToTests.questionId, id))
   await db.delete(questions).where(eq(questions.id, id))
   revalidatePath('/admin')
 }

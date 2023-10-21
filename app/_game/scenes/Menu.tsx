@@ -27,8 +27,8 @@ const formatTime = (seconds: number) => {
 export function Menu() {
   const { isSignedIn, logout, signInWithGoogle, user, setAvatarToDefault } =
     useUser()
-  const { switchScene } = useScene()
-  const { sceneProps } = useSceneProps()
+  const { scene, switchScene } = useScene()
+  const { sceneProps, setSceneProps } = useSceneProps()
   const props = sceneProps['MENU']
 
   const postHog = usePostHog()
@@ -44,6 +44,18 @@ export function Menu() {
       location.reload()
     }
   }, [nextTestRemainingSeconds])
+
+  useEffect(() => {
+    const onFocus = () => {
+      postHog?.capture('lose_focus_from_menu')
+      setSceneProps('LOADING', { refresh: true })
+      switchScene('LOADING')
+    }
+    window.addEventListener('focus', onFocus)
+    return () => {
+      window.removeEventListener('focus', onFocus)
+    }
+  }, [scene])
 
   return (
     <div className="relative flex h-[100dvh] items-center justify-center bg-[url('/images/menu/screen.svg')] bg-cover bg-center bg-no-repeat">

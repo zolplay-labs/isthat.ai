@@ -95,8 +95,8 @@ export function Play() {
               src={getGameImageUrlById(image)}
               alt={`question ${image}`}
               fill={true}
-              className="pointer-events-none max-h-[200px] max-w-[200px] border-[4px] border-white shadow-xl sm:max-h-[600px] sm:max-w-[600px]"
-              style={{ objectFit: 'contain' }}
+              // TODO: Add `border-[4px] border-white shadow-xl`
+              className="pointer-events-none object-contain"
             />
           </TinderCard>
         ))}

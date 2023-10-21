@@ -1,18 +1,19 @@
 import { clsxm } from '@zolplay/utils'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { usePostHog } from 'posthog-js/react'
 import { useEffect } from 'react'
 
 import { useMotionProgress } from '~/hooks/useMotionProgress'
-import { useMount } from '~/hooks/useMount'
 import { useScene } from '~/stores/Scene.store'
 import { useSceneProps } from '~/stores/SceneProps.store'
 
 export function Loading() {
-  const { switchScene } = useScene()
-  const { sceneProps } = useSceneProps()
   const postHog = usePostHog()
+
+  const { switchScene } = useScene()
+  const { sceneProps, setSceneProps } = useSceneProps()
 
   const { progress, startProgress, isProgressEnd, progressState } =
     useMotionProgress({
@@ -20,19 +21,24 @@ export function Loading() {
       duration: 3,
     })
 
-  useMount(() => {
+  const { refresh } = useRouter()
+  useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-extra-semi
     ;(async () => {
+      if (sceneProps['LOADING'].refresh) {
+        refresh()
+        setSceneProps('LOADING', { refresh: false })
+      }
       await startProgress()
     })()
-  })
+  }, [refresh, sceneProps['LOADING'].refresh])
 
   useEffect(() => {
     if (isProgressEnd) {
       switchScene('MENU')
       postHog?.capture('loading_end')
     }
-  }, [sceneProps, isProgressEnd])
+  }, [isProgressEnd])
 
   return (
     <div className="flex h-[100dvh] cursor-loading items-center justify-center">

@@ -1,6 +1,8 @@
 'use client'
 
 import { AnimatePresence, motion } from 'framer-motion'
+import { usePostHog } from 'posthog-js/react'
+import { useEffect } from 'react'
 
 import { type userScores } from '~/db/schema'
 import { env } from '~/env.mjs'
@@ -45,7 +47,9 @@ export function Game({
   testId,
   nextTestStartTime,
 }: GameProps) {
-  const { scene } = useScene()
+  const postHog = usePostHog()
+
+  const { scene, switchScene } = useScene()
   const { setUser } = useUser()
   const { setSceneProps } = useSceneProps()
 
@@ -73,6 +77,20 @@ export function Game({
       total: env.NEXT_PUBLIC_QUESTIONS_PER_CHALLENGE,
     })
   })
+
+  useEffect(() => {
+    const onFocus = () => {
+      if (scene !== 'LOADING') {
+        postHog?.capture('lose_focus')
+        setSceneProps('LOADING', { refresh: true })
+        switchScene('LOADING')
+      }
+    }
+    window.addEventListener('focus', onFocus)
+    return () => {
+      window.removeEventListener('focus', onFocus)
+    }
+  }, [scene])
 
   return (
     <AnimatePresence mode="wait">

@@ -24,6 +24,9 @@ const DEFAULT_SCENE_PROPS = {
   TRIAL_RESULT: {
     isRight: false,
   },
+  LOADING: {
+    refresh: false,
+  },
 } satisfies Partial<Record<Scene, unknown>>
 
 type SceneProps = typeof DEFAULT_SCENE_PROPS

@@ -71,6 +71,36 @@ export default async function Image({ params }: { params: { id: string } }) {
         >
           <div tw="absolute w-[5px] h-[3px] bg-[#1e1e1e]" />
           <div tw="absolute w-[5px] h-[3px] bg-[#1e1e1e] bottom-0" />
+          <div
+            tw="absolute w-[10px] h-[13px] bg-white left-[5px]"
+            style={{
+              borderLeft: '1px solid #727272',
+              borderRight: '1px solid #a3a3a3',
+              borderBottom: '1px solid #474747',
+            }}
+          />
+          <div
+            tw="absolute w-[6px] h-[10px] bg-white top-[3px]"
+            style={{
+              borderTop: '1px solid #c7c7c7',
+              borderBottom: '1px solid #474747',
+            }}
+          />
+          <div
+            tw="absolute w-[10px] h-[13px] bg-white left-[5px] bottom-0"
+            style={{
+              borderTop: '1px solid #474747',
+              borderLeft: '1px solid #727272',
+              borderRight: '1px solid #a3a3a3',
+            }}
+          />
+          <div
+            tw="absolute w-[6px] h-[10px] bg-white bottom-[3px]"
+            style={{
+              borderTop: '1px solid #474747',
+              borderBottom: '1px solid #c7c7c7',
+            }}
+          />
         </div>
         <div tw="flex w-[525px] h-[539px] flex-col justify-between pt-[44px] pb-[46px]">
           <div tw="flex items-center justify-center" style={{ gap: 16 }}>

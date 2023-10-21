@@ -6,6 +6,7 @@ import { type Metadata } from 'next'
 import { Press_Start_2P } from 'next/font/google'
 import { Suspense } from 'react'
 
+import { env } from '~/env.mjs'
 import {
   PostHogPageview,
   Provider as PostHogProvider,
@@ -20,10 +21,11 @@ export const runtime = 'edge'
 export const metadata: Metadata = {
   title,
   description,
+  metadataBase: new URL(env.HOSTNAME),
   openGraph: {
     title,
     description,
-    url: 'https://isthat.ai',
+    url: new URL(env.HOSTNAME),
     siteName: title,
     images: [
       {

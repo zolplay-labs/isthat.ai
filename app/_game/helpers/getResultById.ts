@@ -13,7 +13,9 @@ type Result = {
 }
 
 export const getResultById = async (id: string): Promise<Result> => {
-  const cachedResult = await redis?.get<Result>(`result:${id}`)
+  const cachedResult = await redis?.get<Result>(
+    `${process.env.VERCEL_ENV ?? 'dev'}:result:${id}`
+  )
   if (cachedResult) return cachedResult
 
   const [decodedId] = sqids.decode(id)

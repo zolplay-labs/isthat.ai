@@ -17,7 +17,7 @@ interface TinderCardProps {
 
 const card = cva(
   [
-    'absolute h-[500px] w-[600px] will-change-transform flex rounded-2xl flex-col justify-center items-center cursor-move active:cursor-moving',
+    'absolute h-[200px] w-[200px] sm:h-[600px] sm:w-[600px] will-change-transform flex flex-col justify-center items-center cursor-move active:cursor-moving',
   ],
   {
     variants: {

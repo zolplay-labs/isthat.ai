@@ -94,9 +94,9 @@ export function Play() {
               key={image}
               src={getGameImageUrlById(image)}
               alt={`question ${image}`}
-              width={600}
-              height={600}
+              fill={true}
               className="pointer-events-none max-h-[200px] max-w-[200px] border-[4px] border-white shadow-xl sm:max-h-[600px] sm:max-w-[600px]"
+              style={{ objectFit: 'contain' }}
             />
           </TinderCard>
         ))}

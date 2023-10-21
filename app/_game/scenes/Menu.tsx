@@ -4,6 +4,7 @@ import { usePostHog } from 'posthog-js/react'
 import { useEffect } from 'react'
 import { useCountdown } from 'usehooks-ts'
 
+import { useFocus } from '~/hooks/useFocus'
 import { useMount } from '~/hooks/useMount'
 import dayjs from '~/lib/dayjs'
 import { useScene } from '~/stores/Scene.store'
@@ -45,17 +46,11 @@ export function Menu() {
     }
   }, [nextTestRemainingSeconds])
 
-  useEffect(() => {
-    const onFocus = () => {
-      postHog?.capture('lose_focus_from_menu')
-      setSceneProps('LOADING', { refresh: true })
-      switchScene('LOADING')
-    }
-    window.addEventListener('focus', onFocus)
-    return () => {
-      window.removeEventListener('focus', onFocus)
-    }
-  }, [scene])
+  useFocus(() => {
+    postHog?.capture('lose_focus_from_menu')
+    setSceneProps('LOADING', { refresh: true })
+    switchScene('LOADING')
+  })
 
   return (
     <div className="relative flex h-[100dvh] items-center justify-center bg-[url('/images/menu/screen.svg')] bg-cover bg-center bg-no-repeat">

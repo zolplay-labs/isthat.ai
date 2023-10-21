@@ -6,7 +6,6 @@ import { type Metadata } from 'next'
 import { Press_Start_2P } from 'next/font/google'
 import { Suspense } from 'react'
 
-import { env } from '~/env.mjs'
 import {
   PostHogPageview,
   Provider as PostHogProvider,
@@ -18,22 +17,27 @@ const description =
 
 export const runtime = 'edge'
 
+const isProduction = process.env.VERCEL_ENV === 'production'
 export const metadata: Metadata = {
   title,
   description,
-  metadataBase: new URL(env.HOSTNAME),
+  metadataBase: new URL(
+    isProduction ? 'https://isthat.ai' : 'https://beta.isthat.ai'
+  ),
+  keywords: [
+    'ai image',
+    'ai image test',
+    'AI image turing test',
+    'isthatai',
+    'is that ai',
+    'is that ai?',
+    'isthatai?',
+  ],
   openGraph: {
     title,
     description,
-    url: new URL(env.HOSTNAME),
+    url: 'https://isthat.ai',
     siteName: title,
-    images: [
-      {
-        url: '/images/social/og.png',
-        width: 1200,
-        height: 675,
-      },
-    ],
     locale: 'en_US',
     type: 'website',
   },
@@ -43,7 +47,6 @@ export const metadata: Metadata = {
     description,
     site: '@isthatai',
     creator: '@isthatai',
-    images: ['/images/social/og.png'],
   },
   viewport: {
     height: 'device-height',
@@ -52,6 +55,15 @@ export const metadata: Metadata = {
     minimumScale: 1,
     maximumScale: 1,
     userScalable: false,
+  },
+  manifest: '/site.webmanifest',
+  robots: {
+    index: isProduction,
+    follow: isProduction,
+    googleBot: {
+      index: isProduction,
+      follow: isProduction,
+    },
   },
 }
 

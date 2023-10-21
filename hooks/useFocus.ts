@@ -6,5 +6,5 @@ export const useFocus = (onFocus: () => void, deps?: React.DependencyList) => {
     return () => {
       window.removeEventListener('focus', onFocus)
     }
-  }, [onFocus, ...(deps || [])])
+  }, [...(deps || [])])
 }

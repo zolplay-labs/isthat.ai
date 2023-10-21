@@ -32,11 +32,11 @@ export function ResultWaiting() {
     ;(async () => {
       const { score } = await checkAnswers(props.answers)
       if (isSignedIn) {
-        const { scoreId } = await saveScore(
+        const { scoreId } = await saveScore({
           score,
-          props.time,
-          sceneProps['PLAY'].total
-        )
+          time: props.time,
+          total: sceneProps['PLAY'].total,
+        })
         setSceneProps('RESULT', { score, scoreId })
         setSceneProps('MENU', { hasUserScoreInCurrentTest: true })
       } else {

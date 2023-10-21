@@ -24,13 +24,17 @@ export async function checkAnswers(answers: Answers) {
   return { score }
 }
 
-export async function saveScore(score: number, time: number, total: number) {
+export async function saveScore(payload: {
+  score: number
+  time: number
+  total: number
+}) {
   const { userId } = auth()
   if (!userId) {
     throw new Error('Unauthorized')
   }
 
-  await db.insert(userScores).values({ score, userId, time, total })
+  await db.insert(userScores).values({ userId, ...payload })
 
   const [scoreIdRow] = await db
     .select()

@@ -62,12 +62,16 @@ export default async function Image({ params }: { params: { id: string } }) {
           src={`${env.HOSTNAME}/images/social/bg.png`}
           alt="og-bg"
         />
-        <img
-          src={env.HOSTNAME + tier.image}
-          alt="og-result"
-          width={539}
-          height={539}
-        />
+        <div
+          tw="flex w-[539px] h-[539px] relative"
+          style={{
+            backgroundImage: `url(${env.HOSTNAME}${tier.image})`,
+            backgroundSize: '100% 100%',
+          }}
+        >
+          <div tw="absolute w-[5px] h-[3px] bg-[#1e1e1e]" />
+          <div tw="absolute w-[5px] h-[3px] bg-[#1e1e1e] bottom-0" />
+        </div>
         <div tw="flex w-[525px] h-[539px] flex-col justify-between pt-[44px] pb-[46px]">
           <div tw="flex items-center justify-center" style={{ gap: 16 }}>
             <div tw="flex w-9 h-9 text-sm border-2 border-white relative">

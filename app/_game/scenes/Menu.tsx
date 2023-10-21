@@ -39,7 +39,7 @@ export function Menu() {
     startCountdown()
   })
   useEffect(() => {
-    if (nextTestRemainingSeconds === 0) {
+    if (nextTestRemainingSeconds <= 0) {
       postHog?.capture('idle_timeout')
       location.reload()
     }

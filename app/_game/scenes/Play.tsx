@@ -1,8 +1,7 @@
 import { clsxm } from '@zolplay/utils'
 import { AnimatePresence } from 'framer-motion'
-import { produce } from 'immer'
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useCountdown } from 'usehooks-ts'
 
 import { getGameImageUrlById } from '~/helpers/getGameImageUrlById'
@@ -15,7 +14,7 @@ import { GameLayout } from '../components/GameLayout'
 import { type SwipeSide, TinderCard } from '../components/TinderCard'
 import { type Answers } from './ResultWaiting'
 
-const SECONDS_IN_10_MINUTES = 600
+const SECONDS_IN_10_MINUTES = 15
 
 export function Play() {
   const { switchScene } = useScene()
@@ -25,26 +24,21 @@ export function Play() {
   const [swipingSide, setSwipingSide] = useState<SwipeSide>('none')
   const [imageIndex, setImageIndex] = useState(0)
 
-  const [startTime] = useState(new Date())
-  const [answers, setAnswers] = useState<Answers>([])
+  const startTime = useRef(new Date())
+  const answers = useRef<Answers>([])
   const handleAnswer = (AI: boolean) => {
-    setAnswers(
-      produce((draftAnswers) => {
-        draftAnswers.push({ image: props.images[imageIndex] || '', AI })
-      })
-    )
-    if (imageIndex !== props.total - 1) {
-      setImageIndex(imageIndex + 1)
+    answers.current.push({ image: props.images[imageIndex] || '', AI })
+    if (answers.current.length === props.total) {
+      const time = Math.floor(
+        (new Date().getTime() - startTime.current.getTime()) / 1000
+      )
+      setSceneProps('RESULT_WAITING', { answers: answers.current, time })
+      switchScene('RESULT_WAITING')
+      return
     }
+    setImageIndex(imageIndex + 1)
     setSwipingSide('none')
   }
-  useEffect(() => {
-    if (answers.length === props.total) {
-      const time = dayjs().diff(startTime, 'seconds')
-      setSceneProps('RESULT_WAITING', { answers, time })
-      switchScene('RESULT_WAITING')
-    }
-  }, [answers])
 
   const [remainingSeconds, { startCountdown }] = useCountdown({
     countStart: SECONDS_IN_10_MINUTES,

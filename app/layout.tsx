@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   openGraph: {
     title,
     description,
-    url: 'https://isthat.ai',
+    url: url(''),
     siteName: title,
     locale: 'en_US',
     type: 'website',

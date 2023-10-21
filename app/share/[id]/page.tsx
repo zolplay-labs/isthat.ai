@@ -1,5 +1,4 @@
-import { clerkClient, currentUser } from '@clerk/nextjs'
-import { desc, eq } from 'drizzle-orm'
+import { clerkClient } from '@clerk/nextjs'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 
@@ -9,8 +8,6 @@ import { filterUser } from '~/app/_game/helpers/filterUser'
 import { getResultById } from '~/app/_game/helpers/getResultById'
 import { getResultTier } from '~/app/_game/helpers/getResultTier'
 import { getTestId } from '~/app/_game/helpers/getTestId'
-import { db } from '~/db'
-import { userScores } from '~/db/schema'
 import { url } from '~/lib/url'
 
 import { Actions } from './_components/Actions'
@@ -67,39 +64,31 @@ export default async function Share({ params }: { params: { id: string } }) {
   const clerkUser = await clerkClient.users.getUser(result.score.userId)
   const user = filterUser(clerkUser)
 
-  const viewingUser = await currentUser()
-  let viewingUserFinishedCurrentTest = false
-  if (viewingUser?.id) {
-    const [viewingUserScore] = await db
-      .select()
-      .from(userScores)
-      .where(eq(userScores.userId, viewingUser.id))
-      .orderBy(desc(userScores.createdAt))
-      .limit(1)
-    if (viewingUserScore?.createdAt) {
-      viewingUserFinishedCurrentTest =
-        getTestId({ date: viewingUserScore.createdAt }) ===
-        getTestId({ date: new Date() })
-    }
-  }
+  // TODO: removed for now
+  // const viewingUser = await currentUser()
+  // const viewingUserFinishedCurrentTest = false
+  // if (viewingUser?.id) {
+  //   const [viewingUserScore] = await db
+  //     .select()
+  //     .from(userScores)
+  //     .where(eq(userScores.userId, viewingUser.id))
+  //     .orderBy(desc(userScores.createdAt))
+  //     .limit(1)
+  //   if (viewingUserScore?.createdAt) {
+  //     viewingUserFinishedCurrentTest =
+  //       getTestId({ date: viewingUserScore.createdAt }) ===
+  //       getTestId({ date: new Date() })
+  //   }
+  // }
 
   return (
     <div className="cursor-normal font-press-start-2p">
-      <GameLayout
-        title={`~ ${
-          result.score.userId === viewingUser?.id ? 'MY' : 'THEIR'
-        } RESULT ~`}
-        className="h-full w-full"
-      >
+      <GameLayout title={`~ RESULT ~`} className="h-full w-full">
         <ResultDisplay
           userScore={result.score}
           user={user}
           testId={result.testId}
-          actions={
-            <Actions
-              viewingUserFinishedCurrentTest={viewingUserFinishedCurrentTest}
-            />
-          }
+          actions={<Actions viewingUserFinishedCurrentTest={false} />}
         />
       </GameLayout>
     </div>

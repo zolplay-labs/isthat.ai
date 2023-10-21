@@ -52,6 +52,9 @@ const generateRandomQuestions = async ({
 }) => {
   // Generate random indexes
   const questionTotal = await fetchQuestionCount()
+  if (questionTotal < env.NEXT_PUBLIC_QUESTIONS_PER_CHALLENGE) {
+    throw new Error('Do not have enough questions')
+  }
   const randomIndexes = generateRandomArray({
     length: env.NEXT_PUBLIC_QUESTIONS_PER_CHALLENGE,
     max: Math.min(env.NEXT_PUBLIC_ACTIVE_QUESTIONS_LIMIT, questionTotal),

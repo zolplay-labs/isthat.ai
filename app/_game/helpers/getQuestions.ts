@@ -6,6 +6,7 @@ import { questions, questionsToTests, tests } from '~/db/schema'
 import { env } from '~/env.mjs'
 import dayjs from '~/lib/dayjs'
 import { Random } from '~/lib/random'
+import { shuffleArray } from '~/utils/shuffleArray'
 
 const generateRandomSeed = ({ now }: { now: Date }) => {
   const nowDayjs = dayjs(now)
@@ -111,11 +112,11 @@ export const getQuestions = async ({
 }: GetQuestionsParams) => {
   const existedTestQuestions = await getQuestionFromTest({ testId })
   if (existedTestQuestions.length >= length) {
-    return existedTestQuestions.slice(0, length)
+    return shuffleArray(existedTestQuestions).slice(0, length)
   }
   const generatedQuestions = await generateRandomQuestions({
     seed: generateRandomSeed({ now }),
     testId,
   })
-  return generatedQuestions.slice(0, length)
+  return shuffleArray(generatedQuestions).slice(0, length)
 }

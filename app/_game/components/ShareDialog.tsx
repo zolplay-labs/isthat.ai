@@ -38,8 +38,10 @@ export function ShareDialog({
   onClose,
   dragConstraintsRef,
 }: ShareDialogProps) {
-  const dragControls = useDragControls()
   const postHog = usePostHog()
+
+  const dragControls = useDragControls()
+  const hasDragCaptured = useRef(false)
 
   const [isCopied, setIsCopied] = useState(false)
   const handleCopy = async () => {
@@ -73,6 +75,12 @@ export function ShareDialog({
       dragElastic={false}
       dragListener={false}
       ref={dialogRef}
+      onDrag={() => {
+        if (!hasDragCaptured.current) {
+          postHog?.capture('drag_share_dialog')
+          hasDragCaptured.current = true
+        }
+      }}
     >
       <div className="relative bg-[#5A5A5A] p-[12px]">
         <BorderWithoutCorner width={4} />

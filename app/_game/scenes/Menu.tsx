@@ -2,9 +2,8 @@ import { clsxm } from '@zolplay/utils'
 import Image from 'next/image'
 import { usePostHog } from 'posthog-js/react'
 import { useEffect } from 'react'
-import { useCountdown } from 'usehooks-ts'
+import { useCountdown, useEventListener } from 'usehooks-ts'
 
-import { useFocus } from '~/hooks/useFocus'
 import { useMount } from '~/hooks/useMount'
 import dayjs from '~/lib/dayjs'
 import { useScene } from '~/stores/Scene.store'
@@ -46,13 +45,13 @@ export function Menu() {
     }
   }, [nextTestRemainingSeconds])
 
-  useFocus(() => {
+  useEventListener('focus', () => {
     if (!props.hasUserScoreInCurrentTest) {
       postHog?.capture('lose_focus_from_menu_without_score')
       setSceneProps('LOADING', { refresh: true })
       switchScene('LOADING')
     }
-  }, [props.hasUserScoreInCurrentTest])
+  })
 
   return (
     <div className="relative flex h-[100dvh] items-center justify-center bg-[url('/images/menu/screen.svg')] bg-cover bg-center bg-no-repeat">

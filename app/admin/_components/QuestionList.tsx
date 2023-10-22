@@ -120,7 +120,7 @@ export function QuestionList({
                 alt={`question ${question.image}`}
                 width={200}
                 height={0}
-                quality={1}
+                unoptimized
               />
             </TableCell>
             <TableCell>

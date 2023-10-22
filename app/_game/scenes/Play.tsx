@@ -1,8 +1,8 @@
 import { clsxm } from '@zolplay/utils'
 import { AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
-import { useEffect, useRef, useState } from 'react'
-import { useCountdown } from 'usehooks-ts'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { useCountdown, useWindowSize } from 'usehooks-ts'
 
 import { getGameImageUrlById } from '~/helpers/getGameImageUrlById'
 import { useMount } from '~/hooks/useMount'
@@ -52,6 +52,12 @@ export function Play() {
     }
   }, [remainingSeconds])
 
+  const { width: windowWidth, height: windowHeight } = useWindowSize()
+  const cardSizeConstraint = useMemo(
+    () => Math.min(windowWidth, windowHeight) / 1.5,
+    [windowWidth, windowHeight]
+  )
+
   return (
     <GameLayout
       title={`(${imageIndex + 1}/${props.total})`}
@@ -69,25 +75,29 @@ export function Play() {
         )}
       />
       <AnimatePresence>
-        {props.images.map((image, index) => (
-          <TinderCard
-            key={index}
-            idx={index}
-            active={imageIndex === index}
-            onSwiped={(swipe) => handleAnswer(swipe === 'right')}
-            onSwiping={(swipe) => setSwipingSide(swipe)}
-            className={clsxm(index < imageIndex && 'hidden', 'object-cover')}
-          >
-            <Image
-              key={image}
-              src={getGameImageUrlById(image)}
-              alt={`question ${image}`}
-              width={600}
-              height={600}
-              className="pointer-events-none border-[4px] border-white shadow-xl"
-            />
-          </TinderCard>
-        ))}
+        {props.images.map((image, index) =>
+          index >= imageIndex ? (
+            <TinderCard
+              key={index}
+              idx={index}
+              active={imageIndex === index}
+              onSwiped={(swipe) => handleAnswer(swipe === 'right')}
+              onSwiping={(swipe) => setSwipingSide(swipe)}
+            >
+              <Image
+                key={image}
+                src={getGameImageUrlById(image)}
+                alt={`question ${image}`}
+                width={cardSizeConstraint}
+                height={cardSizeConstraint}
+                className="pointer-events-none select-none border-[4px] border-white shadow-xl"
+                style={{
+                  imageRendering: 'pixelated',
+                }}
+              />
+            </TinderCard>
+          ) : null
+        )}
       </AnimatePresence>
       <div className="absolute top-[24px] z-[99999] flex items-center justify-center gap-[8px] mix-blend-difference sm:top-[20px]">
         <Image
@@ -101,7 +111,12 @@ export function Play() {
           {dayjs.duration(remainingSeconds, 'seconds').format('mm:ss')}
         </div>
       </div>
-      <div className="absolute bottom-[16px] left-[16px] space-y-[18px] sm:bottom-auto sm:left-[50px]">
+      <div
+        className={clsxm(
+          'absolute bottom-[16px] left-[16px] z-[99999] space-y-[18px] mix-blend-difference transition-transform sm:bottom-auto sm:left-[50px]',
+          swipingSide === 'left' && '-translate-y-8'
+        )}
+      >
         <Image
           src="/images/play/arrow-left.svg"
           alt="left arrow"
@@ -110,7 +125,12 @@ export function Play() {
         />
         <div className="text-[12px] text-[#EC4899] sm:text-[20px]">NOT AI</div>
       </div>
-      <div className="absolute bottom-[16px] right-[16px] space-y-[18px] sm:bottom-auto sm:right-[50px]">
+      <div
+        className={clsxm(
+          'absolute bottom-[16px] right-[16px] z-[99999] space-y-[18px] mix-blend-difference transition-transform sm:bottom-auto sm:right-[50px]',
+          swipingSide === 'right' && '-translate-y-8'
+        )}
+      >
         <Image
           src="/images/play/arrow-right.svg"
           alt="right arrow"

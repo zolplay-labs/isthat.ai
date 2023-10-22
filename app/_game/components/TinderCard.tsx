@@ -17,7 +17,7 @@ interface TinderCardProps {
 
 const card = cva(
   [
-    'absolute w-[clamp(200px,75vh,70vw)] h-[clamp(200px,75vh,70vw)] sm:w-[clamp(42vmin,70vw,66vh)] sm:h-[clamp(42vmin,70vw,66vh)] will-change-transform flex flex-col justify-center items-center cursor-move active:cursor-moving',
+    'absolute w-auto h-auto will-change-transform flex flex-col justify-center items-center cursor-move active:cursor-moving',
   ],
   {
     variants: {
@@ -33,8 +33,8 @@ const card = cva(
   }
 )
 
-const SWIPING_THRESHOLD = 200
-const SWIPING_THRESHOLD_PHONE = 100
+const SWIPING_THRESHOLD = 120
+const SWIPING_THRESHOLD_PHONE = 50
 export function TinderCard({
   idx,
   onSwiped,
@@ -79,15 +79,15 @@ export function TinderCard({
     <>
       {active ? (
         <motion.div
-          drag={true}
-          dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
+          drag="x"
+          dragSnapToOrigin
           onDragEnd={handleDragEnd}
           onDrag={handleDrag}
           initial={{
             scale: 1,
           }}
           whileTap={{
-            scale: 1.08,
+            scale: 1.25,
           }}
           animate={{
             scale: 1.05,
@@ -101,7 +101,7 @@ export function TinderCard({
             transition: { duration: 0.2 },
           }}
           className={clsxm(card(), className)}
-          style={{ zIndex: 9999, filter: 'blur(0px)' }}
+          style={{ zIndex: 9999 }}
         >
           {children}
         </motion.div>
@@ -109,10 +109,12 @@ export function TinderCard({
         <motion.div
           className={clsxm(
             card({ rotate: idx === 0 ? 'right' : 'left' }),
-            'transform-gpu',
+            'scale-95 transform-gpu',
             className
           )}
-          style={{ zIndex: 999 - idx, filter: 'blur(4px)' }}
+          style={{
+            zIndex: 999 - idx,
+          }}
         >
           {children}
         </motion.div>

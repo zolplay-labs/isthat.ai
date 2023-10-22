@@ -22,16 +22,17 @@ export function Loading() {
     })
 
   const { refresh } = useRouter()
+  const shouldRefresh = sceneProps['LOADING'].refresh
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-extra-semi
     ;(async () => {
-      if (sceneProps['LOADING'].refresh) {
+      if (shouldRefresh) {
         refresh()
         setSceneProps('LOADING', { refresh: false })
       }
       await startProgress()
     })()
-  }, [refresh, sceneProps['LOADING'].refresh])
+  }, [refresh, shouldRefresh])
 
   useEffect(() => {
     if (isProgressEnd) {

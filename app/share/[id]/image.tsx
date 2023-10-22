@@ -6,7 +6,7 @@ import { filterUser } from '~/app/_game/helpers/filterUser'
 import { getResultById } from '~/app/_game/helpers/getResultById'
 import { getResultTier } from '~/app/_game/helpers/getResultTier'
 import { getTestId } from '~/app/_game/helpers/getTestId'
-import { env } from '~/env.mjs'
+import { url } from '~/lib/url'
 
 export const alt = 'isthat.ai'
 export const contentType = 'image/png'
@@ -33,12 +33,12 @@ export default async function Image({ params }: { params: { id: string } }) {
   })
 
   const fontData = await fetch(
-    new URL(`${env.HOSTNAME}/fonts/PressStart2P.ttf`, import.meta.url)
+    new URL(url(`/fonts/PressStart2P.ttf`), import.meta.url)
   ).then((res) => res.arrayBuffer())
 
-  const defaultAvatar = await fetch(
-    `${env.HOSTNAME}/images/default-avatar.png`
-  ).then((res) => res.arrayBuffer())
+  const defaultAvatar = await fetch(url(`/images/default-avatar.png`)).then(
+    (res) => res.arrayBuffer()
+  )
 
   const fetchAvatar = await fetch(user.avatar).then((res) =>
     res.status === 200 ? res.arrayBuffer() : defaultAvatar
@@ -59,13 +59,13 @@ export default async function Image({ params }: { params: { id: string } }) {
       >
         <img
           tw="absolute"
-          src={`${env.HOSTNAME}/images/social/bg.png`}
+          src={url(`/images/social/bg.png`).toString()}
           alt="og-bg"
         />
         <div
           tw="flex w-[539px] h-[539px] relative"
           style={{
-            backgroundImage: `url(${env.HOSTNAME}${tier.image})`,
+            backgroundImage: `url(${url(tier.image)})`,
             backgroundSize: '100% 100%',
           }}
         >

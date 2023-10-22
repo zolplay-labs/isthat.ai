@@ -9,7 +9,6 @@ export const env = createEnv({
     DATABASE_PASSWORD: z.string().min(1),
     CLERK_SECRET_KEY: z.string().min(1),
     CLOUDFLARE_API_TOKEN: z.string().min(1),
-    HOSTNAME: z.string().min(1),
     UPSTASH_URL: z.string().optional(),
     UPSTASH_TOKEN: z.string().optional(),
   },

@@ -47,7 +47,7 @@ export function Play() {
     startCountdown()
   })
   useEffect(() => {
-    if (remainingSeconds === 0) {
+    if (remainingSeconds <= 0) {
       switchScene('MENU')
     }
   }, [remainingSeconds])

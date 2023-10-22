@@ -19,7 +19,7 @@ export function PostHogPageview(): JSX.Element {
   const searchParams = useSearchParams()
 
   useEffect(() => {
-    if (pathname) {
+    if (pathname && !pathname.startsWith('/admin')) {
       let url = window.origin + pathname
       if (searchParams && searchParams.toString()) {
         url = url + `?${searchParams.toString()}`

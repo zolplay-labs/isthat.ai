@@ -81,6 +81,9 @@ const generateRandomQuestions = async ({
   await db
     .insert(questionsToTests)
     .values(randomIds.map((questionId) => ({ questionId, testId })))
+    .onDuplicateKeyUpdate({
+      set: { testId },
+    })
   // Get image from question IDs
   const images = (
     await db

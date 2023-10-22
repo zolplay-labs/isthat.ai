@@ -94,6 +94,8 @@ export function Play() {
                 style={{
                   imageRendering: 'pixelated',
                 }}
+                unoptimized
+                priority
               />
             </TinderCard>
           ) : null

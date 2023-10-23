@@ -1,13 +1,14 @@
 'use client'
 
 import { AnimatePresence, motion } from 'framer-motion'
+import { mountStoreDevtool } from 'simple-zustand-devtools'
 
 import { type userScores } from '~/db/schema'
 import { env } from '~/env.mjs'
 import { useMount } from '~/hooks/useMount'
 import { type Scene, useScene } from '~/stores/Scene.store'
 import { useSceneProps } from '~/stores/SceneProps.store'
-import { type User } from '~/stores/User.store'
+import { type User, useUserStore } from '~/stores/User.store'
 
 import { useUser } from './hooks/useUser'
 import { Loading } from './scenes/Loading'
@@ -36,6 +37,13 @@ interface GameProps {
   userScoreInCurrentTest: typeof userScores.$inferSelect | null
   testId: number
   nextTestStartTime: Date
+}
+
+// Load zustand devtool
+if (process.env.NODE_ENV === 'development') {
+  mountStoreDevtool('User', useUserStore)
+  mountStoreDevtool('Scene', useScene)
+  mountStoreDevtool('SceneProps', useSceneProps)
 }
 
 export function Game({

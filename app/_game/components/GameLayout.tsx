@@ -39,7 +39,9 @@ export function GameLayout({
             />
             <span className="hidden sm:block">isthat.ai</span>
           </div>
-          <div className="text-center text-[12px] sm:text-[16px]">{title}</div>
+          <div className="z-[99999] text-center text-[12px] sm:text-[16px]">
+            {title}
+          </div>
           <div className="min-w-[24px] sm:min-w-[136px]">
             {headerRight ?? (
               <a

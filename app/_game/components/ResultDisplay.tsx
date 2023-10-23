@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { useState } from 'react'
 
 import { type userScores } from '~/db/schema'
+import dayjs from '~/lib/dayjs'
 import { type User } from '~/stores/User.store'
 
 import { getResultTier } from '../helpers/getResultTier'
@@ -44,6 +45,26 @@ export function ResultDisplay({
         />
       </div>
       <div className="flex h-full flex-col items-center justify-between px-[10px] py-[20px] sm:w-1/2 sm:justify-center sm:gap-[48px] sm:p-[24px]">
+        <div className="flex items-center justify-center gap-[10px] text-[13px] sm:gap-[16px] sm:text-[16px]">
+          <Image
+            src="/images/play/clock.svg"
+            height={24}
+            width={24}
+            alt="time"
+            className="h-[18px] w-[18px] sm:h-[24px] sm:w-[24px]"
+          />
+          <div>{dayjs.duration(userScore.time, 'seconds').format('mm:ss')}</div>
+          <Image
+            src="/images/result/trophy.svg"
+            height={24}
+            width={24}
+            alt="score"
+            className="h-[18px] w-[18px] sm:h-[24px] sm:w-[24px]"
+          />
+          <div>
+            {userScore.score}/{userScore.total}
+          </div>
+        </div>
         <div className="text-center">
           <div className="text-[16px] sm:text-[20px]">~ Test #{testId} ~</div>
           <div className="text-[13px] sm:text-[16px] sm:text-[#A9A9A9]">

@@ -2,7 +2,7 @@ import { clsxm } from '@zolplay/utils'
 import { AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { useCountdown, useWindowSize } from 'usehooks-ts'
+import { useCountdown, useInterval, useWindowSize } from 'usehooks-ts'
 
 import { getGameImageUrlById } from '~/helpers/getGameImageUrlById'
 import { useMount } from '~/hooks/useMount'
@@ -27,18 +27,23 @@ export function Play() {
   const startTime = useRef(new Date())
   const answers = useRef<Answers>([])
   const handleAnswer = (AI: boolean) => {
+    if (answers.current.length === props.total) {
+      return
+    }
     answers.current.push({ image: props.images[imageIndex] || '', AI })
+    setImageIndex(imageIndex + 1)
+    setSwipingSide('none')
+  }
+
+  useInterval(() => {
     if (answers.current.length === props.total) {
       const time = Math.floor(
         (new Date().getTime() - startTime.current.getTime()) / 1000
       )
       setSceneProps('RESULT_WAITING', { answers: answers.current, time })
       switchScene('RESULT_WAITING')
-      return
     }
-    setImageIndex(imageIndex + 1)
-    setSwipingSide('none')
-  }
+  }, 1000)
 
   const nextTestRemainingSeconds = dayjs(
     sceneProps['MENU'].nextTestStartTime

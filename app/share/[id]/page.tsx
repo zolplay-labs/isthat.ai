@@ -82,7 +82,7 @@ export default async function Share({ params }: { params: { id: string } }) {
   // }
 
   return (
-    <div className="cursor-normal font-press-start-2p">
+    <div className="cursor-normal select-none font-press-start-2p">
       <GameLayout title={`~ RESULT ~`} className="h-full w-full">
         <ResultDisplay
           userScore={result.score}

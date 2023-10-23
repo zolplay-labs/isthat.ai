@@ -36,6 +36,18 @@ const TRIAL_TIER: Map<boolean, TrialTier> = new Map([
     },
   ],
 ])
+const positiveFeedback = [
+  'Think you can tell apart nature from neural net?',
+  'Are you that good or are you just that lucky?',
+  'Not too shabby, are you up for the real tests?',
+  'You are humanity’s last hope!',
+]
+const negativeFeedback = [
+  'AI tricked ya real good here!',
+  'I guess your luck ran out?',
+  'How can you not tell, it was so easy!',
+  'AI on its way to replace you in 3, 2, 1',
+]
 
 export function TrialResult() {
   const { sceneProps } = useSceneProps()
@@ -45,6 +57,10 @@ export function TrialResult() {
   const { signInWithGoogle } = useUser()
 
   const tier = TRIAL_TIER.get(props.isRight)!
+  // get a random feedback message
+  const feedback = props.isRight
+    ? positiveFeedback[Math.floor(Math.random() * positiveFeedback.length)]
+    : negativeFeedback[Math.floor(Math.random() * negativeFeedback.length)]
 
   return (
     <GameLayout
@@ -67,7 +83,7 @@ export function TrialResult() {
           <div>{tier.title}</div>
         </div>
         <div className="text-[8px] text-[#A9A9A9] sm:mb-[36px] sm:mt-[12px] sm:text-[13px]">
-          {tier.description}
+          {feedback}
         </div>
         <button
           onClick={() => {

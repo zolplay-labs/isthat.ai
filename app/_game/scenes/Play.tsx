@@ -23,6 +23,7 @@ export function Play() {
 
   const [swipingSide, setSwipingSide] = useState<SwipeSide>('none')
   const [imageIndex, setImageIndex] = useState(0)
+  const currentImageCounter = Math.min(imageIndex + 1, props.total)
 
   const startTime = useRef(new Date())
   const answers = useRef<Answers>([])
@@ -68,7 +69,7 @@ export function Play() {
 
   return (
     <GameLayout
-      title={`(${imageIndex + 1}/${props.total})`}
+      title={`(${currentImageCounter}/${props.total})`}
       className={clsxm(
         'relative flex h-full w-full items-center justify-center transition-colors',
         swipingSide === 'right' && 'bg-[#CCFBF166] sm:bg-transparent',

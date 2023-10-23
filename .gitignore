@@ -27,7 +27,7 @@ yarn-error.log*
 
 # local env files
 .env
-.env
+.env.test
 
 # vercel
 .vercel
@@ -37,3 +37,5 @@ yarn-error.log*
 next-env.d.ts
 
 .prisma
+.env*.local
+.idea

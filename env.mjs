@@ -1,86 +1,45 @@
+import { createEnv } from '@t3-oss/env-nextjs'
 import { z } from 'zod'
 
-/**
- * Specify server-side environment variables schema here.
- */
-const server = z.object({
-  DATABASE_URL: z.string().url(),
-  NODE_ENV: z.enum(['development', 'test', 'production']),
-  CLERK_SECRET_KEY: z.string().min(1),
-  // DISCORD_CLIENT_ID: z.string().min(1),
-  // DISCORD_CLIENT_SECRET: z.string().min(1),
-  // GITHUB_ID: z.string().min(1),
-  // GITHUB_SECRET: z.string().min(1),
-  // GOOGLE_CLIENT_ID: z.string().min(1),
-  // GOOGLE_CLIENT_SECRET: z.string().min(1),
+export const env = createEnv({
+  server: {
+    DATABASE_NAME: z.string().min(1),
+    DATABASE_HOST: z.string().min(1),
+    DATABASE_USERNAME: z.string().min(1),
+    DATABASE_PASSWORD: z.string().min(1),
+    CLERK_SECRET_KEY: z.string().min(1),
+    CLOUDFLARE_API_TOKEN: z.string().min(1),
+    UPSTASH_URL: z.string().optional(),
+    UPSTASH_TOKEN: z.string().optional(),
+  },
+  client: {
+    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: z.string().min(1),
+    NEXT_PUBLIC_CLOUDFLARE_ACCOUNT_ID: z.string().min(1),
+    NEXT_PUBLIC_CLOUDFLARE_ACCOUNT_HASH: z.string().min(1),
+    NEXT_PUBLIC_SQIDS_ALPHABET: z.string().min(1),
+    NEXT_PUBLIC_ACTIVE_QUESTIONS_LIMIT: z.coerce.number().min(1),
+    NEXT_PUBLIC_QUESTIONS_PER_CHALLENGE: z.coerce.number().min(1),
+    NEXT_PUBLIC_REFRESH_INTERVAL_HOURS: z.coerce.number().min(1).max(24),
+    NEXT_PUBLIC_RELEASE_DATE: z.string().length(8),
+    NEXT_PUBLIC_POSTHOG_KEY: z.string().optional(),
+    NEXT_PUBLIC_POSTHOG_HOST: z.string().optional(),
+  },
+  experimental__runtimeEnv: {
+    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY:
+      process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
+    NEXT_PUBLIC_CLOUDFLARE_ACCOUNT_ID:
+      process.env.NEXT_PUBLIC_CLOUDFLARE_ACCOUNT_ID,
+    NEXT_PUBLIC_CLOUDFLARE_ACCOUNT_HASH:
+      process.env.NEXT_PUBLIC_CLOUDFLARE_ACCOUNT_HASH,
+    NEXT_PUBLIC_SQIDS_ALPHABET: process.env.NEXT_PUBLIC_SQIDS_ALPHABET,
+    NEXT_PUBLIC_ACTIVE_QUESTIONS_LIMIT:
+      process.env.NEXT_PUBLIC_ACTIVE_QUESTIONS_LIMIT,
+    NEXT_PUBLIC_QUESTIONS_PER_CHALLENGE:
+      process.env.NEXT_PUBLIC_QUESTIONS_PER_CHALLENGE,
+    NEXT_PUBLIC_REFRESH_INTERVAL_HOURS:
+      process.env.NEXT_PUBLIC_REFRESH_INTERVAL_HOURS,
+    NEXT_PUBLIC_RELEASE_DATE: process.env.NEXT_PUBLIC_RELEASE_DATE,
+    NEXT_PUBLIC_POSTHOG_KEY: process.env.NEXT_PUBLIC_POSTHOG_KEY,
+    NEXT_PUBLIC_POSTHOG_HOST: process.env.NEXT_PUBLIC_POSTHOG_HOST,
+  },
 })
-
-/**
- * To expose them to the client, prefix them with `NEXT_PUBLIC_`.
- */
-const client = z.object({
-  NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: z.string().min(1),
-  NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: z.string().min(1),
-})
-
-/**
- * You can't destruct `process.env` as a regular object in the Next.js edge runtimes (e.g.
- * middlewares) or client-side so we need to destruct manually.
- *
- * @type {Record<keyof z.infer<typeof server> | keyof z.infer<typeof client>, string | undefined>}
- */
-const processEnv = {
-  DATABASE_URL: process.env.DATABASE_URL,
-  NODE_ENV: process.env.NODE_ENV,
-  CLERK_SECRET_KEY: process.env.CLERK_SECRET_KEY,
-  NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY:
-    process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
-  NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME:
-    process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
-}
-
-// Don't touch the part below
-// --------------------------
-
-const merged = server.merge(client)
-
-/** @typedef {z.input<typeof merged>} MergedInput */
-/** @typedef {z.infer<typeof merged>} MergedOutput */
-/** @typedef {z.SafeParseReturnType<MergedInput, MergedOutput>} MergedSafeParseReturn */
-
-let env = /** @type {MergedOutput} */ (process.env)
-
-if (!!process.env.SKIP_ENV_VALIDATION == false) {
-  const isServer = typeof window === 'undefined'
-
-  const parsed = /** @type {MergedSafeParseReturn} */ (
-    isServer
-      ? merged.safeParse(processEnv) // on server we can validate all env vars
-      : client.safeParse(processEnv) // on client we can only validate the ones that are exposed
-  )
-
-  if (parsed.success === false) {
-    console.error(
-      '❌ Invalid environment variables:',
-      parsed.error.flatten().fieldErrors
-    )
-    throw new Error('Invalid environment variables')
-  }
-
-  env = new Proxy(parsed.data, {
-    get(target, prop) {
-      if (typeof prop !== 'string') return undefined
-      // Throw a descriptive error if a server-side env var is accessed on the client
-      // Otherwise it would just be returning `undefined` and be annoying to debug
-      if (!isServer && !prop.startsWith('NEXT_PUBLIC_'))
-        throw new Error(
-          process.env.NODE_ENV === 'production'
-            ? '❌ Attempted to access a server-side environment variable on the client'
-            : `❌ Attempted to access server-side environment variable '${prop}' on the client`
-        )
-      return target[/** @type {keyof typeof target} */ (prop)]
-    },
-  })
-}
-
-export { env }

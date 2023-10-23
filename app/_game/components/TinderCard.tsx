@@ -79,7 +79,7 @@ export function TinderCard({
     <>
       {active ? (
         <motion.div
-          drag="x"
+          drag
           dragSnapToOrigin
           onDragEnd={handleDragEnd}
           onDrag={handleDrag}

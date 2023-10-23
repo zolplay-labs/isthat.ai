@@ -40,8 +40,11 @@ export function Play() {
     setSwipingSide('none')
   }
 
+  const nextTestRemainingSeconds = dayjs(
+    sceneProps['MENU'].nextTestStartTime
+  ).diff(dayjs(), 'seconds')
   const [remainingSeconds, { startCountdown }] = useCountdown({
-    countStart: SECONDS_IN_10_MINUTES,
+    countStart: Math.min(SECONDS_IN_10_MINUTES, nextTestRemainingSeconds),
   })
   useMount(() => {
     startCountdown()

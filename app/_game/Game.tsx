@@ -50,6 +50,8 @@ export function Game({
   const { setSceneProps } = useSceneProps()
 
   useMount(() => {
+    document.body.classList.add('no-scroll')
+
     setSceneProps('MENU', { testId, nextTestStartTime })
     if (!user) {
       setSceneProps('PLAY', { images, total: 1 })

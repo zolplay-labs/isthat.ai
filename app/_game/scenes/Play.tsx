@@ -94,9 +94,6 @@ export function Play() {
                 width={cardSizeConstraint}
                 height={cardSizeConstraint}
                 className="pointer-events-none select-none border-[4px] border-white shadow-xl"
-                style={{
-                  imageRendering: 'pixelated',
-                }}
                 unoptimized
                 priority
               />

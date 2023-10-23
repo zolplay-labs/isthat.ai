@@ -96,7 +96,20 @@ export function ResultDisplay({
             </div>
             <div className="text-[12px] sm:text-[16px]">{user.name}</div>
           </div>
-          <div className="text-[23px] sm:text-[32px]">{tier.title}</div>
+          <a
+            className="block cursor-click text-[23px] sm:text-[32px]"
+            href="https://x.com/isthatai/status/1716372473103712335"
+            target="_blank"
+          >
+            <span>{tier.title}</span>
+            <Image
+              src="/images/result/info.svg"
+              height={18}
+              width={18}
+              alt="tier info"
+              className="ml-[4px] inline h-[14px] w-[14px] sm:h-[18px] sm:w-[18px]"
+            />
+          </a>
           <div className="text-[8px] text-[#A9A9A9] sm:text-[13px]">
             {tier.description}
           </div>

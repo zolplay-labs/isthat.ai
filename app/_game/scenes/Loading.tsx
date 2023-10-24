@@ -42,7 +42,7 @@ export function Loading() {
   }, [isProgressEnd])
 
   return (
-    <div className="flex h-[100dvh] cursor-loading items-center justify-center">
+    <div className="flex h-fullScreen cursor-loading items-center justify-center">
       <div className="flex h-[400px] w-[335px] flex-col items-center bg-[url('/images/loading/computer.svg')] bg-contain bg-no-repeat pt-[54px] sm:h-[700px] sm:w-[643px] sm:pt-[104px]">
         <div className="inline-flex flex-col items-center">
           <Image

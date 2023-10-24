@@ -1,7 +1,9 @@
 'use client'
 
 import { AnimatePresence, motion } from 'framer-motion'
+import { useEffect } from 'react'
 import { mountStoreDevtool } from 'simple-zustand-devtools'
+import { useWindowSize } from 'usehooks-ts'
 
 import { type userScores } from '~/db/schema'
 import { env } from '~/env.mjs'
@@ -56,6 +58,7 @@ export function Game({
   const { scene } = useScene()
   const { setUser } = useUser()
   const { setSceneProps } = useSceneProps()
+  const { height } = useWindowSize()
 
   useMount(() => {
     document.body.classList.add('no-scroll')
@@ -83,6 +86,10 @@ export function Game({
       total: env.NEXT_PUBLIC_QUESTIONS_PER_CHALLENGE,
     })
   })
+
+  useEffect(() => {
+    document.documentElement.style.setProperty('--vh', `${height * 0.01}px`)
+  }, [height])
 
   return (
     <AnimatePresence mode="wait">

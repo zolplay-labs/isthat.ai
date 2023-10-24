@@ -27,6 +27,9 @@ const config = {
       center: true,
     },
     extend: {
+      height: {
+        fullScreen: 'calc(100*var(--vh))',
+      },
       colors: {
         // light mode
         tremor: {

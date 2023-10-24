@@ -14,7 +14,7 @@ export function GameLayout({
   headerRight,
 }: GameLayoutProps) {
   return (
-    <div className="relative h-[100dvh] border-[12px] border-[#717171] p-[12px] sm:border-[24px] sm:bg-[#2D2D2D] sm:p-[34px]">
+    <div className="relative h-fullScreen border-[12px] border-[#717171] p-[12px] sm:border-[24px] sm:bg-[#2D2D2D] sm:p-[34px]">
       <div className="absolute left-[-12px] top-[-12px] h-[12px] w-[12px] bg-black sm:left-[-24px] sm:top-[-24px] sm:h-[24px] sm:w-[24px] sm:bg-[#2D2D2D]" />
       <div className="absolute right-[-12px] top-[-12px] h-[12px] w-[12px] bg-black sm:right-[-24px] sm:top-[-24px] sm:h-[24px] sm:w-[24px] sm:bg-[#2D2D2D]" />
       <div className="absolute bottom-[-12px] left-[-12px] h-[12px] w-[12px] bg-black sm:bottom-[-24px] sm:left-[-24px] sm:h-[24px] sm:w-[24px] sm:bg-[#2D2D2D]" />

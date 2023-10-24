@@ -53,7 +53,7 @@ export function Menu() {
   })
 
   return (
-    <div className="relative flex h-[100dvh] items-center justify-center bg-[url('/images/menu/screen.svg')] bg-cover bg-center bg-no-repeat">
+    <div className="relative flex h-fullScreen items-center justify-center bg-[url('/images/menu/screen.svg')] bg-cover bg-center bg-no-repeat">
       <div className="absolute top-[16%] flex w-[80%] items-center justify-between sm:w-[60%]">
         <a
           className="flex cursor-click items-baseline gap-[8px] sm:gap-[12px]"

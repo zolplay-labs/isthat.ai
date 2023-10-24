@@ -75,7 +75,7 @@ export function Game({
         score: userScoreInCurrentTest.score,
       })
       setSceneProps('RESULT_WAITING', { time: userScoreInCurrentTest.time })
-      setSceneProps('PLAY', { total: userScoreInCurrentTest.total })
+      setSceneProps('PLAY', { images, total: userScoreInCurrentTest.total })
       return
     }
     setSceneProps('PLAY', {

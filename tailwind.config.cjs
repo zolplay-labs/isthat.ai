@@ -30,9 +30,6 @@ const config = {
       height: {
         fullScreen: 'calc(100*var(--vh))',
       },
-      minHeight: {
-        fullScreen: 'calc(100*var(--vh))',
-      },
       colors: {
         // light mode
         tremor: {

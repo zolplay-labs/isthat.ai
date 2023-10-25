@@ -52,6 +52,7 @@ export function ResultDisplay({
             width={24}
             alt="time"
             className="h-[18px] w-[18px] sm:h-[24px] sm:w-[24px]"
+            priority
           />
           <div>{dayjs.duration(userScore.time, 'seconds').format('mm:ss')}</div>
           <Image
@@ -60,6 +61,7 @@ export function ResultDisplay({
             width={24}
             alt="score"
             className="h-[18px] w-[18px] sm:h-[24px] sm:w-[24px]"
+            priority
           />
           <div>
             {userScore.score}/{userScore.total}
@@ -108,6 +110,7 @@ export function ResultDisplay({
               width={18}
               alt="tier info"
               className="ml-[4px] inline h-[14px] w-[14px] sm:h-[18px] sm:w-[18px]"
+              priority
             />
           </a>
           <div className="text-[8px] text-[#A9A9A9] sm:text-[13px]">

@@ -98,6 +98,8 @@ export default function RootLayout({
           <link rel="preload" as="image" href="/cursors/loading.svg" />
           <link rel="preload" as="image" href="/cursors/grab.svg" />
           <link rel="preload" as="image" href="/cursors/grabbing.svg" />
+          <link rel="preload" as="image" href="/images/loading/computer.svg" />
+          <link rel="preload" as="image" href="/images/menu/screen.svg" />
         </head>
         <Suspense>
           <PostHogPageview />

@@ -51,6 +51,7 @@ export function Loading() {
             className="h-[88px] w-[88px] sm:h-[168px] sm:w-[168px]"
             width={168}
             height={168}
+            priority
           />
           <div className="text-[12px] leading-[normal] sm:text-[24px]">
             isthat.ai

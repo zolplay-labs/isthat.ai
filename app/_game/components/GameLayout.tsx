@@ -36,6 +36,7 @@ export function GameLayout({
               className="h-[24px] w-[24px]"
               width={24}
               height={24}
+              priority
             />
             <span className="hidden sm:block">isthat.ai</span>
           </div>
@@ -53,6 +54,7 @@ export function GameLayout({
                   alt="zolplay logo"
                   width={24}
                   height={24}
+                  priority
                 />
                 <span className="hidden sm:block">Zolplay</span>
               </a>

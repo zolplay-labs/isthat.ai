@@ -114,6 +114,7 @@ export function Play() {
           className="h-[16px] w-[16px] sm:h-[24px] sm:w-[24px]"
           width={24}
           height={24}
+          priority
         />
         <div className="text-[12px] sm:text-[16px]">
           {dayjs.duration(remainingSeconds, 'seconds').format('mm:ss')}
@@ -130,6 +131,7 @@ export function Play() {
           alt="left arrow"
           width={64}
           height={64}
+          priority
         />
         <div className="text-[12px] text-[#EC4899] sm:text-[20px]">NOT AI</div>
       </div>
@@ -144,6 +146,7 @@ export function Play() {
           alt="right arrow"
           width={64}
           height={64}
+          priority
         />
         <div className="text-right text-[12px] text-[#5EEAD4] sm:text-[20px]">
           AI

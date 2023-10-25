@@ -34,6 +34,7 @@ function ActionButton({
         className="h-[20px] w-[20px] sm:h-[24px] sm:w-[24px]"
         width={24}
         height={24}
+        priority
       />
       <div>{children}</div>
     </button>

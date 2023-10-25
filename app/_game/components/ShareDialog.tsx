@@ -98,6 +98,7 @@ export function ShareDialog({
               alt="close"
               width={24}
               height={24}
+              priority
             />
           </button>
         </div>

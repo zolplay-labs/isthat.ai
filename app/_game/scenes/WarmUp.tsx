@@ -2,6 +2,11 @@ import { AnimatePresence, motion } from 'framer-motion'
 import Image from 'next/image'
 import { useState } from 'react'
 
+import step2MobileImage from '~/public/images/ftue/m-step-2.png'
+import step3MobileImage from '~/public/images/ftue/m-step-3.png'
+import step1Image from '~/public/images/ftue/step-1.png'
+import step2Image from '~/public/images/ftue/step-2.png'
+import step3Image from '~/public/images/ftue/step-2.png'
 import { useScene } from '~/stores/Scene.store'
 
 import { GameLayout } from '../components/GameLayout'
@@ -23,6 +28,7 @@ function Handler({
           width={64}
           height={64}
           onClick={() => onClick(step - 1)}
+          priority
         />
       ) : (
         <div className="w-8 sm:w-16" />
@@ -34,6 +40,7 @@ function Handler({
           alt="prev"
           width={104}
           height={24}
+          priority
         />
       </div>
       <Image
@@ -43,6 +50,7 @@ function Handler({
         width={64}
         height={64}
         onClick={() => onClick(step + 1)}
+        priority
       />
     </div>
   )
@@ -59,7 +67,13 @@ const images = [
     key={0}
     className="relative aspect-[235/205] h-[calc(205/341*100%)] min-h-[205px]"
   >
-    <Image src="/images/ftue/step-1.svg" alt="step-1" fill />
+    <Image
+      src={step1Image}
+      alt="step-1"
+      fill
+      style={{ imageRendering: 'pixelated' }}
+      placeholder="blur"
+    />
   </div>,
   <div
     key={1}
@@ -68,15 +82,21 @@ const images = [
     <div className="hidden h-full justify-center sm:flex">
       <div className="relative aspect-[385/353] h-full max-w-[50%]">
         <div className="absolute left-10 top-[calc(150/353*100%)] aspect-[120/102] h-[calc(102/353*100%)]">
-          <Image src="/images/ftue/not-ai.svg" alt="not-ai" fill />
+          <Image src="/images/ftue/not-ai.svg" alt="not-ai" fill priority />
         </div>
       </div>
       <div className="relative aspect-[385/353] h-full max-w-[50%] bg-[rgba(204,251,241,0.4)]">
         <div className="absolute right-10 top-[calc(148/353*100%)] aspect-[64/103] h-[calc(103/353*100%)]">
-          <Image src="/images/ftue/is-ai.svg" alt="is-ai" fill />
+          <Image src="/images/ftue/is-ai.svg" alt="is-ai" fill priority />
         </div>
         <div className="absolute right-[calc(148/385*100%)] top-[calc(75/353*100%)] aspect-[1052/752] h-[calc(248.33/353*100%)]">
-          <Image src="/images/ftue/step-2.png" alt="step-2" fill />
+          <Image
+            src={step2Image}
+            alt="step-2"
+            fill
+            style={{ imageRendering: 'pixelated' }}
+            placeholder="blur"
+          />
         </div>
       </div>
     </div>
@@ -86,6 +106,7 @@ const images = [
       alt="not-ai"
       width={72}
       height={56}
+      priority
     />
     <Image
       src="/images/ftue/m-is-ai.svg"
@@ -93,13 +114,16 @@ const images = [
       alt="is-ai"
       width={32}
       height={56}
+      priority
     />
     <Image
-      src="/images/ftue/m-step-2.png"
+      src={step2MobileImage}
       className="absolute right-0 top-[calc(80.5/324*100%)] block w-[calc(201/257*100%)] sm:hidden"
       alt="m-step-2"
       width={201}
       height={141}
+      style={{ imageRendering: 'pixelated' }}
+      placeholder="blur"
     />
   </div>,
   <div
@@ -108,17 +132,19 @@ const images = [
   >
     <Image
       className="block sm:hidden"
-      src="/images/ftue/m-step-3.png"
+      src={step3MobileImage}
       alt="step-3"
       fill
-      style={{ objectFit: 'contain' }}
+      style={{ objectFit: 'contain', imageRendering: 'pixelated' }}
+      placeholder="blur"
     />
     <Image
       className="hidden sm:block"
-      src="/images/ftue/step-3.png"
+      src={step3Image}
       alt="step-3"
       fill
-      style={{ objectFit: 'contain' }}
+      style={{ objectFit: 'contain', imageRendering: 'pixelated' }}
+      placeholder="blur"
     />
   </div>,
 ]

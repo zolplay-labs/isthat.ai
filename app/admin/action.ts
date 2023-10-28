@@ -65,21 +65,32 @@ type CloudflareUploadResponse = {
   }
 }
 
-export async function uploadQuestion(data: FormData) {
+export async function uploadQuestion({
+  fileFormData,
+  isAIGenerated,
+}: {
+  fileFormData: FormData
+  isAIGenerated: boolean
+}): Promise<{ success: boolean }> {
   // Upload image to cloudflare
   const url = `https://api.cloudflare.com/client/v4/accounts/${env.NEXT_PUBLIC_CLOUDFLARE_ACCOUNT_ID}/images/v1`
-  const fetchRes = await fetch(url, {
-    body: data,
+  const cloudflareFetchRes = await fetch(url, {
+    body: fileFormData,
     method: 'POST',
     headers: {
       Authorization: 'Bearer ' + env.CLOUDFLARE_API_TOKEN,
     },
   })
-  const res: CloudflareUploadResponse = await fetchRes.json()
-  if (!res.success) {
-    throw new Error('Cloudflare Error')
+  const cloudflareRes: CloudflareUploadResponse =
+    await cloudflareFetchRes.json()
+  if (!cloudflareRes.success) {
+    // throw new Error('Cloudflare Error')
+    return { success: false }
   }
   // Add image to database
-  await db.insert(questions).values({ image: res.result.id })
+  await db
+    .insert(questions)
+    .values({ image: cloudflareRes.result.id, isAIGenerated })
   revalidatePath('/admin')
+  return { success: true }
 }

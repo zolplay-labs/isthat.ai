@@ -68,6 +68,9 @@ dependencies:
   sqids:
     specifier: ^0.3.0
     version: 0.3.0
+  use-immer:
+    specifier: ^0.9.0
+    version: 0.9.0(immer@10.0.2)(react@18.2.0)
   usehooks-ts:
     specifier: ^2.9.1
     version: 2.9.1(react-dom@18.2.0)(react@18.2.0)
@@ -7775,6 +7778,16 @@ packages:
       '@types/react': 18.2.18
       react: 18.2.0
       tslib: 2.6.1
+    dev: false
+
+  /use-immer@0.9.0(immer@10.0.2)(react@18.2.0):
+    resolution: {integrity: sha512-/L+enLi0nvuZ6j4WlyK0US9/ECUtV5v9RUbtxnn5+WbtaXYUaOBoKHDNL9I5AETdurQ4rIFIj/s+Z5X80ATyKw==}
+    peerDependencies:
+      immer: '>=2.0.0'
+      react: ^16.8.0 || ^17.0.1 || ^18.0.0
+    dependencies:
+      immer: 10.0.2
+      react: 18.2.0
     dev: false
 
   /use-sidecar@1.1.2(@types/react@18.2.18)(react@18.2.0):

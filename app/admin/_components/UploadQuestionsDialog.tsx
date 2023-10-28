@@ -1,50 +1,63 @@
 'use client'
 
-import { Button, List, ListItem, Text } from '@tremor/react'
-import { clsxm } from '@zolplay/utils'
+import {
+  Badge,
+  Button,
+  type Color,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeaderCell,
+  TableRow,
+  Text,
+} from '@tremor/react'
 import { useRef, useState } from 'react'
+import { useImmer } from 'use-immer'
 
 import { uploadQuestion } from '~/app/admin/action'
 
 import { Dialog } from './ui/Dialog'
 
+type FileStatus = 'Pending' | 'Uploading' | 'Success' | 'Fail'
+const fileStatusColor: Record<FileStatus, Color> = {
+  Pending: 'slate',
+  Uploading: 'amber',
+  Success: 'green',
+  Fail: 'red',
+}
+type QuestionFile = { file: File; status: FileStatus; isAIGenerated: boolean }
+
+const convertFileSizeToMB = (fileSize: number) => {
+  return fileSize / 1024 / 1024
+}
+
 export function UploadQuestionsDialog() {
   const [isOpen, setIsOpen] = useState(false)
-  const [files, setFiles] = useState<File[]>([])
+  const [files, updateFiles] = useImmer<QuestionFile[]>([])
 
   const fileInputRef = useRef<HTMLInputElement>(null)
 
-  const [isLoading, setIsLoading] = useState(false)
+  const noFiles = files.length === 0
+  const canUpload = files.every(({ status }) => status === 'Pending')
+  const isLoading = files.some(({ status }) => status === 'Uploading')
   const handleSubmit = async () => {
-    setIsLoading(true)
-    const results = await Promise.allSettled(
-      files.map(async (file) => {
-        const data = new FormData()
-        data.append('file', file)
-        await uploadQuestion(data)
+    await Promise.all(
+      files.map(async ({ file, isAIGenerated }, i) => {
+        updateFiles((draftFiles) => {
+          draftFiles[i]!.status = 'Uploading'
+        })
+        const fileFormData = new FormData()
+        fileFormData.append('file', file)
+        const { success } = await uploadQuestion({
+          fileFormData,
+          isAIGenerated,
+        })
+        updateFiles((draftFiles) => {
+          draftFiles[i]!.status = success ? 'Success' : 'Fail'
+        })
       })
     )
-
-    setIsOpen(false)
-    setFiles([])
-    setIsLoading(false)
-
-    const total = results.length
-    const successLength = results.filter(
-      (res) => res.status === 'fulfilled'
-    ).length
-    const errorLength = results.filter(
-      (res) => res.status === 'rejected'
-    ).length
-    if (total === successLength) {
-      alert(`${total} files uploaded successfully!`)
-    } else if (total > successLength) {
-      alert(
-        `${errorLength} out of ${total} files failed to upload successfully`
-      )
-    } else {
-      alert(`${total} files failed to upload successfully`)
-    }
   }
 
   return (
@@ -63,7 +76,25 @@ export function UploadQuestionsDialog() {
           multiple
           hidden
           onChange={(e) => {
-            setFiles(Array.from(e.target.files || [], (file) => file))
+            updateFiles(
+              Array.from(e.target.files || [], (file) => file)
+                .filter((file) => {
+                  if (convertFileSizeToMB(file.size) > 10) {
+                    alert(`${file.name} is greater than 10 MB`)
+                    return false
+                  } else {
+                    return true
+                  }
+                })
+                .map(
+                  (file) =>
+                    ({
+                      file,
+                      isAIGenerated: false,
+                      status: 'Pending',
+                    } satisfies QuestionFile)
+                )
+            )
           }}
         />
         <Text>
@@ -75,28 +106,66 @@ export function UploadQuestionsDialog() {
             Cloudflare Document
           </a>
         </Text>
-        <List>
-          {files.map((file, i) => (
-            <ListItem
-              key={i}
-              className={clsxm(
-                file.size / 1024 / 1024 > 10 && 'text-[#ef4444]'
-              )}
-            >
-              <span>{file.name}</span>
-              <span>{(file.size / 1024 / 1024).toFixed(2)} MB</span>
-            </ListItem>
-          ))}
-        </List>
+        {!noFiles && (
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableHeaderCell>Filename</TableHeaderCell>
+                <TableHeaderCell>Size</TableHeaderCell>
+                <TableHeaderCell>Status</TableHeaderCell>
+                <TableHeaderCell>
+                  AI Generated{' '}
+                  <input
+                    type="checkbox"
+                    checked={files.every(({ isAIGenerated }) => isAIGenerated)}
+                    onChange={(e) => {
+                      updateFiles((draftFiles) =>
+                        draftFiles.forEach((file) => {
+                          file.isAIGenerated = e.target.checked
+                        })
+                      )
+                    }}
+                    disabled={!canUpload}
+                  />
+                </TableHeaderCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {files.map(({ file, status, isAIGenerated }, i) => (
+                <TableRow key={i}>
+                  <TableCell>{file.name}</TableCell>
+                  <TableCell>
+                    {convertFileSizeToMB(file.size).toFixed(2)} MB
+                  </TableCell>
+                  <TableCell>
+                    <Badge color={fileStatusColor[status]}>{status}</Badge>
+                  </TableCell>
+                  <TableCell className="text-right">
+                    <input
+                      type="checkbox"
+                      checked={isAIGenerated}
+                      onChange={(e) => {
+                        updateFiles((draftFiles) => {
+                          draftFiles[i]!.isAIGenerated = e.target.checked
+                        })
+                      }}
+                      disabled={!canUpload}
+                    />
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        )}
         <div className="flex justify-between">
           <Button
             onClick={() => fileInputRef.current?.click()}
             variant="secondary"
           >
-            Select Images
+            {noFiles ? 'Select' : 'Reselect'} Images
           </Button>
           <Button
-            disabled={files?.length === 0}
+            disabled={noFiles || !canUpload}
             onClick={handleSubmit}
             loading={isLoading}
           >
